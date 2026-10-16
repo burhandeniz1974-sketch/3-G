@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>En Yakın Yüzlüğe Yuvarlama Tablosu</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f9ff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+        }
+
+        h1 {
+            color: #d92525;
+            font-size: clamp(1.1rem, 3.2vh, 1.8rem);
+            text-shadow: 1px 1px #ffcccc;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        .input-container {
+            background-color: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 4px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 4px;
+        }
+
+        .input-container label {
+            font-size: clamp(0.9rem, 2.2vh, 1.2rem);
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        .input-container input {
+            font-size: clamp(0.9rem, 2.2vh, 1.2rem);
+            padding: 2px 6px;
+            width: clamp(75px, 18vw, 110px);
+            text-align: center;
+            border: 2px solid #1976d2;
+            border-radius: 6px;
+            outline: none;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .board-container {
+            background-color: #ffffff;
+            border: 3px solid #1565c0;
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 980px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .header-directions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 10px;
+            background-color: #fff9c4;
+            border-radius: 8px;
+            border: 2px dashed #fbc02d;
+            margin-bottom: 4px;
+        }
+
+        .direction-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 48%;
+        }
+
+        .direction-title {
+            font-size: clamp(0.75rem, 1.8vh, 1rem);
+            font-weight: bold;
+            color: #b71c1c;
+        }
+
+        .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .arrow-text {
+            font-size: clamp(0.6rem, 1.4vh, 0.8rem);
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .arrow-left, .arrow-right {
+            width: 100%;
+            height: clamp(14px, 2.2vh, 20px);
+            background-color: #e53935;
+            clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 12% 100%, 0% 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: clamp(0.65rem, 1.6vh, 0.9rem);
+        }
+
+        .arrow-right {
+            clip-path: polygon(0% 0%, 88% 0%, 100% 50%, 88% 100%, 0% 100%);
+        }
+
+        .digits {
+            font-size: clamp(0.8rem, 2vh, 1.1rem);
+            font-weight: bold;
+            color: #0d47a1;
+            letter-spacing: 1px;
+        }
+
+        .table-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+            table-layout: fixed;
+        }
+
+        td, th {
+            border: 1.5px solid #90caf9;
+            text-align: center;
+            font-size: clamp(0.7rem, 2vh, 1.1rem);
+            font-weight: bold;
+            padding: 0;
+            transition: all 0.2s ease;
+        }
+
+        /* Ortadaki Kırmızı Ayırıcı Çizgi Sütunu */
+        td.divider-cell {
+            border-right: 4px solid #d32f2f !important;
+        }
+
+        /* Sol Sütun (Kendi Yüzlüğü - Yeşil Zemin) */
+        .base-hundred-left {
+            background-color: #d4e157;
+            color: #2e7d32;
+            font-size: clamp(0.8rem, 2.2vh, 1.2rem);
+        }
+
+        /* Sağ Sütun (Sonraki Yüzlük - Mavi Zemin) */
+        .base-hundred-right {
+            background-color: #c5cae9;
+            color: #1a237e;
+            font-size: clamp(0.8rem, 2.2vh, 1.2rem);
+        }
+
+        /* Vurgulanan Hücre Stilleri */
+        .highlight-target {
+            background-color: #fff176 !important;
+            transform: scale(1.08);
+            border: 2.5px solid #f57f17 !important;
+            box-shadow: 0 0 8px rgba(255, 179, 0, 0.8);
+            z-index: 2;
+            position: relative;
+        }
+
+        .highlight-rounded {
+            background-color: #81c784 !important;
+            color: #1b5e20 !important;
+            transform: scale(1.05);
+            border: 2.5px solid #2e7d32 !important;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+            z-index: 1;
+            position: relative;
+        }
+
+        .tens-digit-highlight {
+            color: #e53935;
+            font-size: clamp(0.85rem, 2.3vh, 1.25rem);
+            text-decoration: underline;
+        }
+
+        .info-panel {
+            font-size: clamp(0.8rem, 2vh, 1.1rem);
+            font-weight: bold;
+            color: #1b5e20;
+            text-align: center;
+            padding-top: 3px;
+            min-height: 24px;
+        }
+
+        .signature {
+            text-align: right;
+            font-size: clamp(0.7rem, 1.6vh, 0.9rem);
+            font-weight: bold;
+            font-style: italic;
+            color: #1565c0;
+            padding-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>EN YAKIN YÜZLÜĞE YUVARLAMA</h1>
+
+    <div class="input-container">
+        <label for="numberInput">Sayı:</label>
+        <input type="number" id="numberInput" min="0" max="999" placeholder="0-999" oninput="updateTable()">
+    </div>
+
+    <div class="board-container">
+        <div class="header-directions">
+            <!-- Kendi Yüzlüğü Yönlendirmesi -->
+            <div class="direction-box">
+                <span class="direction-title">KENDİ YÜZLÜĞÜ</span>
+                <div class="arrow-container">
+                    <span class="arrow-text">onlar basamağı</span>
+                    <div class="arrow-left">◄───────</div>
+                </div>
+                <span class="digits">1, 2, 3, 4</span>
+            </div>
+
+            <!-- Sonraki Yüzlük Yönlendirmesi -->
+            <div class="direction-box">
+                <span class="direction-title">SONRAKİ YÜZLÜK</span>
+                <div class="arrow-container">
+                    <span class="arrow-text">onlar basamağı</span>
+                    <div class="arrow-right">───────►</div>
+                </div>
+                <span class="digits">5, 6, 7, 8, 9</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="roundingTable">
+                <!-- JavaScript ile doldurulacak -->
+            </table>
+        </div>
+
+        <div class="info-panel" id="infoPanel"></div>
+        <div class="signature">Hazırlayan: Burhan Deniz</div>
+    </div>
+
+    <script>
+        const table = document.getElementById('roundingTable');
+        const numberInput = document.getElementById('numberInput');
+        const infoPanel = document.getElementById('infoPanel');
+
+        // Görseldeki 10x11 Hücrelik Yüzlük Tablosunu Oluşturma
+        function createTable() {
+            table.innerHTML = '';
+            for (let hundreds = 0; hundreds <= 900; hundreds += 100) {
+                let tr = document.createElement('tr');
+
+                // Sol Sütun: KENDİ YÜZLÜĞÜ (0, 100, 200, ... 900)
+                let tdStart = document.createElement('td');
+                tdStart.className = 'base-hundred-left';
+                tdStart.id = `left-hundred-${hundreds}`;
+                tdStart.textContent = hundreds;
+                tr.appendChild(tdStart);
+
+                // Aradaki 9 Adet 10'arlı Sayı (10-90, 110-190 ... vb)
+                for (let tens = 1; tens <= 9; tens++) {
+                    let num = hundreds + (tens * 10);
+                    let td = document.createElement('td');
+                    td.id = `num-${num}`;
+                    td.setAttribute('data-val', num);
+                    td.textContent = num;
+
+                    // 40'lı olan sütunun (4. eleman) sağ kenarına dikey kırmızı çizgi
+                    if (tens === 4) {
+                        td.classList.add('divider-cell');
+                    }
+
+                    tr.appendChild(td);
+                }
+
+                // Sağ Sütun: SONRAKİ YÜZLÜK (100, 200, 300, ... 1000)
+                let nextHundred = hundreds + 100;
+                let tdEnd = document.createElement('td');
+                tdEnd.className = 'base-hundred-right';
+                tdEnd.id = `right-hundred-${nextHundred}`;
+                tdEnd.textContent = nextHundred;
+                tr.appendChild(tdEnd);
+
+                table.appendChild(tr);
+            }
+        }
+
+        // Tabloyu Güncelleme ve Etkileşimi Yönetme
+        function updateTable() {
+            // Temizlik
+            document.querySelectorAll('td').forEach(td => {
+                td.classList.remove('highlight-target', 'highlight-rounded');
+                let val = td.getAttribute('data-val');
+                if (val) {
+                    td.textContent = val;
+                }
+            });
+            infoPanel.textContent = '';
+
+            let val = parseInt(numberInput.value);
+
+            if (isNaN(val) || val < 0 || val > 999) {
+                return;
+            }
+
+            // Sayının 10'un katına göre hangi satır/hücre aralığına düştüğünü bul
+            let roundedToTens = Math.floor(val / 10) * 10;
+            let targetCell = document.getElementById(`num-${roundedToTens}`);
+
+            if (targetCell) {
+                targetCell.classList.add('highlight-target');
+
+                let hundreds = Math.floor(val / 100);
+                let tens = Math.floor((val % 100) / 10);
+                let ones = val % 10;
+
+                // Girilen sayının onlar basamağını kırmızı yapıp altını çiz
+                let tensStr = `<span class="tens-digit-highlight">${tens}</span>`;
+                if (val < 100) {
+                    targetCell.innerHTML = `${tensStr}${ones}`;
+                } else {
+                    targetCell.innerHTML = `${hundreds}${tensStr}${ones}`;
+                }
+
+                // Yuvarlanacak Yüzlük Hesaplama
+                let hundredBase = hundreds * 100;
+                let roundedVal;
+                let roundedCell;
+
+                if (tens < 5) {
+                    // Kendi yüzlüğüne yuvarlanır -> SOL taraftaki yeşil hücre
+                    roundedVal = hundredBase;
+                    roundedCell = document.getElementById(`left-hundred-${roundedVal}`);
+                } else {
+                    // Sonraki yüzlüğe yuvarlanır -> SAĞ taraftaki mavi hücre
+                    roundedVal = hundredBase + 100;
+                    roundedCell = document.getElementById(`right-hundred-${roundedVal}`);
+                }
+
+                if (roundedCell) {
+                    roundedCell.classList.add('highlight-rounded');
+                }
+
+                // Bilgi Mesajı
+                if (tens === 0 && ones === 0) {
+                    infoPanel.textContent = `${val} sayısı zaten tam bir yüzlüktür.`;
+                } else if (tens < 5) {
+                    infoPanel.textContent = `${val} sayısının onlar basamağı ${tens} olduğu için KENDİ YÜZLÜĞÜ olan ${roundedVal}'e yuvarlanır.`;
+                } else {
+                    infoPanel.textContent = `${val} sayısının onlar basamağı ${tens} olduğu için SONRAKİ YÜZLÜK olan ${roundedVal}'e yuvarlanır.`;
+                }
+            }
+        }
+
+        // Sayfa yüklendiğinde tabloyu kur
+        createTable();
+    </script>
+</body>
+</html>

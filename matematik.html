@@ -59,13 +59,19 @@ a.tile i{display:flex;width:54px;height:54px;border-radius:16px;margin:0 auto 10
 .rows em{margin-left:auto;padding-left:10px;font-style:normal;color:#9AA6B5;font-size:1.4rem}
 .rows .new{margin-left:auto;background:#FEE2E2;color:#DC2626;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:12px}
 .empty{background:#fff;border:1px dashed #CBD5E1;border-radius:14px;padding:26px;text-align:center;color:var(--muted)}
+details.theme{background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden;box-shadow:0 4px 14px rgba(31,42,55,.05)}
+details.theme summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:700;font-size:1.02rem;display:flex;justify-content:space-between;align-items:center;background:#EEF4FF;color:#1E3A8A}
+details.theme summary::-webkit-details-marker{display:none}
+details.theme summary::after{content:'▾';font-size:1.1rem;-webkit-transition:transform .2s;transition:transform .2s}
+details.theme[open] summary::after{transform:rotate(180deg)}
+details.theme .rows{padding:14px 14px 4px}
 footer{text-align:center;padding:40px 18px 34px;font-size:.82rem;color:var(--muted);line-height:1.7}
 footer b{color:var(--ink)}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap"><a class="brand" href="index.html"><span class="mark">3G</span><span><b>Ali Kuşçu İlkokulu</b><small>3-G Sınıfı</small></span></a><button id="mbtn" type="button">Dersler ▾</button></div><div id="mpanel"><div class="wrap"><a href="hayat-bilgisi.html">🌍&nbsp; Hayat Bilgisi</a><a href="fen-bilimleri.html">🔬&nbsp; Fen Bilimleri</a><a href="matematik.html">🧮&nbsp; Matematik</a><a href="turkce.html">📖&nbsp; Türkçe</a><a href="ingilizce.html">🔤&nbsp; İngilizce</a><a href="gorsel-sanatlar.html">🎨&nbsp; Görsel Sanatlar</a><a href="muzik.html">🎵&nbsp; Müzik</a><a href="beden-egitimi.html">⚽&nbsp; Beden Eğitimi</a><a href="serbest-etkinlikler.html">🧩&nbsp; Serbest Etkinlikler</a><a href="satranc.html">♟️&nbsp; Satranç</a><a href="index.html">🏠&nbsp; Ana Sayfa</a></div></div></header>
-<div class="wrap"><div class="crumb"><a href="index.html">Ana Sayfa</a> &nbsp;/&nbsp; Matematik</div><div class="ptitle"><i style="background:#F59E0B22">🧮</i><h1>Matematik</h1></div><h2 class="sec">İçerikler</h2><div class="empty">Bu bölümün içerikleri hazırlanıyor.</div></div>
+<div class="wrap"><div class="crumb"><a href="index.html">Ana Sayfa</a> &nbsp;/&nbsp; Matematik</div><div class="ptitle"><i style="background:#F59E0B22">🧮</i><h1>Matematik</h1></div><h2 class="sec">Konular</h2><details class="theme" open><summary>1. TEMA: SAYILAR VE NİCELİKLER (1)</summary><div class="rows"><a href="en-yakin-onluk.html"><i>🔟</i><span><b>En Yakın Onluğa Yuvarlama</b><small>10–99 arası bir sayıyı tabloda yuvarla</small></span><em>›</em></a><a href="en-yakin-yuzluk.html"><i>💯</i><span><b>En Yakın Yüzlüğe Yuvarlama</b><small>0–999 arası bir sayıyı tabloda yuvarla</small></span><em>›</em></a></div></details></div>
 <footer><b>Ali Kuşçu İlkokulu · 3-G Sınıfı</b><br>Hazırlayan: Burhan DENİZ</footer>
 <script>
 (function(){var b=document.getElementById('mbtn'),p=document.getElementById('mpanel');

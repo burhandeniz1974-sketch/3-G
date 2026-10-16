@@ -59,6 +59,12 @@ a.tile i{display:flex;width:54px;height:54px;border-radius:16px;margin:0 auto 10
 .rows em{margin-left:auto;padding-left:10px;font-style:normal;color:#9AA6B5;font-size:1.4rem}
 .rows .new{margin-left:auto;background:#FEE2E2;color:#DC2626;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:12px}
 .empty{background:#fff;border:1px dashed #CBD5E1;border-radius:14px;padding:26px;text-align:center;color:var(--muted)}
+details.theme{background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden;box-shadow:0 4px 14px rgba(31,42,55,.05)}
+details.theme summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:700;font-size:1.02rem;display:flex;justify-content:space-between;align-items:center;background:#EEF4FF;color:#1E3A8A}
+details.theme summary::-webkit-details-marker{display:none}
+details.theme summary::after{content:'▾';font-size:1.1rem;-webkit-transition:transform .2s;transition:transform .2s}
+details.theme[open] summary::after{transform:rotate(180deg)}
+details.theme .rows{padding:14px 14px 4px}
 footer{text-align:center;padding:40px 18px 34px;font-size:.82rem;color:var(--muted);line-height:1.7}
 footer b{color:var(--ink)}
 </style>

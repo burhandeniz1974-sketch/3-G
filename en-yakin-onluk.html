@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En Yakın Onluğa Yuvarlama Tablosu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f9ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #d92525;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px #ffcccc;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .input-container {
+            background-color: #e3f2fd;
+            border: 3px solid #2196f3;
+            padding: 15px 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .input-container label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        .input-container input {
+            font-size: 1.5rem;
+            padding: 8px 12px;
+            width: 100px;
+            text-align: center;
+            border: 2px solid #1976d2;
+            border-radius: 8px;
+            outline: none;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .board-container {
+            background-color: #ffffff;
+            border: 4px solid #1565c0;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            max-width: 95%;
+            overflow-x: auto;
+        }
+
+        .header-directions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            background-color: #fff9c4;
+            border-radius: 10px;
+            border: 2px dashed #fbc02d;
+            position: relative;
+        }
+
+        .direction-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+
+        .direction-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #b71c1c;
+            margin-bottom: 5px;
+        }
+
+        .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .arrow-text {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-bottom: 2px;
+        }
+
+        .arrow-left, .arrow-right {
+            width: 100%;
+            height: 25px;
+            background-color: #e53935;
+            clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 15% 100%, 0% 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .arrow-right {
+            clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+        }
+
+        .digits {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0d47a1;
+            margin-top: 5px;
+            letter-spacing: 2px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        td, th {
+            border: 2px solid #90caf9;
+            text-align: center;
+            padding: 10px 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 40px;
+            transition: all 0.3s ease;
+        }
+
+        /* Ortadaki Kırmızı Ayırıcı Çizgi Sütunu */
+        td.divider-cell {
+            border-right: 5px solid #d32f2f !important;
+        }
+
+        .base-ten {
+            background-color: #bbdefb;
+            color: #0d47a1;
+            font-size: 1.3rem;
+        }
+
+        /* Vurgulanan Hücre Stilleri */
+        .highlight-target {
+            background-color: #fff176 !important;
+            transform: scale(1.15);
+            border: 3px solid #f57f17 !important;
+            box-shadow: 0 0 10px rgba(255, 179, 0, 0.8);
+            z-index: 2;
+            position: relative;
+        }
+
+        .highlight-rounded {
+            background-color: #81c784 !important;
+            color: #1b5e20 !important;
+            transform: scale(1.1);
+            border: 3px solid #2e7d32 !important;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+            z-index: 1;
+            position: relative;
+        }
+
+        .ones-digit-highlight {
+            color: #e53935;
+            font-size: 1.4rem;
+            text-decoration: underline;
+        }
+
+        .info-panel {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1b5e20;
+            text-align: center;
+            height: 30px;
+        }
+
+        .signature {
+            margin-top: 15px;
+            text-align: right;
+            font-size: 0.95rem;
+            font-weight: bold;
+            font-style: italic;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>EN YAKIN ONLUĞA YUVARLAMA</h1>
+
+    <div class="input-container">
+        <label for="numberInput">Sayı:</label>
+        <input type="number" id="numberInput" min="10" max="99" placeholder="10-99" oninput="updateTable()">
+    </div>
+
+    <div class="board-container">
+        <div class="header-directions">
+            <!-- Kendi Onluğu Yönlendirmesi -->
+            <div class="direction-box">
+                <span class="direction-title">KENDİ ONLUĞU</span>
+                <div class="arrow-container">
+                    <span class="arrow-text">birler basamağı</span>
+                    <div class="arrow-left">◄───────</div>
+                </div>
+                <span class="digits">1, 2, 3, 4</span>
+            </div>
+
+            <!-- Sonraki Onluk Yönlendirmesi -->
+            <div class="direction-box">
+                <span class="direction-title">SONRAKİ ONLUK</span>
+                <div class="arrow-container">
+                    <span class="arrow-text">birler basamağı</span>
+                    <div class="arrow-right">───────►</div>
+                </div>
+                <span class="digits">5, 6, 7, 8, 9</span>
+            </div>
+        </div>
+
+        <table id="roundingTable">
+            <!-- JavaScript ile doldurulacak -->
+        </table>
+
+        <div class="info-panel" id="infoPanel"></div>
+        <div class="signature">Hazırlayan: Burhan Deniz</div>
+    </div>
+
+    <script>
+        const table = document.getElementById('roundingTable');
+        const numberInput = document.getElementById('numberInput');
+        const infoPanel = document.getElementById('infoPanel');
+
+        // Tabloyu Oluşturma (10'dan 90'a kadar olan gruplar)
+        function createTable() {
+            table.innerHTML = '';
+            for (let start = 10; start <= 90; start += 10) {
+                let tr = document.createElement('tr');
+                
+                // Sol Hücre: KENDİ ONLUĞU (Sol Taraf)
+                let tdStart = document.createElement('td');
+                tdStart.className = 'base-ten';
+                tdStart.id = `left-ten-${start}`;
+                tdStart.textContent = start;
+                tr.appendChild(tdStart);
+
+                // Aradaki 9 Sayı (1-4 Sol Taraf, 5-9 Sağ Taraf)
+                for (let i = 1; i <= 9; i++) {
+                    let num = start + i;
+                    let td = document.createElement('td');
+                    td.id = `num-${num}`;
+                    td.setAttribute('data-val', num);
+                    td.textContent = num;
+                    
+                    // 4 ile biten hücrenin sağ kenarına kırmızı dikey çizgi
+                    if (i === 4) {
+                        td.classList.add('divider-cell');
+                    }
+                    
+                    tr.appendChild(td);
+                }
+
+                // Sağ Hücre: SONRAKİ ONLUK (Sağ Taraf)
+                let end = start + 10;
+                let tdEnd = document.createElement('td');
+                tdEnd.className = 'base-ten';
+                tdEnd.id = `right-ten-${end}`;
+                tdEnd.textContent = end;
+                tr.appendChild(tdEnd);
+
+                table.appendChild(tr);
+            }
+        }
+
+        // Tabloyu Güncelleme ve Etkileşimi Yönetme
+        function updateTable() {
+            // Önceki stilleri temizle
+            document.querySelectorAll('td').forEach(td => {
+                td.classList.remove('highlight-target', 'highlight-rounded');
+                let val = td.getAttribute('data-val');
+                if (val) {
+                    td.textContent = val;
+                }
+            });
+            infoPanel.textContent = '';
+
+            let val = parseInt(numberInput.value);
+
+            // Geçerlilik Kontrolü (10-99 arası)
+            if (isNaN(val) || val < 10 || val > 99) {
+                return;
+            }
+
+            // Seçilen Sayı Hücresi
+            let targetCell = document.getElementById(`num-${val}`);
+            if (targetCell) {
+                targetCell.classList.add('highlight-target');
+                
+                // Birler basamağını renklendir
+                let tens = Math.floor(val / 10);
+                let ones = val % 10;
+                
+                if (ones !== 0) {
+                    targetCell.innerHTML = `${tens}<span class="ones-digit-highlight">${ones}</span>`;
+                }
+
+                // Yuvarlanacak Onluk Hesaplama
+                let roundedVal;
+                let roundedCell;
+
+                if (ones < 5) {
+                    // Kendi onluğuna yuvarlanır -> SOL taraftaki mavi hücre seçilir
+                    roundedVal = tens * 10;
+                    roundedCell = document.getElementById(`left-ten-${roundedVal}`);
+                } else {
+                    // Sonraki onluğa yuvarlanır -> SAĞ taraftaki mavi hücre seçilir
+                    roundedVal = (tens + 1) * 10;
+                    roundedCell = document.getElementById(`right-ten-${roundedVal}`);
+                }
+
+                if (roundedCell) {
+                    roundedCell.classList.add('highlight-rounded');
+                }
+
+                // Bilgi Mesajı
+                if (ones === 0) {
+                    infoPanel.textContent = `${val} sayısı zaten tam bir onluktur.`;
+                } else if (ones < 5) {
+                    infoPanel.textContent = `${val} sayısının birler basamağı ${ones} olduğu için KENDİ ONLUĞU olan ${roundedVal}'a yuvarlanır.`;
+                } else {
+                    infoPanel.textContent = `${val} sayısının birler basamağı ${ones} olduğu için SONRAKİ ONLUK olan ${roundedVal}'a yuvarlanır.`;
+                }
+            }
+        }
+
+        // Sayfa yüklendiğinde tabloyu kur
+        createTable();
+    </script>
+</body>
+</html>
