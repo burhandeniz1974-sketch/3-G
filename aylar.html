@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#4A90E2">
+<title>3. Sınıf İngilizce - Ayları Öğrenelim (Months of the Year)</title>
+<style>
+:root{--primary:#4A90E2;--secondary:#50E3C2;--accent:#FF6B6B;--bg:#F0F4F8;--card-bg:#fff;--text:#2C3E50;--success:#2ECC71}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);max-width:680px;margin:0 auto;min-height:100vh;min-height:-webkit-fill-available;
+padding:12px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom))}
+button,.match-item,.ws-cell,.tab-btn{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+button{font-family:inherit}
+header{text-align:center;padding:14px 10px;background:linear-gradient(135deg,var(--primary),#357ABD);color:#fff;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,.1);margin-bottom:12px}
+h1{font-size:1.3rem;margin-bottom:4px}
+.subtitle{font-size:.85rem;opacity:.95}
+.nav-tabs{display:flex;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;cursor:grab}
+.nav-tabs.dragging{cursor:grabbing}
+.tab-btn{background:#fff;border:2px solid var(--primary);color:var(--primary);padding:8px 12px;margin-right:6px;border-radius:20px;font-weight:bold;font-size:.8rem;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.tab-btn.active{background:var(--primary);color:#fff}
+.activity-card{background:var(--card-bg);border-radius:15px;padding:15px;box-shadow:0 4px 12px rgba(0,0,0,.05);display:none}
+.activity-card.active{display:block}
+.card-title{font-size:1.05rem;color:var(--primary);margin-bottom:12px;text-align:center;border-bottom:2px dashed #EED;padding-bottom:6px;font-weight:bold}
+.btn{display:block;background:var(--primary);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;-webkit-appearance:none}
+.btn:active{opacity:.85}
+.btn.gray{background:#6C757D}
+.match-grid{display:flex;max-height:440px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.match-col{flex:1;min-width:0;padding:0 4px}
+.match-item{background:#F8F9FA;border:2px solid #E9ECEF;padding:8px 4px;margin-bottom:6px;border-radius:8px;text-align:center;font-weight:bold;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;min-height:42px}
+.match-item.selected{border-color:var(--primary);background:#EBF3FA;color:var(--primary)}
+.match-item.correct{border-color:var(--success);background:#E8F8F0;color:var(--success);pointer-events:none;opacity:.6}
+.order-list{max-height:420px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.order-item{background:#F8F9FA;border:2px solid #E9ECEF;padding:6px 12px;margin-bottom:6px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:.9rem}
+.order-btns button{background:#E9ECEF;border:none;min-width:40px;min-height:36px;border-radius:6px;font-weight:bold;margin-left:4px;cursor:pointer;font-size:1rem}
+.quiz-box{text-align:center;margin:15px 0}
+.quiz-prompt{font-size:1.3rem;font-weight:bold;margin-bottom:12px}
+input[type=text]{width:85%;padding:10px;font-size:1.1rem;border:2px solid #CBD5E1;border-radius:8px;text-align:center;outline:none;-webkit-appearance:none}
+input[type=text]:focus{border-color:var(--primary)}
+.speaker-btn{width:70px;height:70px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:1.8rem;margin:10px auto;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px rgba(74,144,226,.4)}
+.mic-btn{min-width:150px;padding:12px 24px;border-radius:30px;border:none;background:var(--secondary);color:#1A535C;font-size:1.1rem;font-weight:bold;cursor:pointer;box-shadow:0 4px 10px rgba(80,227,194,.4);margin:10px 0}
+.mic-btn.listening{background:var(--accent);color:#fff;-webkit-animation:pulse 1.2s infinite;animation:pulse 1.2s infinite}
+.manual{display:none;margin-top:10px;padding:10px;background:#FFF8E1;border-radius:10px;font-size:.85rem}
+.manual.show{display:block}
+.manual button{margin:6px 4px 0;padding:10px 14px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;color:#fff;background:var(--success)}
+.manual button.retry{background:#6C757D}
+.wheel-wrapper{position:relative;width:260px;height:260px;margin:14px auto 10px}
+.wheel-canvas{width:260px;height:260px;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.15);-webkit-transition:-webkit-transform 3s cubic-bezier(.15,.99,.15,.99);transition:transform 3s cubic-bezier(.15,.99,.15,.99)}
+.wheel-pointer{position:absolute;top:-10px;left:50%;margin-left:-12px;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:20px solid var(--accent);z-index:10}
+.option-grid{display:grid;grid-template-columns:1fr 1fr;grid-gap:8px;gap:8px;margin-top:15px}
+.option-btn{background:#F8F9FA;border:2px solid #CBD5E1;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:.95rem;color:var(--text)}
+.ba-container{display:flex;align-items:center;margin:20px 0}
+.ba-box{flex:1;text-align:center;padding:0 3px}
+.ba-box select{width:100%;padding:8px;border-radius:8px;border:2px solid #CBD5E1;font-size:16px;font-weight:bold;background:#fff;color:var(--text)}
+.ba-center{background:var(--primary);color:#fff;padding:12px 8px;border-radius:10px;font-weight:bold;min-width:90px;text-align:center}
+.ws-grid{display:grid;grid-template-columns:repeat(10,1fr);grid-gap:3px;gap:3px;max-width:340px;margin:10px auto}
+.ws-cell{height:0;padding-bottom:100%;position:relative;background:#F1F5F9;border:1px solid #CBD5E1;border-radius:6px;cursor:pointer}
+.ws-cell span{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.9rem}
+.ws-cell.selected{background:var(--primary);color:#fff}
+.ws-cell.found{background:var(--success);color:#fff}
+.ws-words{text-align:center;margin-top:10px}
+.ws-word-tag{display:inline-block;background:#E2E8F0;padding:4px 8px;margin:3px;border-radius:12px;font-size:.75rem;font-weight:bold}
+.ws-word-tag.found{background:var(--success);color:#fff}
+@-webkit-keyframes pulse{50%{-webkit-transform:scale(1.05)}}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.feedback{text-align:center;font-weight:bold;margin-top:10px;min-height:24px;font-size:.95rem}
+.feedback.correct{color:var(--success)}
+.feedback.wrong{color:var(--accent)}
+.hint{font-size:.85rem;color:#666;margin-bottom:10px}
+</style>
+</head>
+<body>
+<noscript><div style="background:#FFF3CD;border:2px solid #F39C12;color:#7A4B00;padding:12px;border-radius:10px;margin-bottom:12px;font-weight:bold;text-align:center">
+⚠️ Etkinlikler çalışmıyor. Dosya bir "önizleme" ekranında açılmış olabilir (WhatsApp / Dosyalar). Dosyayı Safari ile açılan bir internet adresinden ya da Documents by Readdle gibi bir tarayıcı uygulamasından açın.</div></noscript>
+<header><h1>Months of the Year</h1><p class="subtitle">3. Sınıf İngilizce İnteraktif Etkinlikler</p></header>
+
+<div class="nav-tabs" id="nav-tabs">
+<button class="tab-btn active" data-tab="match">1. Eşleştirme</button>
+<button class="tab-btn" data-tab="order">2. Sıralama</button>
+<button class="tab-btn" data-tab="fill">3. Eksik Harf</button>
+<button class="tab-btn" data-tab="write">4. Yazma</button>
+<button class="tab-btn" data-tab="listen">5. Dinle</button>
+<button class="tab-btn" data-tab="wheel">6. Çarkıfelek</button>
+<button class="tab-btn" data-tab="ba">7. Öncesi/Sonrası</button>
+<button class="tab-btn" data-tab="ws">8. Kelime Avı</button>
+</div>
+
+<div id="tab-match" class="activity-card active">
+<div class="card-title">12 Ayın İngilizce ve Türkçe Karşılıklarını Eşleştirin</div>
+<div class="match-grid" id="match-container"></div>
+<div class="feedback" id="match-feedback"></div>
+<button class="btn" id="match-restart">Yeniden Başlat</button>
+</div>
+
+<div id="tab-order" class="activity-card">
+<div class="card-title">Ayları Doğru Sıraya Diziniz</div>
+<div class="order-list" id="order-container"></div>
+<div class="feedback" id="order-feedback"></div>
+<button class="btn" id="order-check">Sıralamayı Kontrol Et</button>
+</div>
+
+<div id="tab-fill" class="activity-card">
+<div class="card-title">Eksik Harfleri Tamamlayınız</div>
+<div class="quiz-box">
+<div class="quiz-prompt" id="fill-prompt"></div>
+<p class="hint" id="fill-hint"></p>
+<input type="text" id="fill-input" placeholder="Kelimenin tamamını yazın" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+</div>
+<div class="feedback" id="fill-feedback"></div>
+<button class="btn" id="fill-check">Kontrol Et</button>
+</div>
+
+<div id="tab-write" class="activity-card">
+<div class="card-title">İngilizce Karşılığını Yazınız</div>
+<div class="quiz-box">
+<div class="quiz-prompt" id="write-prompt"></div>
+<input type="text" id="write-input" placeholder="İngilizce ay adını yazın" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+</div>
+<div class="feedback" id="write-feedback"></div>
+<button class="btn" id="write-check">Kontrol Et</button>
+</div>
+
+<div id="tab-listen" class="activity-card">
+<div class="card-title">Dinleyin ve Doğru Telaffuz Edin</div>
+<div class="quiz-box">
+<div class="quiz-prompt" id="listen-prompt"></div>
+<button class="speaker-btn" id="speak-btn" aria-label="Dinle">🔊</button>
+<p class="hint" style="margin-top:10px">🔊 butonuna basıp ayı dinleyin, sonra yüksek sesle tekrar edin.</p>
+</div>
+<div class="feedback" id="listen-feedback"></div>
+<button class="btn" id="listen-next">Sonraki Ay ➔</button>
+</div>
+
+<div id="tab-wheel" class="activity-card">
+<div class="card-title">Çarkı Çevirin ve Ayı Bulun</div>
+<div class="wheel-wrapper"><div class="wheel-pointer"></div><canvas id="wheel-canvas" class="wheel-canvas"></canvas></div>
+<button class="btn" id="spin-btn">Çarkı Çevir 🎡</button>
+<div id="wheel-question" style="display:none;margin-top:15px;text-align:center">
+<p id="wheel-target-text" style="font-size:1.1rem;font-weight:bold"></p>
+<div class="option-grid" id="wheel-options"></div>
+</div>
+<div class="feedback" id="wheel-feedback"></div>
+</div>
+
+<div id="tab-ba" class="activity-card">
+<div class="card-title">Önceki ve Sonraki Ayı Seçin</div>
+<p class="hint" style="text-align:center">Ortadaki aydan bir önceki ve bir sonraki ayı seçiniz:</p>
+<div class="ba-container">
+<div class="ba-box"><label style="font-size:.75rem;font-weight:bold">Önceki Ay</label><select id="ba-before-select"></select></div>
+<div class="ba-center" id="ba-current-month"></div>
+<div class="ba-box"><label style="font-size:.75rem;font-weight:bold">Sonraki Ay</label><select id="ba-after-select"></select></div>
+</div>
+<div class="feedback" id="ba-feedback"></div>
+<button class="btn" id="ba-check">Kontrol Et</button>
+<button class="btn gray" id="ba-next">Sonraki Soru ➔</button>
+</div>
+
+<div id="tab-ws" class="activity-card">
+<div class="card-title">Gizli 4 Ayı Tabloda Bulun</div>
+<div class="ws-words" id="ws-word-tags"></div>
+<div class="ws-grid" id="ws-grid-container"></div>
+<div class="feedback" id="ws-feedback"></div>
+<button class="btn" id="ws-new">Yeni Bulmaca 🧩</button>
+</div>
+
+
+
+<footer style="text-align:center;margin:16px 0 4px;font-size:.8rem;color:#7B8794;font-weight:bold">Hazırlayan: Burhan DENİZ</footer>
+
+<script>
+(function () {
+'use strict';
+var months = [
+ {en:"January",tr:"Ocak",fill:"J _ n u _ r y"},{en:"February",tr:"Şubat",fill:"F _ b r _ a r y"},
+ {en:"March",tr:"Mart",fill:"M _ r c h"},{en:"April",tr:"Nisan",fill:"A p r _ l"},
+ {en:"May",tr:"Mayıs",fill:"M _ y"},{en:"June",tr:"Haziran",fill:"J _ n e"},
+ {en:"July",tr:"Temmuz",fill:"J u l _"},{en:"August",tr:"Ağustos",fill:"A _ g u s t"},
+ {en:"September",tr:"Eylül",fill:"S e p t _ m b e r"},{en:"October",tr:"Ekim",fill:"O c t _ b e r"},
+ {en:"November",tr:"Kasım",fill:"N _ v e m b e r"},{en:"December",tr:"Aralık",fill:"D e c _ m b e r"}
+];
+function $(id){return document.getElementById(id);}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
+function fb(id,ok,msg){var f=$(id);f.className='feedback '+(ok?'correct':'wrong');f.textContent=msg;}
+function on(id,fn){$(id).addEventListener('click',fn);}
+
+/* ---------- Ses (okuma) ---------- */
+var voices=[];
+function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[];}catch(e){}}
+if('speechSynthesis' in window){loadVoices();if(window.speechSynthesis.addEventListener)window.speechSynthesis.addEventListener('voiceschanged',loadVoices);}
+function speakText(text){
+ if(!('speechSynthesis' in window))return;
+ try{
+  var s=window.speechSynthesis;s.cancel();
+  var u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=0.8;
+  for(var i=0;i<voices.length;i++){if(voices[i].lang&&voices[i].lang.replace('_','-').indexOf('en-US')===0){u.voice=voices[i];break;}}
+  setTimeout(function(){s.speak(u);},60);
+ }catch(e){}
+}
+var unlocked=false;
+function unlockAudio(){
+ if(unlocked||!('speechSynthesis' in window))return;unlocked=true;
+ try{var u=new SpeechSynthesisUtterance(' ');u.volume=0;window.speechSynthesis.speak(u);}catch(e){}
+}
+document.addEventListener('touchend',unlockAudio,{once:true,passive:true});
+document.addEventListener('click',unlockAudio,{once:true});
+
+/* ---------- Sekmeler ---------- */
+var inits={match:initMatch,order:initOrder,fill:initFill,write:initWrite,listen:initListen,wheel:initWheel,ba:initBA,ws:initWS};
+var nav=$('nav-tabs');
+function switchTab(key){
+  try{window.speechSynthesis&&window.speechSynthesis.cancel();}catch(e){}
+ var btns=document.querySelectorAll('.tab-btn'),cards=document.querySelectorAll('.activity-card'),i;
+ for(i=0;i<btns.length;i++)btns[i].classList.toggle('active',btns[i].getAttribute('data-tab')===key);
+ for(i=0;i<cards.length;i++)cards[i].classList.remove('active');
+ $('tab-'+key).classList.add('active');
+ var act=nav.querySelector('.tab-btn.active');
+ if(act){var l=act.offsetLeft-(nav.clientWidth-act.offsetWidth)/2;if(nav.scrollTo)nav.scrollTo({left:l,behavior:'smooth'});else nav.scrollLeft=l;}
+ inits[key]();
+}
+/* Fare ile kaydırma: tekerlek + sürükleme */
+nav.addEventListener('wheel',function(e){
+ if(nav.scrollWidth<=nav.clientWidth)return;
+ var d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+ nav.scrollLeft+=d;e.preventDefault();
+},{passive:false});
+var drag={down:false,moved:false,x:0,left:0};
+nav.addEventListener('mousedown',function(e){drag.down=true;drag.moved=false;drag.x=e.pageX;drag.left=nav.scrollLeft;});
+window.addEventListener('mousemove',function(e){
+ if(!drag.down)return;var dx=e.pageX-drag.x;
+ if(Math.abs(dx)>5){drag.moved=true;nav.classList.add('dragging');}
+ if(drag.moved)nav.scrollLeft=drag.left-dx;
+});
+window.addEventListener('mouseup',function(){drag.down=false;setTimeout(function(){nav.classList.remove('dragging');},0);});
+nav.addEventListener('click',function(e){
+ if(drag.moved){drag.moved=false;e.stopPropagation();return;}
+ var b=e.target.closest?e.target.closest('.tab-btn'):null;
+ if(b)switchTab(b.getAttribute('data-tab'));
+},true);
+
+/* ---------- 1. Eşleştirme ---------- */
+var selEn=null,selTr=null,matched=0;
+function initMatch(){
+ var c=$('match-container');c.innerHTML='';$('match-feedback').textContent='';selEn=null;selTr=null;matched=0;
+ ['en','tr'].forEach(function(type){
+  var col=el('div','match-col');
+  shuffle(months.map(function(m){return m[type];})).forEach(function(v){
+   var d=el('div','match-item',v);d.setAttribute('data-type',type);d.setAttribute('data-val',v);
+   d.addEventListener('click',function(){selectMatch(d);});col.appendChild(d);
+  });
+  c.appendChild(col);
+ });
+}
+function selectMatch(d){
+ var type=d.getAttribute('data-type'),val=d.getAttribute('data-val'),all=document.querySelectorAll('.match-item[data-type="'+type+'"]');
+ for(var i=0;i<all.length;i++)if(!all[i].classList.contains('correct'))all[i].classList.remove('selected');
+ d.classList.add('selected');
+ if(type==='en')selEn=val;else selTr=val;
+ if(selEn&&selTr){
+  var m=months.filter(function(x){return x.en===selEn;})[0];
+  var sel=document.querySelectorAll('.match-item.selected'),i2;
+  if(m&&m.tr===selTr){
+   for(i2=0;i2<sel.length;i2++){sel[i2].classList.remove('selected');sel[i2].classList.add('correct');}
+   matched++;fb('match-feedback',true,matched===12?'Tebrikler! Bütün ayları doğru eşleştirdiniz! 🎉':'Doğru! ('+matched+'/12) 👏');
+  }else{
+   fb('match-feedback',false,'Tekrar Deneyin! ❌');
+   setTimeout(function(){var s=document.querySelectorAll('.match-item.selected');for(var k=0;k<s.length;k++)s[k].classList.remove('selected');},600);
+  }
+  selEn=null;selTr=null;
+ }
+}
+on('match-restart',initMatch);
+
+/* ---------- 2. Sıralama ---------- */
+var order=[];
+function initOrder(){$('order-feedback').textContent='';order=shuffle(months);renderOrder();}
+function renderOrder(){
+ var c=$('order-container');c.innerHTML='';
+ order.forEach(function(item,i){
+  var row=el('div','order-item'),b=el('div','order-btns'),
+   up=el('button','','▲'),dn=el('button','','▼');
+  up.setAttribute('aria-label','Yukarı');dn.setAttribute('aria-label','Aşağı');
+  up.addEventListener('click',function(){move(i,-1);});dn.addEventListener('click',function(){move(i,1);});
+  b.appendChild(up);b.appendChild(dn);row.appendChild(el('span','',(i+1)+'. '+item.en));row.appendChild(b);c.appendChild(row);
+ });
+}
+function move(i,d){var n=i+d;if(n<0||n>=order.length)return;var t=order[i];order[i]=order[n];order[n]=t;renderOrder();}
+on('order-check',function(){
+ var ok=order.every(function(m,i){return m.en===months[i].en;});
+ fb('order-feedback',ok,ok?'Mükemmel! Tüm aylar doğru sırada! 🌟':'Sıralama yanlış, tekrar kontrol edin!');
+});
+
+/* ---------- 3. Eksik harf ---------- */
+var fillI=0;
+function initFill(){
+ fillI=Math.floor(Math.random()*12);
+ $('fill-prompt').textContent=months[fillI].fill;$('fill-hint').textContent='İpucu: '+months[fillI].tr;
+ $('fill-input').value='';$('fill-feedback').textContent='';
+}
+function checkFill(){
+ if($('fill-input').value.trim().toLowerCase()===months[fillI].en.toLowerCase()){fb('fill-feedback',true,'Aferin! Doğru Kelime 👏');setTimeout(initFill,1200);}
+ else fb('fill-feedback',false,'Hatalı, tekrar dene!');
+}
+on('fill-check',checkFill);
+$('fill-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkFill();});
+
+/* ---------- 4. Yazma ---------- */
+var writeI=0;
+function initWrite(){
+ writeI=Math.floor(Math.random()*12);
+ $('write-prompt').textContent=months[writeI].tr;$('write-input').value='';$('write-feedback').textContent='';
+}
+function checkWrite(){
+ if($('write-input').value.trim().toLowerCase()===months[writeI].en.toLowerCase()){fb('write-feedback',true,'Harika! Doğru Yazdın 🎯');setTimeout(initWrite,1200);}
+ else fb('write-feedback',false,'Yanlış yazım, tekrar dene!');
+}
+on('write-check',checkWrite);
+$('write-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkWrite();});
+
+/* ---------- 5. Dinle ---------- */
+var listenI=0;
+function initListen(){$('listen-prompt').textContent=months[listenI].en;$('listen-feedback').textContent='';}
+on('speak-btn',function(){speakText(months[listenI].en);});
+on('listen-next',function(){listenI=(listenI+1)%12;initListen();});
+
+/* ---------- 6. Çarkıfelek ---------- */
+var wheelRot=0,spinning=false,wheelMonth=null,wheelDone=false;
+function initWheel(){
+ var cv=$('wheel-canvas'),dpr=window.devicePixelRatio||1;
+ if(cv.width!==Math.round(260*dpr)){cv.width=Math.round(260*dpr);cv.height=Math.round(260*dpr);}
+ var ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,260,260);
+ var arc=Math.PI/6,colors=["#4A90E2","#50E3C2","#FF6B6B","#F39C12","#9B59B6","#1ABC9C","#D35400","#2ECC71","#34495E","#E74C3C","#16A085","#F1C40F"];
+ ctx.save();ctx.translate(130,130);
+ for(var i=0;i<12;i++){
+  var a=i*arc;ctx.beginPath();ctx.fillStyle=colors[i];ctx.moveTo(0,0);ctx.arc(0,0,128,a,a+arc);ctx.fill();
+  ctx.save();ctx.rotate(a+arc/2);ctx.fillStyle='#fff';ctx.font='bold 11px sans-serif';ctx.textAlign='right';ctx.fillText(months[i].en,116,4);ctx.restore();
+ }
+ ctx.restore();
+ if(!spinning){$('wheel-question').style.display='none';$('wheel-feedback').textContent='';}
+}
+function spin(){
+ if(spinning)return;spinning=true;wheelDone=false;
+ $('wheel-question').style.display='none';$('wheel-feedback').textContent='';
+ var idx=Math.floor(Math.random()*12);wheelMonth=months[idx];
+ var target=270-(idx+0.5)*30,cur=((wheelRot%360)+360)%360,delta=(((target-cur)%360)+360)%360;
+ wheelRot+=(4+Math.floor(Math.random()*4))*360+delta;
+ var cv=$('wheel-canvas');cv.style.webkitTransform=cv.style.transform='rotate('+wheelRot+'deg)';
+ setTimeout(function(){spinning=false;speakText(wheelMonth.en);showWheelQ();},3150);
+}
+function showWheelQ(){
+ $('wheel-target-text').textContent='Gelen Ay: "'+wheelMonth.en+'". Türkçesi Nedir?';
+ var opts=[wheelMonth.tr];
+ shuffle(months).forEach(function(m){if(opts.length<4&&opts.indexOf(m.tr)<0)opts.push(m.tr);});
+ var c=$('wheel-options');c.innerHTML='';
+ shuffle(opts).forEach(function(o){
+  var b=el('button','option-btn',o);
+  b.addEventListener('click',function(){
+   if(wheelDone)return;
+   if(o===wheelMonth.tr){wheelDone=true;fb('wheel-feedback',true,'Tebrikler! Doğru Cevap 🎉');}
+   else fb('wheel-feedback',false,'Hatalı! Tekrar dene.');
+  });
+  c.appendChild(b);
+ });
+ $('wheel-question').style.display='block';
+}
+on('spin-btn',spin);
+
+/* ---------- 7. Öncesi / Sonrası ---------- */
+var baI=0;
+function initBA(){
+ baI=Math.floor(Math.random()*12);
+ $('ba-current-month').textContent=months[baI].en.toUpperCase();$('ba-feedback').textContent='';
+ var h='<option value="">Seçiniz...</option>';
+ months.forEach(function(m){h+='<option value="'+m.en+'">'+m.en+'</option>';});
+ $('ba-before-select').innerHTML=h;$('ba-after-select').innerHTML=h;
+}
+on('ba-check',function(){
+ var b=months[(baI+11)%12].en,a=months[(baI+1)%12].en;
+ if($('ba-before-select').value===b&&$('ba-after-select').value===a)fb('ba-feedback',true,'Harika! İki cevap da doğru! 👏');
+ else fb('ba-feedback',false,'Yanlış! Doğrusu: Önce -> '+b+', Sonra -> '+a);
+});
+on('ba-next',initBA);
+
+/* ---------- 8. Kelime Avı (10x10) ---------- */
+var N=10,wsWords=[],wsGrid=[],wsSel=[];
+function initWS(){
+ $('ws-feedback').textContent='';wsSel=[];
+ wsWords=shuffle(months).slice(0,4).map(function(m){return m.en.toUpperCase();});
+ var tags=$('ws-word-tags');tags.innerHTML='';
+ wsWords.forEach(function(w){var t=el('span','ws-word-tag',w);t.id='tag-'+w;tags.appendChild(t);});
+ var ok=false,tries=0;
+ while(!ok&&tries<50){tries++;ok=buildGrid();}
+ var alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ',r,c;
+ for(r=0;r<N;r++)for(c=0;c<N;c++)if(!wsGrid[r][c])wsGrid[r][c]=alpha.charAt(Math.floor(Math.random()*26));
+ var g=$('ws-grid-container');g.innerHTML='';
+ for(r=0;r<N;r++)for(c=0;c<N;c++)(function(r,c){
+  var cell=el('div','ws-cell');cell.appendChild(el('span','',wsGrid[r][c]));
+  cell.addEventListener('click',function(){clickCell(cell,r,c);});g.appendChild(cell);
+ })(r,c);
+}
+function buildGrid(){
+ wsGrid=[];for(var r=0;r<N;r++){wsGrid[r]=[];for(var c=0;c<N;c++)wsGrid[r][c]='';}
+ for(var w=0;w<wsWords.length;w++){
+  var word=wsWords[w],placed=false,t=0;
+  while(!placed&&t<200){
+   t++;var h=Math.random()>0.5,row=Math.floor(Math.random()*(h?N:N-word.length+1)),col=Math.floor(Math.random()*(h?N-word.length+1:N)),fits=true,i;
+   for(i=0;i<word.length;i++)if(wsGrid[h?row:row+i][h?col+i:col]!==''){fits=false;break;}
+   if(fits){for(i=0;i<word.length;i++)wsGrid[h?row:row+i][h?col+i:col]=word.charAt(i);placed=true;}
+  }
+  if(!placed)return false;
+ }
+ return true;
+}
+function clickCell(cell,r,c){
+ if(cell.classList.contains('found'))return;
+ if(cell.classList.contains('selected')){cell.classList.remove('selected');wsSel=wsSel.filter(function(s){return s.cell!==cell;});}
+ else{cell.classList.add('selected');wsSel.push({cell:cell,ch:wsGrid[r][c]});}
+ var str=wsSel.map(function(s){return s.ch;}).join(''),rev=str.split('').reverse().join('');
+ for(var i=0;i<wsWords.length;i++){
+  var w=wsWords[i];
+  if(str===w||rev===w){
+   wsSel.forEach(function(s){s.cell.classList.remove('selected');s.cell.classList.add('found');});
+   $('tag-'+w).classList.add('found');wsSel=[];
+   if(wsWords.every(function(x){return $('tag-'+x).classList.contains('found');}))fb('ws-feedback',true,'Tebrikler! Gizli 4 ayın hepsini buldunuz! 🎉');
+   return;
+  }
+ }
+ if(wsSel.length>9){wsSel.forEach(function(s){s.cell.classList.remove('selected');});wsSel=[];fb('ws-feedback',false,'Seçim temizlendi, tekrar deneyin.');}
+}
+on('ws-new',initWS);
+
+/* ---------- Başlat ---------- */
+function start(){initMatch();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+</body>
+</html>
