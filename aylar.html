@@ -70,6 +70,7 @@ input[type=text]:focus{border-color:var(--primary)}
 .feedback.correct{color:var(--success)}
 .feedback.wrong{color:var(--accent)}
 .hint{font-size:.85rem;color:#666;margin-bottom:10px}
+.wheel-canvas{touch-action:none;cursor:grab}
 </style>
 </head>
 <body>
@@ -367,6 +368,27 @@ function showWheelQ(){
  $('wheel-question').style.display='block';
 }
 on('spin-btn',spin);
+/* Çarkı fare ya da parmakla tutup çevirme */
+(function(){
+ var cv=$('wheel-canvas'),drag=null;
+ function ang(e){var r=cv.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI;}
+ cv.addEventListener('pointerdown',function(e){
+  if(spinning)return;
+  drag={a:ang(e)};try{cv.setPointerCapture(e.pointerId);}catch(x){}
+  cv.style.webkitTransition=cv.style.transition='none';
+ });
+ cv.addEventListener('pointermove',function(e){
+  if(!drag)return;
+  var a=ang(e),d=a-drag.a;if(d>180)d-=360;if(d<-180)d+=360;
+  drag.a=a;wheelRot+=d;cv.style.webkitTransform=cv.style.transform='rotate('+wheelRot+'deg)';
+ });
+ function end(){
+  if(!drag)return;drag=null;
+  cv.style.webkitTransition=cv.style.transition='';void cv.offsetWidth;spin();
+ }
+ cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+})();
+
 
 /* ---------- 7. Öncesi / Sonrası ---------- */
 var baI=0;

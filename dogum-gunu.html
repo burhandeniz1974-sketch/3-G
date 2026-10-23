@@ -80,6 +80,7 @@ input[type=text]:focus{border-color:var(--primary)}
 .learn-row{display:flex;justify-content:space-between;align-items:center;padding:6px 4px;border-bottom:1px solid #EEE;font-size:.92rem}
 .learn-row button{background:var(--primary);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:1rem;cursor:pointer;flex-shrink:0;margin-left:8px}
 .match-item{font-size:.78rem}
+.wheel-canvas{touch-action:none;cursor:grab}
 </style>
 </head>
 <body>
@@ -541,6 +542,27 @@ function showWheelQ(item){
  $('wheel-question').style.display='block';
 }
 on('spin-btn',spin);
+/* Çarkı fare ya da parmakla tutup çevirme */
+(function(){
+ var cv=$('wheel-canvas'),drag=null;
+ function ang(e){var r=cv.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI;}
+ cv.addEventListener('pointerdown',function(e){
+  if(spinning||!wAnswered||wk>=WN)return;
+  drag={a:ang(e)};try{cv.setPointerCapture(e.pointerId);}catch(x){}
+  cv.style.webkitTransition=cv.style.transition='none';
+ });
+ cv.addEventListener('pointermove',function(e){
+  if(!drag)return;
+  var a=ang(e),d=a-drag.a;if(d>180)d-=360;if(d<-180)d+=360;
+  drag.a=a;wheelRot+=d;cv.style.webkitTransform=cv.style.transform='rotate('+wheelRot+'deg)';
+ });
+ function end(){
+  if(!drag)return;drag=null;
+  cv.style.webkitTransition=cv.style.transition='';void cv.offsetWidth;spin();
+ }
+ cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+})();
+
 
 function start(){updateScore();inits.learn();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
