@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E40AF">
+<title>Kesir Modelleme – 3-G Matematik</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:#F3F6FB;color:#1F2A37;padding-bottom:env(safe-area-inset-bottom)}
+button{cursor:pointer}
+.top{background:linear-gradient(135deg,#2563EB,#1E40AF);color:#fff;text-align:center;padding:14px 90px;padding-top:max(14px,env(safe-area-inset-top));position:relative}
+.top h1{font-size:clamp(1.15rem,3.4vw,1.8rem)}
+.top p{font-size:.85rem;opacity:.9}
+.top a.back{position:absolute;left:14px;top:50%;margin-top:-12px;color:#fff;font-weight:bold;text-decoration:none;font-size:.9rem}
+#fs{position:absolute;right:14px;top:50%;margin-top:-18px;border:none;background:rgba(255,255,255,.22);color:#fff;border-radius:10px;width:42px;height:36px;font-size:1.2rem}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+.card{background:#fff;border:2px solid #C7D5EE;border-radius:20px;padding:16px;margin-bottom:20px;box-shadow:0 6px 18px rgba(30,64,175,.08)}
+.card h2{font-size:1.15rem;color:#1E40AF;border-bottom:2px solid #E3EAF7;padding-bottom:8px;margin-bottom:14px}
+.card h2 span{display:inline-block;background:#2563EB;color:#fff;border-radius:50%;width:28px;height:28px;line-height:28px;text-align:center;margin-right:8px;font-size:.95rem}
+.row{display:grid;grid-gap:18px;align-items:start}
+.r1{grid-template-columns:128px minmax(0,1fr) 310px}
+.r2{grid-template-columns:310px minmax(0,1fr) 128px}
+.menu{display:grid;grid-template-columns:1fr 1fr;grid-gap:8px}
+.sb{background:#fff;border:2px solid #C7D5EE;border-radius:12px;padding:4px;aspect-ratio:1}
+.sb svg{display:block;width:100%;height:100%}
+.sb.on{border-color:#2563EB;background:#E8F0FF;box-shadow:0 0 0 3px #BFD3FF}
+.stage .svgwrap{background:#FAFCFF;border:2px dashed #C7D5EE;border-radius:16px;padding:6px}
+.stage svg.main{display:block;width:min(100%,540px);margin:0 auto;-webkit-user-select:none;user-select:none}
+.pc{cursor:pointer;-webkit-transition:filter .15s;transition:filter .15s}
+.pc:hover{-webkit-filter:brightness(.94);filter:brightness(.94)}
+.tools{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center}
+.tool{display:flex;align-items:center;margin:4px 10px}
+.tl{font-weight:bold;font-size:.9rem;margin-right:8px;color:#475569}
+.step{width:44px;height:44px;border:none;border-radius:12px;background:#2563EB;color:#fff;font-size:1.6rem;font-weight:bold}
+.nv{min-width:42px;text-align:center;font-size:1.5rem}
+.rng{width:min(260px,60vw);height:32px;margin:0 6px}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #CBD5E1;margin-right:6px}
+.sw.on{box-shadow:0 0 0 3px #1F2A37}
+.stl{height:40px;min-width:74px;border:2px solid #C7D5EE;border-radius:10px;background:#fff;font-weight:bold;font-size:.8rem;margin-right:6px;position:relative;padding:0 8px;color:#1F2A37}
+.stl.on{border-color:#2563EB;background:#E8F0FF}
+.stl i{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid #475569;vertical-align:middle;margin-right:5px}
+.act{height:42px;border:none;border-radius:10px;background:#E9EEF7;font-weight:bold;padding:0 14px;margin:4px 6px;color:#1F2A37}
+.info{text-align:center;font-weight:bold;color:#475569;margin-top:8px;min-height:22px}
+.fbox{background:#F8FAFF;border:2px dashed #9DB4E0;border-radius:16px;padding:14px}
+.fgrid{display:grid;grid-template-columns:118px 1fr;grid-template-rows:68px 28px 68px;align-items:center;grid-column-gap:12px}
+.fgrid input{width:118px;height:62px;font-size:2rem;font-weight:800;text-align:center;border:2px solid #7C93C3;border-radius:12px;color:#111;outline:none;background:#fff;-webkit-appearance:none}
+.fgrid input:focus{border-color:#2563EB;box-shadow:0 0 0 3px #BFD3FF}
+.fgrid input.ok{border-color:#16A34A;background:#ECFDF3}.fgrid input.bad{border-color:#DC2626;background:#FEF2F2}
+.fbar{height:9px;background:#DC2626;border-radius:5px}
+.term{display:flex;align-items:center}
+.arr{font-size:1.7rem;font-weight:bold;margin-right:8px;line-height:1}
+.dot{width:26px;height:26px;border-radius:50%;border:3px solid #fff;flex-shrink:0}
+.lbl{margin-left:9px;font-weight:800;font-size:1.25rem;opacity:0;-webkit-transition:opacity .25s;transition:opacity .25s;white-space:nowrap}
+.lbl.show{opacity:1}
+.fb-btns{display:flex;flex-wrap:wrap;margin-top:12px}
+.b{border:none;border-radius:12px;color:#fff;font-weight:bold;font-size:.95rem;padding:11px 14px;margin:4px 6px 4px 0}
+.b.purple{background:#7C3AED}.b.green{background:#16A34A}.b.gray{background:#64748B}.b.orange{background:#F59E0B}
+.fdb{min-height:44px;font-weight:700;margin-top:8px;font-size:1rem;line-height:1.35}
+.fdb.ok{color:#15803D}.fdb.no{color:#DC2626}.fdb.hint{color:#475569}
+.reading{margin-top:6px;font-weight:bold;color:#1E40AF;min-height:24px}
+footer{text-align:center;padding:10px 14px 30px;font-size:.82rem;color:#6B7787;font-weight:bold;line-height:1.7}
+@media(max-width:900px){
+ .r1,.r2{grid-template-columns:1fr}
+ .menu{grid-template-columns:repeat(6,1fr)}
+ .r1 .stage{order:1}.r1 .menu{order:2}.r1 .fcol{order:3}
+ .r2 .fcol{order:1}.r2 .menu{order:2}.r2 .stage{order:3}
+ .top{padding:14px 60px}.top a.back{font-size:.8rem}
+}
+@media(max-width:520px){.menu{grid-template-columns:repeat(4,1fr)}.fgrid{grid-template-columns:104px 1fr}.fgrid input{width:104px}}
+</style>
+</head>
+<body>
+<div class="top"><a class="back" href="matematik.html">← Matematik</a><h1>🍕 Kesir Modelleme</h1><p>Şekli böl, boya, kesir sayısını yaz!</p><button id="fs" type="button" aria-label="Tam ekran">⛶</button></div>
+
+<div class="wrap">
+ <section class="card"><h2><span>1</span>BÖLÜM: Verilen modeli kesir sayısı olarak yazalım</h2>
+  <div class="row r1"><div class="menu" id="menu1"></div><div class="stage" id="stage1"></div><div class="fcol" id="fcol1"></div></div></section>
+
+ <section class="card"><h2><span>2</span>BÖLÜM: Verilen kesir sayısını şekil üzerinde modelleyelim</h2>
+  <div class="row r2"><div class="fcol" id="fcol2"></div><div class="stage" id="stage2"></div><div class="menu" id="menu2"></div></div></section>
+</div>
+<footer>Ali Kuşçu İlkokulu • 3-G Sınıfı<br>Hazırlayan: Burhan DENİZ</footer>
+
+<script>
+(function(){
+'use strict';
+var SHAPES=[{id:'circle'},{id:'half'},{id:'ring'},{id:'oval'},{id:'square'},{id:'rect'},{id:'bar'},{id:'grid'},{id:'tri'},{id:'pent'},{id:'hex'},{id:'oct'}];
+var COLORS=['#F59E0B','#EC4899','#3B82F6','#22C55E','#8B5CF6','#EF4444'];
+var TERMS=[{t:'pay',c:'#2563EB'},{t:'kesir çizgisi',c:'#DC2626'},{t:'payda',c:'#7C3AED'}];
+var MAXN=20,SQ=Math.PI/2;
+function $(id){return document.getElementById(id);}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!==undefined)e.innerHTML=html;return e;}
+function f1(x){return Math.round(x*10)/10;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* ---------- Geometri: eş alanlı parçalar ---------- */
+function ep(cx,cy,rx,ry,t){return f1(cx+rx*Math.cos(t))+' '+f1(cy+ry*Math.sin(t));}
+function sector(cx,cy,rx,ry,a,b){var lg=(b-a)>Math.PI+1e-9?1:0;return 'M'+cx+' '+cy+'L'+ep(cx,cy,rx,ry,a)+'A'+rx+' '+ry+' 0 '+lg+' 1 '+ep(cx,cy,rx,ry,b)+'Z';}
+function ringP(cx,cy,R,r,a,b){var lg=(b-a)>Math.PI+1e-9?1:0;return 'M'+ep(cx,cy,R,R,a)+'A'+R+' '+R+' 0 '+lg+' 1 '+ep(cx,cy,R,R,b)+'L'+ep(cx,cy,r,r,b)+'A'+r+' '+r+' 0 '+lg+' 0 '+ep(cx,cy,r,r,a)+'Z';}
+function rectP(x,y,w,h){return 'M'+f1(x)+' '+f1(y)+'h'+f1(w)+'v'+f1(h)+'h'+f1(-w)+'Z';}
+function strips(R,n,dir){var o=[],i;for(i=0;i<n;i++){o.push(dir==='h'?rectP(R[0],R[1]+R[3]*i/n,R[2],R[3]/n):rectP(R[0]+R[2]*i/n,R[1],R[2]/n,R[3]));}return o;}
+function poly(k,cx,cy,R,n){
+ var th0=-SQ,step=2*Math.PI/k,ap=R*Math.cos(Math.PI/k),m,i,j;
+ function rad(p){var d=(((p-th0)%step)+step)%step-step/2;return ap/Math.cos(d);}
+ function P(p){var r=rad(p);return f1(cx+r*Math.cos(p))+' '+f1(cy+r*Math.sin(p));}
+ function V(p){return f1(cx+R*Math.cos(p))+' '+f1(cy+R*Math.sin(p));}
+ if(n===1){var v=[];for(m=0;m<k;m++)v.push(V(th0+m*step));return ['M'+v.join('L')+'Z'];}
+ var N=2400,dp=2*Math.PI/N,cum=[0],ph=[],out=[];
+ for(i=0;i<N;i++){var r=rad(th0+(i+.5)*dp);cum[i+1]=cum[i]+.5*r*r*dp;}
+ for(j=0;j<=n;j++){var tg=cum[N]*j/n,q=0;while(q<N-1&&cum[q+1]<tg)q++;ph.push(th0+(q+(tg-cum[q])/((cum[q+1]-cum[q])||1))*dp);}
+ ph[0]=th0;ph[n]=th0+2*Math.PI;
+ for(j=0;j<n;j++){
+  var a=ph[j],b=ph[j+1],d='M'+cx+' '+cy+'L'+P(a);
+  for(m=0;m<=k;m++){var p=th0+m*step;if(p>a+1e-6&&p<b-1e-6)d+='L'+V(p);}
+  out.push(d+'L'+P(b)+'Z');
+ }
+ return out;
+}
+function pieces(id,n,dir){
+ var i,o=[],T=2*Math.PI,s=-SQ;
+ if(id==='circle'||id==='oval'){
+  var rx=id==='oval'?185:175,ry=id==='oval'?125:175;
+  if(n===1)return ['M'+(200-rx)+' 200A'+rx+' '+ry+' 0 1 1 '+(200+rx)+' 200A'+rx+' '+ry+' 0 1 1 '+(200-rx)+' 200Z'];
+  for(i=0;i<n;i++)o.push(sector(200,200,rx,ry,s+T*i/n,s+T*(i+1)/n));return o;}
+ if(id==='ring'){
+  if(n===1)return ['M25 200A175 175 0 1 1 375 200A175 175 0 1 1 25 200ZM125 200A75 75 0 1 1 275 200A75 75 0 1 1 125 200Z'];
+  for(i=0;i<n;i++)o.push(ringP(200,200,175,75,s+T*i/n,s+T*(i+1)/n));return o;}
+ if(id==='half'){for(i=0;i<n;i++)o.push(sector(200,300,180,180,Math.PI+Math.PI*i/n,Math.PI+Math.PI*(i+1)/n));return o;}
+ if(id==='square')return strips([50,50,300,300],n,dir);
+ if(id==='rect')return strips([20,100,360,200],n,dir);
+ if(id==='bar')return strips([10,160,380,80],n,dir);
+ if(id==='grid'){
+  var r=Math.floor(Math.sqrt(n));while(n%r)r--;var c=n/r,x,y;
+  for(y=0;y<r;y++)for(x=0;x<c;x++)o.push(rectP(50+300*x/c,50+300*y/r,300/c,300/r));return o;}
+ if(id==='tri')return poly(3,200,235,175,n);
+ if(id==='pent')return poly(5,200,218,175,n);
+ if(id==='hex')return poly(6,200,200,180,n);
+ return poly(8,200,200,185,n);
+}
+
+/* ---------- Okunuş ---------- */
+var ONES=['sıfır','bir','iki','üç','dört','beş','altı','yedi','sekiz','dokuz'],LOC=['','birde','ikide','üçte','dörtte','beşte','altıda','yedide','sekizde','dokuzda','onda'];
+function numW(n){return n<=9?ONES[n]:n===10?'on':n<20?'on '+ONES[n-10]:'yirmi';}
+function locW(n){return n<=10?LOC[n]:n<20?'on '+LOC[n-10]:'yirmide';}
+function readFrac(p,d){
+ if(!(d>=2&&d<=20&&p>=0&&p<=20))return '';
+ return locW(d)+' '+numW(p)+(p===1&&d===2?' (yarım)':p===1&&d===4?' (çeyrek)':'');
+}
+
+/* ---------- Şekil paneli ---------- */
+function Panel(uid,menuEl,stageEl,opt){
+ var st={shape:0,n:1,dir:'v',color:0,style:'solid',filled:[]},wrap=el('div','svgwrap'),tools=el('div','tools'),info=el('div','info'),
+  painting=null,ignoreClick=false,onChange=opt.onChange||function(){};
+ stageEl.appendChild(wrap);stageEl.appendChild(tools);stageEl.appendChild(info);
+ function fillOf(f){return f.s==='solid'?COLORS[f.c]:'url(#'+uid+f.s+f.c+')';}
+ function count(){var k=0,i;for(i=0;i<st.n;i++)if(st.filled[i])k++;return k;}
+ function defs(){var h='<defs>';COLORS.forEach(function(c,k){
+  h+='<pattern id="'+uid+'hatch'+k+'" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="14" fill="#fff"/><rect width="6" height="14" fill="'+c+'"/></pattern>';
+  h+='<pattern id="'+uid+'dots'+k+'" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#fff"/><circle cx="8" cy="8" r="4.5" fill="'+c+'"/></pattern>';});return h+'</defs>';}
+ function render(){
+  var P=pieces(SHAPES[st.shape].id,st.n,st.dir),h='<svg class="main" viewBox="0 0 400 400" role="img" aria-label="Kesir modeli">'+defs(),i;
+  for(i=0;i<P.length;i++)h+='<path class="pc" data-i="'+i+'" d="'+P[i]+'" fill-rule="evenodd" fill="'+(st.filled[i]?fillOf(st.filled[i]):'#fff')+'" stroke="#1E3A5F" stroke-width="3.5" stroke-linejoin="round"/>';
+  wrap.innerHTML=h+'</svg>';updateInfo();
+ }
+ function updateInfo(){info.textContent=opt.showInfo?'Eş parça sayısı: '+st.n+'  •  Boyalı parça: '+count():'';}
+ function setPiece(i,on,path){
+  st.filled[i]=on?{c:st.color,s:st.style}:null;
+  if(path)path.setAttribute('fill',on?fillOf(st.filled[i]):'#fff');
+  updateInfo();onChange();
+ }
+ function pieceAt(t){return t&&t.getAttribute&&t.getAttribute('data-i')!==null&&wrap.contains(t)?t:null;}
+ wrap.addEventListener('pointerdown',function(e){
+  var p=pieceAt(e.target);if(!p||e.pointerType==='touch')return;
+  var i=+p.getAttribute('data-i');painting=!st.filled[i];ignoreClick=true;setPiece(i,painting,p);
+ });
+ wrap.addEventListener('pointermove',function(e){
+  if(painting===null||e.pointerType==='touch')return;
+  var p=pieceAt(document.elementFromPoint(e.clientX,e.clientY));if(!p)return;
+  var i=+p.getAttribute('data-i');if(!!st.filled[i]!==painting)setPiece(i,painting,p);
+ });
+ function stop(){painting=null;}
+ window.addEventListener('pointerup',stop);window.addEventListener('pointercancel',stop);
+ wrap.addEventListener('click',function(e){
+  if(ignoreClick){ignoreClick=false;return;}
+  var p=pieceAt(e.target);if(!p)return;var i=+p.getAttribute('data-i');setPiece(i,!st.filled[i],p);
+ });
+
+ /* şekil menüsü (görselli) */
+ var btns=[];
+ SHAPES.forEach(function(s,k){
+  var P=pieces(s.id,2,'v'),h='<svg viewBox="0 0 400 400" aria-hidden="true">',i;
+  for(i=0;i<P.length;i++)h+='<path d="'+P[i]+'" fill-rule="evenodd" fill="'+(i===0?'#F59E0B':'#fff')+'" stroke="#1E3A5F" stroke-width="14" stroke-linejoin="round"/>';
+  var b=el('button','sb',h+'</svg>');b.type='button';b.setAttribute('aria-label','Şekil '+(k+1));
+  b.addEventListener('click',function(){setShape(k);});menuEl.appendChild(b);btns.push(b);
+ });
+ function setShape(k){st.shape=k;btns.forEach(function(b,j){b.classList.toggle('on',j===k);});
+  var id=SHAPES[k].id;dirBtn.style.display=(id==='square'||id==='rect'||id==='bar')?'':'none';render();onChange();}
+ function setN(n,keep){n=Math.max(1,Math.min(MAXN,n));if(n!==st.n&&!keep)st.filled=[];st.n=n;nv.textContent=n;rng.value=n;render();onChange();}
+
+ /* araçlar */
+ var nv=el('b','nv','1'),rng=el('input','rng'),minus=el('button','step','−'),plus=el('button','step','+');
+ rng.type='range';rng.min=1;rng.max=MAXN;rng.value=1;rng.setAttribute('aria-label','Eş parça sayısı');
+ minus.type='button';plus.type='button';
+ minus.addEventListener('click',function(){setN(st.n-1);});plus.addEventListener('click',function(){setN(st.n+1);});
+ rng.addEventListener('input',function(){setN(+rng.value);});
+ var t1=el('div','tool');t1.appendChild(el('span','tl','Eş parça sayısı:'));t1.appendChild(minus);t1.appendChild(nv);t1.appendChild(plus);
+ var t2=el('div','tool');t2.appendChild(rng);
+ var t3=el('div','tool');t3.appendChild(el('span','tl','Renk:'));
+ var sws=COLORS.map(function(c,k){var b=el('button','sw');b.type='button';b.style.background=c;b.setAttribute('aria-label','Renk '+(k+1));
+  b.addEventListener('click',function(){st.color=k;sws.forEach(function(x,j){x.classList.toggle('on',j===k);});upStyle();});t3.appendChild(b);return b;});
+ var t4=el('div','tool');t4.appendChild(el('span','tl','Boyama:'));
+ var stls=[['solid','Dolu'],['hatch','Çizgili'],['dots','Noktalı']].map(function(a){var b=el('button','stl','<i></i>'+a[1]);b.type='button';
+  b.addEventListener('click',function(){st.style=a[0];upStyle();});t4.appendChild(b);b.dataset.s=a[0];return b;});
+ function upStyle(){var c=COLORS[st.color];
+  stls.forEach(function(b){var s=b.dataset.s,i=b.firstChild;b.classList.toggle('on',s===st.style);
+   i.style.background=s==='solid'?c:s==='hatch'?'repeating-linear-gradient(45deg,'+c+' 0 3px,#fff 3px 6px)':'radial-gradient('+c+' 30%,#fff 34%) 0 0/7px 7px';});}
+ var t5=el('div','tool'),dirBtn=el('button','act','⇆ Dikey / Yatay'),clr=el('button','act','🧹 Temizle');
+ dirBtn.type='button';clr.type='button';
+ dirBtn.addEventListener('click',function(){st.dir=st.dir==='v'?'h':'v';render();onChange();});
+ clr.addEventListener('click',function(){st.filled=[];render();onChange();});
+ t5.appendChild(dirBtn);t5.appendChild(clr);
+ [t1,t2,t3,t4,t5].forEach(function(t){tools.appendChild(t);});
+ sws[0].classList.add('on');upStyle();setShape(0);
+
+ return {
+  n:function(){return st.n;},k:count,
+  setModel:function(shape,n,idx){st.filled=[];st.color=Math.floor(Math.random()*COLORS.length);sws.forEach(function(x,j){x.classList.toggle('on',j===st.color);});upStyle();
+   st.n=Math.max(1,Math.min(MAXN,n));nv.textContent=st.n;rng.value=st.n;idx.forEach(function(i){st.filled[i]={c:st.color,s:st.style};});setShape(shape);},
+  reset:function(){st.filled=[];setN(1,true);},
+  randomShape:function(){return Math.floor(Math.random()*SHAPES.length);}
+ };
+}
+
+/* ---------- Kesir kutusu ---------- */
+function FracBox(host,extraBtns){
+ var box=el('div','fbox'),g=el('div','fgrid'),num=el('input'),den=el('input'),labels=[];
+ [num,den].forEach(function(i){i.type='text';i.setAttribute('inputmode','numeric');i.setAttribute('maxlength','2');i.setAttribute('autocomplete','off');
+  i.addEventListener('input',function(){i.value=i.value.replace(/\D/g,'').slice(0,2);i.className='';});});
+ num.setAttribute('aria-label','Pay');den.setAttribute('aria-label','Payda');
+ function term(k){var T=TERMS[k],d=el('div','term'),a=el('span','arr','➜'),b=el('button','dot'),l=el('span','lbl',T.t);
+  d.style.color=T.c;b.type='button';b.style.background=T.c;b.style.boxShadow='0 0 0 2px '+T.c;b.setAttribute('aria-label',T.t+' terimini göster/gizle');
+  l.style.color=T.c;b.addEventListener('click',function(){l.classList.toggle('show');});d.appendChild(a);d.appendChild(b);d.appendChild(l);labels.push(l);return d;}
+ g.appendChild(num);g.appendChild(term(0));g.appendChild(el('div','fbar'));g.appendChild(term(1));g.appendChild(den);g.appendChild(term(2));
+ box.appendChild(g);
+ var bt=el('div','fb-btns'),all=el('button','b purple','Terimleri Göster / Gizle'),rd=el('button','b gray','🔤 Okunuşu'),
+  reading=el('div','reading'),fdb=el('div','fdb');
+ all.type='button';rd.type='button';
+ all.addEventListener('click',function(){var any=labels.some(function(l){return !l.classList.contains('show');});labels.forEach(function(l){l.classList.toggle('show',any);});});
+ function vals(){return {p:num.value===''?NaN:+num.value,d:den.value===''?NaN:+den.value};}
+ rd.addEventListener('click',function(){var v=vals(),t=isNaN(v.p)||isNaN(v.d)?'':readFrac(v.p,v.d);reading.textContent=t?'Okunuşu: '+t:'Önce pay ve paydayı yaz (payda 2–20).';});
+ bt.appendChild(all);bt.appendChild(rd);(extraBtns||[]).forEach(function(b){bt.appendChild(b);});
+ box.appendChild(bt);box.appendChild(reading);box.appendChild(fdb);host.appendChild(box);
+ return {vals:vals,set:function(p,d){num.value=p;den.value=d;num.className='';den.className='';reading.textContent='';fdb.textContent='';},
+  mark:function(okP,okD){num.className=okP?'ok':'bad';den.className=okD?'ok':'bad';},
+  say:function(cls,msg){fdb.className='fdb '+cls;fdb.textContent=msg;},
+  read:function(t){reading.textContent=t?'Okunuşu: '+t:'';}};
+}
+function btn(cls,txt){var b=el('button','b '+cls,txt);b.type='button';return b;}
+
+/* ---------- 1. BÖLÜM ---------- */
+var chk1=btn('green','Kontrol Et'),new1=btn('orange','🎲 Yeni Model');
+var f1b=FracBox($('fcol1'),[chk1,new1]);
+var p1=new Panel('a',$('menu1'),$('stage1'),{});
+function newModel(){
+ var n=2+Math.floor(Math.random()*11),k=1+Math.floor(Math.random()*(n-1)),idx=[],i;
+ for(i=0;i<n;i++)idx.push(i);idx=shuffle(idx).slice(0,k);
+ p1.setModel(p1.randomShape(),n,idx);f1b.set('','');
+}
+new1.addEventListener('click',newModel);
+chk1.addEventListener('click',function(){
+ var v=f1b.vals(),n=p1.n(),k=p1.k();
+ if(isNaN(v.p)||isNaN(v.d)){f1b.say('hint','Pay ve paydayı yazmayı unutma.');return;}
+ var okP=v.p===k,okD=v.d===n;f1b.mark(okP,okD);
+ if(okP&&okD){f1b.say('ok','🎉 Harika! Doğru yazdın: '+k+'/'+n);f1b.read(readFrac(k,n));}
+ else if(okP)f1b.say('no','Pay doğru ✔ Payda yanlış. Bütün kaç eş parçaya bölünmüş?');
+ else if(okD)f1b.say('no','Payda doğru ✔ Payı tekrar düşün. Kaç parça boyalı?');
+ else f1b.say('no','Tekrar dene. Önce bütünün eş parçalarını say, sonra boyalı parçaları say.');
+});
+
+/* ---------- 2. BÖLÜM ---------- */
+var chk2=btn('green','Modeli Kontrol Et'),new2=btn('orange','🎲 Yeni Soru');
+var f2b=FracBox($('fcol2'),[chk2,new2]);
+var p2=new Panel('b',$('menu2'),$('stage2'),{showInfo:true});
+f2b.set(3,6);
+new2.addEventListener('click',function(){var d=2+Math.floor(Math.random()*11),p=1+Math.floor(Math.random()*(d-1));f2b.set(p,d);p2.reset();});
+chk2.addEventListener('click',function(){
+ var v=f2b.vals(),n=p2.n(),k=p2.k();
+ if(isNaN(v.p)||isNaN(v.d)||v.d<1){f2b.say('hint','Önce kesir sayısının payını ve paydasını yaz.');return;}
+ if(v.p>v.d){f2b.say('hint','Bu bölümde pay, paydadan büyük olmamalı.');return;}
+ var okD=n===v.d,okP=k===v.p;f2b.mark(okP,okD);
+ if(okP&&okD)f2b.say('ok','🎉 Çok güzel! Model kesir sayısına uyuyor.');
+ else if(okD)f2b.say('no','Eş parça sayısı doğru ✔ Boyalı parça sayısı paya eşit olmalı.');
+ else if(okP)f2b.say('no','Boyalı parça sayısı doğru ✔ Bütün paydadaki sayı kadar eş parçaya bölünmeli.');
+ else f2b.say('no','Önce bütünü paydadaki sayı kadar eş parçaya böl, sonra pay kadar parçayı boya.');
+});
+
+/* ---------- Tam ekran ---------- */
+var de=document.documentElement,rf=de.requestFullscreen||de.webkitRequestFullscreen,fs=$('fs');
+if(!rf)fs.style.display='none';
+fs.addEventListener('click',function(){
+ try{if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document);}else rf.call(de);}catch(e){}
+});
+
+newModel();
+})();
+</script>
+</body>
+</html>
