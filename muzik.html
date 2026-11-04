@@ -1,3 +1,13 @@
+<!--
+  ============================================================
+  © 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı
+  Bu materyal Burhan DENİZ tarafından 3-G sınıfı öğrencileri için
+  hazırlanmıştır. Yazarın izni olmadan kopyalanamaz, çoğaltılamaz,
+  başka bir adreste yayımlanamaz veya değiştirilerek dağıtılamaz.
+  Dosya: muzik.html
+  KORUMA-KALKANI-v1
+  ============================================================
+-->
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -66,6 +76,44 @@ details.theme .rows{padding:14px 14px 4px}
 footer{text-align:center;padding:40px 18px 34px;font-size:.82rem;color:var(--muted);line-height:1.7}
 footer b{color:var(--ink)}
 </style>
+<script>
+/* KORUMA-KALKANI-v1 — Burhan DENİZ, Ali Kuşçu İlkokulu 3-G (2 ve 5. katman: imza + alan adı uyarısı) */
+(function(){
+  try{ console.log('%c© 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı','color:#2563EB;font-weight:bold;font-size:13px;'); }catch(e){}
+
+  var ALLOWED=["burhandeniz21.github.io"];
+  function toast(msg,ms){
+    try{
+      var t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText='position:fixed;left:10px;right:10px;bottom:14px;z-index:99999;background:#1F2A37;color:#fff;'+
+        'padding:10px 14px;border-radius:10px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;'+
+        'box-shadow:0 8px 20px rgba(0,0,0,.25);text-align:center;pointer-events:none;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, ms||2600);
+    }catch(e){}
+  }
+  document.addEventListener('contextmenu',function(){
+    toast('© Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı için hazırlanmıştır.');
+  });
+
+  function checkDomain(){
+    var h=location.hostname,p=location.protocol;
+    if(p==='file:'||h===''||h==='localhost'||h==='127.0.0.1')return; // USB / yerel kullanım
+    var ok=false;
+    for(var i=0;i<ALLOWED.length;i++){ if(h===ALLOWED[i]||h.slice(-(ALLOWED[i].length+1))==='.'+ALLOWED[i]){ ok=true;break; } }
+    if(!ok){
+      var b=document.createElement('div');
+      b.textContent='⚠️ Bu içerik Burhan DENİZ tarafından hazırlanmıştır ve aslen '+(ALLOWED[0]||'orijinal site')+' adresinde yayınlanmaktadır.';
+      b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#B91C1C;color:#fff;'+
+        'padding:8px 12px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;';
+      document.addEventListener('DOMContentLoaded',function(){ document.body.appendChild(b); });
+      if(document.body)document.body.appendChild(b);
+    }
+  }
+  checkDomain();
+})();
+</script>
 </head>
 <body>
 <header class="top"><div class="wrap"><a class="brand" href="index.html"><span class="mark">3G</span><span><b>Ali Kuşçu İlkokulu</b><small>3-G Sınıfı</small></span></a><button id="mbtn" type="button">Dersler ▾</button></div><div id="mpanel"><div class="wrap"><a href="hayat-bilgisi.html">🌍&nbsp; Hayat Bilgisi</a><a href="fen-bilimleri.html">🔬&nbsp; Fen Bilimleri</a><a href="matematik.html">🧮&nbsp; Matematik</a><a href="turkce.html">📖&nbsp; Türkçe</a><a href="ingilizce.html">🔤&nbsp; İngilizce</a><a href="gorsel-sanatlar.html">🎨&nbsp; Görsel Sanatlar</a><a href="muzik.html">🎵&nbsp; Müzik</a><a href="beden-egitimi.html">⚽&nbsp; Beden Eğitimi</a><a href="serbest-etkinlikler.html">🧩&nbsp; Serbest Etkinlikler</a><a href="satranc.html">♟️&nbsp; Satranç</a><a href="index.html">🏠&nbsp; Ana Sayfa</a></div></div></header>
