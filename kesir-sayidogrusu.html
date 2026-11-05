@@ -1,0 +1,362 @@
+<!--
+  ============================================================
+  © 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı
+  Bu materyal Burhan DENİZ tarafından 3-G sınıfı öğrencileri için
+  hazırlanmıştır. Yazarın izni olmadan kopyalanamaz, çoğaltılamaz,
+  başka bir adreste yayımlanamaz veya değiştirilerek dağıtılamaz.
+  Dosya: kesir-sayidogrusu.html
+  KORUMA-KALKANI-v1
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E40AF">
+<title>Kesirlerin Sayı Doğrusunda Gösterimi – 3-G Matematik</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:#F3F6FB;color:#1F2A37;padding-bottom:env(safe-area-inset-bottom)}
+button{cursor:pointer}
+.top{background:linear-gradient(135deg,#2563EB,#1E40AF);color:#fff;text-align:center;padding:14px 90px;padding-top:max(14px,env(safe-area-inset-top));position:relative}
+.top h1{font-size:clamp(1.1rem,3.2vw,1.7rem)}
+.top p{font-size:.85rem;opacity:.9}
+.top a.back{position:absolute;left:14px;top:50%;margin-top:-12px;color:#fff;font-weight:bold;text-decoration:none;font-size:.9rem}
+#fs{position:absolute;right:14px;top:50%;margin-top:-18px;border:none;background:rgba(255,255,255,.22);color:#fff;border-radius:10px;width:42px;height:36px;font-size:1.2rem}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+.card{background:#fff;border:2px solid #C7D5EE;border-radius:20px;padding:16px;margin-bottom:20px;box-shadow:0 6px 18px rgba(30,64,175,.08)}
+.card h2{font-size:1.15rem;color:#1E40AF;border-bottom:2px solid #E3EAF7;padding-bottom:8px;margin-bottom:14px}
+.card h2 span{display:inline-block;background:#2563EB;color:#fff;border-radius:50%;width:28px;height:28px;line-height:28px;text-align:center;margin-right:8px;font-size:.95rem}
+.row{display:grid;grid-gap:18px;align-items:start}
+.rA{grid-template-columns:minmax(0,1fr) 310px}
+.rB{grid-template-columns:310px minmax(0,1fr)}
+.stage .nl-wrap{background:#FAFCFF;border:2px dashed #C7D5EE;border-radius:16px;padding:10px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+svg.nlmain{display:block;height:170px;touch-action:none;-webkit-user-select:none;user-select:none}
+.seg{cursor:pointer;-webkit-transition:filter .15s;transition:filter .15s}
+.seg:hover{-webkit-filter:brightness(.94);filter:brightness(.94)}
+.axisHit{cursor:grab;fill:transparent}
+.ptc{cursor:grab}
+.tools{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center}
+.tool{display:flex;align-items:center;margin:4px 10px}
+.tl{font-weight:bold;font-size:.9rem;margin-right:8px;color:#475569}
+.step{width:44px;height:44px;border:none;border-radius:12px;background:#2563EB;color:#fff;font-size:1.6rem;font-weight:bold}
+.nv{min-width:42px;text-align:center;font-size:1.5rem}
+.rng{width:min(240px,55vw);height:32px;margin:0 6px}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #CBD5E1;margin-right:6px}
+.sw.on{box-shadow:0 0 0 3px #1F2A37}
+.stl{height:40px;min-width:74px;border:2px solid #C7D5EE;border-radius:10px;background:#fff;font-weight:bold;font-size:.8rem;margin-right:6px;position:relative;padding:0 8px;color:#1F2A37}
+.stl.on{border-color:#2563EB;background:#E8F0FF}
+.stl i{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid #475569;vertical-align:middle;margin-right:5px}
+.act{height:42px;border:none;border-radius:10px;background:#E9EEF7;font-weight:bold;padding:0 14px;margin:4px 6px;color:#1F2A37}
+.act.on{background:#2563EB;color:#fff}
+.info{text-align:center;font-weight:bold;color:#475569;margin-top:8px;min-height:22px}
+.fbox{background:#F8FAFF;border:2px dashed #9DB4E0;border-radius:16px;padding:14px}
+.fgrid{display:grid;grid-template-columns:118px 1fr;grid-template-rows:68px 28px 68px;align-items:center;grid-column-gap:12px}
+.fgrid input{width:118px;height:62px;font-size:2rem;font-weight:800;text-align:center;border:2px solid #7C93C3;border-radius:12px;color:#111;outline:none;background:#fff;-webkit-appearance:none}
+.fgrid input:focus{border-color:#2563EB;box-shadow:0 0 0 3px #BFD3FF}
+.fgrid input.ok{border-color:#16A34A;background:#ECFDF3}.fgrid input.bad{border-color:#DC2626;background:#FEF2F2}
+.fbar{height:9px;background:#DC2626;border-radius:5px}
+.term{display:flex;align-items:center}
+.arr{font-size:1.7rem;font-weight:bold;margin-right:8px;line-height:1}
+.dot{width:26px;height:26px;border-radius:50%;border:3px solid #fff;flex-shrink:0}
+.lbl{margin-left:9px;font-weight:800;font-size:1.25rem;opacity:0;-webkit-transition:opacity .25s;transition:opacity .25s;white-space:nowrap}
+.lbl.show{opacity:1}
+.fb-btns{display:flex;flex-wrap:wrap;margin-top:12px}
+.b{border:none;border-radius:12px;color:#fff;font-weight:bold;font-size:.95rem;padding:11px 14px;margin:4px 6px 4px 0}
+.b.purple{background:#7C3AED}.b.green{background:#16A34A}.b.gray{background:#64748B}.b.orange{background:#F59E0B}
+.fdb{min-height:44px;font-weight:700;margin-top:8px;font-size:1rem;line-height:1.35}
+.fdb.ok{color:#15803D}.fdb.no{color:#DC2626}.fdb.hint{color:#475569}
+.reading{margin-top:6px;font-weight:bold;color:#1E40AF;min-height:24px}
+footer{text-align:center;padding:10px 14px 30px;font-size:.82rem;color:#6B7787;font-weight:bold;line-height:1.7}
+@media(max-width:900px){
+ .rA,.rB{grid-template-columns:1fr}
+ .rA .stage{order:1}.rA .fcol{order:2}
+ .rB .fcol{order:1}.rB .stage{order:2}
+ .top{padding:14px 60px}.top a.back{font-size:.8rem}
+}
+</style>
+<script>
+/* KORUMA-KALKANI-v1 — Burhan DENİZ, Ali Kuşçu İlkokulu 3-G (2 ve 5. katman: imza + alan adı uyarısı) */
+(function(){
+  try{ console.log('%c© 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı','color:#2563EB;font-weight:bold;font-size:13px;'); }catch(e){}
+
+  var ALLOWED=["burhandeniz21.github.io"];
+  function toast(msg,ms){
+    try{
+      var t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText='position:fixed;left:10px;right:10px;bottom:14px;z-index:99999;background:#1F2A37;color:#fff;'+
+        'padding:10px 14px;border-radius:10px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;'+
+        'box-shadow:0 8px 20px rgba(0,0,0,.25);text-align:center;pointer-events:none;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, ms||2600);
+    }catch(e){}
+  }
+  document.addEventListener('contextmenu',function(){
+    toast('© Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı için hazırlanmıştır.');
+  });
+
+  function checkDomain(){
+    var h=location.hostname,p=location.protocol;
+    if(p==='file:'||h===''||h==='localhost'||h==='127.0.0.1')return; // USB / yerel kullanım
+    var ok=false;
+    for(var i=0;i<ALLOWED.length;i++){ if(h===ALLOWED[i]||h.slice(-(ALLOWED[i].length+1))==='.'+ALLOWED[i]){ ok=true;break; } }
+    if(ok)return;
+    var note=document.createElement('div');
+    note.textContent='ⓘ Bu içerik Burhan DENİZ tarafından hazırlanmıştır ve aslen '+(ALLOWED[0]||'orijinal site')+' adresinde yayınlanmaktadır.';
+    note.style.cssText='position:static;margin-top:10px;padding:8px 12px;border-top:1px solid #D7DEE8;'+
+      'color:#6B7787;background:transparent;font:12px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;';
+    function place(){
+      var f=document.querySelector('footer');
+      if(f&&f.parentNode) f.parentNode.insertBefore(note,f);
+      else document.body.appendChild(note);
+    }
+    if(document.body)place();else document.addEventListener('DOMContentLoaded',place);
+  }
+  checkDomain();
+})();
+</script>
+</head>
+<body>
+<div class="top"><a class="back" href="matematik.html">← Matematik</a><h1>📏 Kesirlerin Sayı Doğrusunda Gösterimi</h1><p>Noktayı oku, kesri doğru üzerinde göster!</p><button id="fs" type="button" aria-label="Tam ekran">⛶</button></div>
+
+<div class="wrap">
+ <section class="card"><h2><span>1</span>BÖLÜM: Sayı doğrusunda gösterilen noktayı kesir olarak yazalım</h2>
+  <div class="row rA"><div class="stage" id="stageA"></div><div class="fcol" id="fcolA"></div></div></section>
+
+ <section class="card"><h2><span>2</span>BÖLÜM: Verilen kesri sayı doğrusunda gösterelim</h2>
+  <div class="row rB"><div class="fcol" id="fcolB"></div><div class="stage" id="stageB"></div></div></section>
+</div>
+<footer>Ali Kuşçu İlkokulu • 3-G Sınıfı<br>Hazırlayan: Burhan DENİZ</footer>
+
+<script>
+(function(){
+'use strict';
+var COLORS=['#F59E0B','#EC4899','#3B82F6','#22C55E','#8B5CF6','#EF4444'];
+var TERMS=[{t:'pay',c:'#2563EB'},{t:'kesir çizgisi',c:'#DC2626'},{t:'payda',c:'#7C3AED'}];
+var STEP=64,MAXW=4,MAXN=12;
+function $(id){return document.getElementById(id);}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!==undefined)e.innerHTML=html;return e;}
+function f1(x){return Math.round(x*10)/10;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* ---------- Okunuş ---------- */
+var ONES=['sıfır','bir','iki','üç','dört','beş','altı','yedi','sekiz','dokuz'],LOC=['','birde','ikide','üçte','dörtte','beşte','altıda','yedide','sekizde','dokuzda','onda'];
+function numW(n){return n<=9?ONES[n]:n===10?'on':n<20?'on '+ONES[n-10]:'yirmi';}
+function locW(n){return n<=10?LOC[n]:n<20?'on '+LOC[n-10]:'yirmide';}
+function readFrac(p,d){
+ if(!(d>=2&&d<=20&&p>=0&&p<=4*d))return '';
+ return locW(d)+' '+numW(p)+(p===1&&d===2?' (yarım)':p===1&&d===4?' (çeyrek)':'');
+}
+
+/* ---------- Sayı doğrusu paneli ---------- */
+function NLPanel(uid,stageEl,opt){
+ opt=opt||{};
+ var st={W:1,n:3,filled:[],color:0,style:'solid',ptOn:!!opt.pointOn,ptTick:0,ptMoved:false},
+  wrap=el('div','nl-wrap'),tools=el('div','tools'),info=el('div','info'),
+  dragging=null,onChange=opt.onChange||function(){};
+ stageEl.appendChild(wrap);stageEl.appendChild(tools);stageEl.appendChild(info);
+
+ function total(){return st.W*st.n;}
+ function fillOf(f){return f.s==='solid'?COLORS[f.c]:'url(#'+uid+f.s+f.c+')';}
+ function coloredCount(){var k=0,i;for(i=0;i<st.filled.length;i++)if(st.filled[i])k++;return k;}
+ function defs(){var h='<defs>';COLORS.forEach(function(c,k){
+  h+='<pattern id="'+uid+'hatch'+k+'" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#fff"/><rect width="5" height="12" fill="'+c+'"/></pattern>';
+  h+='<pattern id="'+uid+'dots'+k+'" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#fff"/><circle cx="7" cy="7" r="4" fill="'+c+'"/></pattern>';});return h+'</defs>';}
+
+ function render(){
+  var N=total(),W=STEP*N+90,x0=45,yAx=62,h,i,x;
+  var svgH=170,h2=[];
+  var d='M'+x0+' '+yAx+'L'+(x0+STEP*N+16)+' '+yAx;
+  var ah='M'+(x0+STEP*N+16)+' '+yAx+'l-11 -6v12Z'+'M'+(x0-14)+' '+yAx+'l11 -6v12Z';
+  var ticks='';
+  for(i=0;i<=N;i++){
+   x=x0+STEP*i;var big=(i%st.n===0);
+   ticks+='<line x1="'+x+'" y1="'+(yAx-(big?13:8))+'" x2="'+x+'" y2="'+(yAx+(big?13:8))+'" stroke="#1E3A5F" stroke-width="'+(big?3:2)+'"/>';
+   if(big)ticks+='<text x="'+x+'" y="'+(yAx+34)+'" text-anchor="middle" font-size="17" font-weight="800" fill="#1E3A5F">'+(i/st.n)+'</text>';
+  }
+  var segs='';
+  for(i=0;i<N;i++){
+   x=x0+STEP*i;
+   segs+='<rect class="seg" data-i="'+i+'" x="'+x+'" y="92" width="'+STEP+'" height="18" fill="'+(st.filled[i]?fillOf(st.filled[i]):'#fff')+'" stroke="#1E3A5F" stroke-width="2.5"/>';
+  }
+  var zx=x0,ox=x0+STEP*st.n,
+   ref='<circle cx="'+zx+'" cy="'+yAx+'" r="9" fill="#DC2626" stroke="#fff" stroke-width="2.5"/>'+
+       '<circle cx="'+ox+'" cy="'+yAx+'" r="9" fill="#DC2626" stroke="#fff" stroke-width="2.5"/>'+
+       '<text x="'+zx+'" y="'+(yAx-19)+'" text-anchor="middle" font-size="23" font-weight="900" fill="#DC2626">0</text>'+
+       '<text x="'+ox+'" y="'+(yAx-19)+'" text-anchor="middle" font-size="23" font-weight="900" fill="#DC2626">1</text>';
+  var pt='';
+  if(st.ptOn){
+   var px=x0+STEP*st.ptTick;
+   pt='<g class="ptc" data-pt="1"><line x1="'+px+'" y1="'+(yAx-30)+'" x2="'+px+'" y2="'+yAx+'" stroke="'+COLORS[st.color]+'" stroke-width="3"/>'+
+      '<circle cx="'+px+'" cy="'+(yAx-30)+'" r="11" fill="'+COLORS[st.color]+'" stroke="#1E3A5F" stroke-width="2.5"/></g>';
+  }
+  var hit=opt.lockPoint?'':'<rect class="axisHit" x="'+x0+'" y="'+(yAx-30)+'" width="'+(STEP*N)+'" height="42"/>';
+  wrap.innerHTML='<svg class="nlmain" viewBox="0 0 '+W+' '+svgH+'" role="img" aria-label="Sayı doğrusu">'+defs()+
+   '<path d="'+d+' '+ah+'" fill="#1E3A5F" stroke="#1E3A5F" stroke-width="3"/>'+ticks+ref+segs+hit+pt+'</svg>';
+  updateInfo();
+ }
+ function updateInfo(){info.textContent=opt.showInfo?('Eş parça (payda): '+st.n+'  •  Boyalı parça: '+coloredCount()+(st.ptOn?'  •  Nokta: '+st.ptTick+'/'+st.n:'')):'';}
+
+ function svgRect(){return wrap.querySelector('svg').getBoundingClientRect();}
+ function xToTick(clientX){
+  var r=svgRect(),vb=STEP*total()+90,fx=(clientX-r.left)/Math.max(1,r.width),x=fx*vb;
+  return Math.max(0,Math.min(total(),Math.round((x-45)/STEP)));
+ }
+ function paintAt(target,on){
+  var i=+target.getAttribute('data-i');
+  st.filled[i]=on?{c:st.color,s:st.style}:null;render();onChange();
+ }
+ wrap.addEventListener('pointerdown',function(e){
+  var t=e.target;
+  if(t.classList&&t.classList.contains('seg')){
+   dragging={mode:'paint',val:!st.filled[+t.getAttribute('data-i')]};paintAt(t,dragging.val);
+  }else if(!opt.lockPoint&&st.ptOn&&((t.closest&&t.closest('.ptc'))||t.classList.contains('axisHit'))){
+   dragging={mode:'point'};st.ptTick=xToTick(e.clientX);st.ptMoved=true;render();onChange();
+  }
+ });
+ wrap.addEventListener('pointermove',function(e){
+  if(!dragging)return;
+  if(dragging.mode==='paint'){
+   var el2=document.elementFromPoint?document.elementFromPoint(e.clientX,e.clientY):null;
+   if(el2&&el2.classList&&el2.classList.contains('seg')){var i=+el2.getAttribute('data-i');if(!!st.filled[i]!==dragging.val)paintAt(el2,dragging.val);}
+  }else if(dragging.mode==='point'){
+   st.ptTick=xToTick(e.clientX);render();onChange();
+  }
+ });
+ function stop(){dragging=null;}
+ window.addEventListener('pointerup',stop);window.addEventListener('pointercancel',stop);
+
+ /* araçlar */
+ var t1=el('div','tool'),wv=el('b','nv','1'),wm=el('button','step','−'),wp=el('button','step','+');
+ wm.type='button';wp.type='button';
+ t1.appendChild(el('span','tl','Aralık (tam sayı):'));t1.appendChild(wm);t1.appendChild(wv);t1.appendChild(wp);
+ wm.addEventListener('click',function(){setW(st.W-1);});wp.addEventListener('click',function(){setW(st.W+1);});
+
+ var t2=el('div','tool'),nv=el('b','nv','3'),nm=el('button','step','−'),np=el('button','step','+'),rng=el('input','rng');
+ nm.type='button';np.type='button';rng.type='range';rng.min=1;rng.max=MAXN;rng.value=3;
+ t2.appendChild(el('span','tl','Eş parça (payda):'));t2.appendChild(nm);t2.appendChild(nv);t2.appendChild(np);
+ nm.addEventListener('click',function(){setN(st.n-1);});np.addEventListener('click',function(){setN(st.n+1);});
+ var t2b=el('div','tool');t2b.appendChild(rng);rng.addEventListener('input',function(){setN(+rng.value);});
+
+ var t3=el('div','tool');t3.appendChild(el('span','tl','Renk:'));
+ var sws=COLORS.map(function(c,k){var b=el('button','sw');b.type='button';b.style.background=c;
+  b.addEventListener('click',function(){st.color=k;sws.forEach(function(x,j){x.classList.toggle('on',j===k);});upStyle();render();});t3.appendChild(b);return b;});
+
+ var t4=el('div','tool');t4.appendChild(el('span','tl','Boyama:'));
+ var stls=[['solid','Dolu'],['hatch','Çizgili'],['dots','Noktalı']].map(function(a){var b=el('button','stl','<i></i>'+a[1]);b.type='button';
+  b.addEventListener('click',function(){st.style=a[0];upStyle();});t4.appendChild(b);b.dataset.s=a[0];return b;});
+ function upStyle(){var c=COLORS[st.color];
+  stls.forEach(function(b){var s=b.dataset.s,i=b.firstChild;b.classList.toggle('on',s===st.style);
+   i.style.background=s==='solid'?c:s==='hatch'?'repeating-linear-gradient(45deg,'+c+' 0 3px,#fff 3px 6px)':'radial-gradient('+c+' 30%,#fff 34%) 0 0/7px 7px';});}
+
+ var t5=el('div','tool'),clr=el('button','act','🧹 Boyamayı Temizle'),ptBtn=el('button','act','📍 Nokta Aç/Kapat');
+ clr.type='button';ptBtn.type='button';
+ clr.addEventListener('click',function(){st.filled=[];render();onChange();});
+ t5.appendChild(clr);
+ if(!opt.lockPoint){ptBtn.classList.toggle('on',st.ptOn);ptBtn.addEventListener('click',function(){st.ptOn=!st.ptOn;ptBtn.classList.toggle('on',st.ptOn);render();onChange();});t5.appendChild(ptBtn);}
+
+ [t1,t2,t2b,t3,t4,t5].forEach(function(t){tools.appendChild(t);});
+ sws[0].classList.add('on');upStyle();
+
+ function setW(w){w=Math.max(1,Math.min(MAXW,w));st.W=w;wv.textContent=w;clampPoint();render();onChange();}
+ function setN(n){n=Math.max(1,Math.min(MAXN,n));st.n=n;nv.textContent=n;rng.value=n;st.filled=[];clampPoint();render();onChange();}
+ function clampPoint(){st.ptTick=Math.max(0,Math.min(total(),st.ptTick));}
+
+ return {
+  W:function(){return st.W;},n:function(){return st.n;},coloredCount:coloredCount,
+  pointTick:function(){return st.ptOn&&st.ptMoved?st.ptTick:null;},
+  tick:function(){return st.ptTick;},
+  setModel:function(W,n,tick){st.filled=[];st.color=Math.floor(Math.random()*COLORS.length);
+   sws.forEach(function(x,j){x.classList.toggle('on',j===st.color);});upStyle();
+   st.W=Math.max(1,Math.min(MAXW,W));wv.textContent=st.W;
+   st.n=Math.max(1,Math.min(MAXN,n));nv.textContent=st.n;rng.value=st.n;
+   st.ptOn=true;st.ptTick=Math.max(0,Math.min(st.W*st.n,tick));st.ptMoved=false;
+   if(!opt.lockPoint)ptBtn.classList.toggle('on',true);
+   render();},
+  reset:function(){st.filled=[];st.ptMoved=false;st.ptTick=0;if(!opt.lockPoint){st.ptOn=false;ptBtn.classList.toggle('on',false);}render();onChange();},
+  closePoint:function(){if(!opt.lockPoint){st.ptOn=false;st.ptMoved=false;ptBtn.classList.toggle('on',false);render();}}
+ };
+}
+
+/* ---------- Kesir kutusu (kesir-modelleme ile aynı) ---------- */
+function FracBox(host,extraBtns){
+ var box=el('div','fbox'),g=el('div','fgrid'),num=el('input'),den=el('input'),labels=[];
+ [num,den].forEach(function(i){i.type='text';i.setAttribute('inputmode','numeric');i.setAttribute('maxlength','2');i.setAttribute('autocomplete','off');
+  i.addEventListener('input',function(){i.value=i.value.replace(/\D/g,'').slice(0,2);i.className='';});});
+ num.setAttribute('aria-label','Pay');den.setAttribute('aria-label','Payda');
+ function term(k){var T=TERMS[k],d=el('div','term'),a=el('span','arr','➜'),b=el('button','dot'),l=el('span','lbl',T.t);
+  d.style.color=T.c;b.type='button';b.style.background=T.c;b.style.boxShadow='0 0 0 2px '+T.c;b.setAttribute('aria-label',T.t+' terimini göster/gizle');
+  l.style.color=T.c;b.addEventListener('click',function(){l.classList.toggle('show');});d.appendChild(a);d.appendChild(b);d.appendChild(l);labels.push(l);return d;}
+ g.appendChild(num);g.appendChild(term(0));g.appendChild(el('div','fbar'));g.appendChild(term(1));g.appendChild(den);g.appendChild(term(2));
+ box.appendChild(g);
+ var bt=el('div','fb-btns'),all=el('button','b purple','Terimleri Göster / Gizle'),rd=el('button','b gray','🔤 Okunuşu'),
+  reading=el('div','reading'),fdb=el('div','fdb');
+ all.type='button';rd.type='button';
+ all.addEventListener('click',function(){var any=labels.some(function(l){return !l.classList.contains('show');});labels.forEach(function(l){l.classList.toggle('show',any);});});
+ function vals(){return {p:num.value===''?NaN:+num.value,d:den.value===''?NaN:+den.value};}
+ rd.addEventListener('click',function(){var v=vals(),t=isNaN(v.p)||isNaN(v.d)?'':readFrac(v.p,v.d);reading.textContent=t?'Okunuşu: '+t:'Önce pay ve paydayı yaz (payda 2–12).';});
+ bt.appendChild(all);bt.appendChild(rd);(extraBtns||[]).forEach(function(b){bt.appendChild(b);});
+ box.appendChild(bt);box.appendChild(reading);box.appendChild(fdb);host.appendChild(box);
+ return {vals:vals,set:function(p,d){num.value=p===''?'':p;den.value=d===''?'':d;num.className='';den.className='';reading.textContent='';fdb.textContent='';},
+  mark:function(okP,okD){num.className=okP?'ok':'bad';den.className=okD?'ok':'bad';},
+  say:function(cls,msg){fdb.className='fdb '+cls;fdb.textContent=msg;},
+  read:function(t){reading.textContent=t?'Okunuşu: '+t:'';}};
+}
+function btn(cls,txt){var b=el('button','b '+cls,txt);b.type='button';return b;}
+
+/* ---------- 1. BÖLÜM: noktayı oku ---------- */
+var chkA=btn('green','Kontrol Et'),newA=btn('orange','🎲 Yeni Nokta');
+var fA=FracBox($('fcolA'),[chkA,newA]);
+var pA=NLPanel('a',$('stageA'),{lockPoint:true});
+function newPoint(){
+ var n=2+Math.floor(Math.random()*9),W=Math.random()<0.65?1:(Math.random()<0.7?2:3),k=Math.floor(Math.random()*(n*W+1));
+ pA.setModel(W,n,k);fA.set('','');
+}
+newA.addEventListener('click',newPoint);
+chkA.addEventListener('click',function(){
+ var v=fA.vals(),n=pA.n(),k=pA.tick();
+ if(isNaN(v.p)||isNaN(v.d)){fA.say('hint','Pay ve paydayı yazmayı unutma.');return;}
+ var okP=v.p===k,okD=v.d===n;fA.mark(okP,okD);
+ if(okP&&okD){fA.say('ok','🎉 Harika! Doğru yazdın: '+k+'/'+n);fA.read(readFrac(k,n));}
+ else if(okP)fA.say('no','Pay doğru ✔ Payda yanlış. Her bir aralık kaç eş parçaya bölünmüş?');
+ else if(okD)fA.say('no','Payda doğru ✔ Payı tekrar düşün. Nokta, 0’dan kaç adım uzakta?');
+ else fA.say('no','Tekrar dene. Önce bir bütünün kaç eş parçaya bölündüğünü (payda), sonra noktanın 0’dan kaç birim (pay) uzakta olduğunu say.');
+});
+
+/* ---------- 2. BÖLÜM: kesri modelle ---------- */
+var chkB=btn('green','Modeli Kontrol Et'),newB=btn('orange','🎲 Yeni Soru');
+var fB=FracBox($('fcolB'),[chkB,newB]);
+var pB=NLPanel('b',$('stageB'),{pointOn:true,showInfo:true});
+function newQ(){
+ var d=2+Math.floor(Math.random()*9),p=1+Math.floor(Math.random()*(2*d)),
+  W=Math.max(1,Math.min(MAXW,Math.ceil(p/d)));
+ fB.set(p,d);
+ pB.setModel(W,d,0);   // paneli uygun aralıkla, nokta kapalı biçimde başlat
+ pB.closePoint();
+}
+newB.addEventListener('click',newQ);
+chkB.addEventListener('click',function(){
+ var v=fB.vals(),n=pB.n(),W=pB.W(),k=pB.coloredCount(),pt=pB.pointTick();
+ if(isNaN(v.p)||isNaN(v.d)||v.d<1){fB.say('hint','Önce üstteki kesir sayısının payını ve paydasını yaz.');return;}
+ if(n!==v.d){fB.say('no','Sayı doğrusundaki eş parça (payda) sayısı, kesrin paydasına eşit olmalı. "Eş parça" ayarını '+v.d+' yap.');return;}
+ if(v.p>W*n){fB.say('hint','Noktayı veya boyamayı gösterebilmek için "Aralık" değerini büyüt.');return;}
+ var byColor=(k===v.p),byPoint=(pt!==null&&pt===v.p);
+ if(byColor||byPoint){fB.say('ok','🎉 Çok güzel! '+v.p+'/'+v.d+' kesrini doğru gösterdin.');fB.read(readFrac(v.p,v.d));}
+ else fB.say('no','Henüz doğru değil. 0’dan başlayarak '+v.p+' eş parçayı boya ya da noktayı doğru yere sürükle.');
+});
+
+/* ---------- Tam ekran ---------- */
+var de=document.documentElement,rf=de.requestFullscreen||de.webkitRequestFullscreen,fs=$('fs');
+if(!rf)fs.style.display='none';
+fs.addEventListener('click',function(){
+ try{if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document);}else rf.call(de);}catch(e){}
+});
+
+newPoint();newQ();
+})();
+</script>
+</body>
+</html>
