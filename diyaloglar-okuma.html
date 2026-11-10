@@ -1,0 +1,1245 @@
+<!--
+  ============================================================
+  © 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı
+  Bu materyal Burhan DENİZ tarafından 3-G sınıfı öğrencileri için
+  hazırlanmıştır. Yazarın izni olmadan kopyalanamaz, çoğaltılamaz,
+  başka bir adreste yayımlanamaz veya değiştirilerek dağıtılamaz.
+  Dosya: diyaloglar-okuma.html
+  KORUMA-KALKANI-v1
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. Sınıf İngilizce - Diologlar ve Etkileşimli Okuma</title>
+    <meta name="theme-color" content="#1E40AF">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1E40AF;
+            --secondary: #0891B2;
+            --accent: #F59E0B;
+            --bg-main: #F3F6FB;
+            --card-bg: #ffffff;
+            --text-dark: #1F2A37;
+            --text-muted: #64748b;
+            --word-hover: #fef08a;
+            --word-active: #fde047;
+            --selection-bg: #bae6fd;
+            --highlight: #c7d2fe;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: text;
+            font-family: "Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html{-webkit-text-size-adjust:100%}
+
+        body {
+            background: var(--bg-main);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 0 0 20px;
+        }
+
+        .top {
+            background: linear-gradient(135deg,#2563EB,#1E40AF);
+            color: #fff;
+            text-align: center;
+            padding: 14px 90px;
+            padding-top: max(14px, env(safe-area-inset-top));
+            position: relative;
+            margin-bottom: 18px;
+        }
+        .top h1 { font-size: clamp(1.1rem,3.4vw,1.7rem); display:flex; align-items:center; justify-content:center; gap:10px; }
+        .top p { font-size: .85rem; opacity: .92; margin-top:2px; font-weight:600; }
+        .top a.back { position:absolute; left:14px; top:50%; margin-top:-14px; color:#fff; font-weight:bold; text-decoration:none; font-size:.85rem; background:rgba(255,255,255,.18); padding:7px 12px; border-radius:16px; }
+        .top .topbtns { position:absolute; right:14px; top:50%; margin-top:-18px; display:flex; gap:6px; }
+        .top button.ib { border:none; background:rgba(255,255,255,.22); color:#fff; border-radius:10px; width:36px; height:36px; font-size:1.05rem; cursor:pointer; }
+
+        .progress-wrap { max-width:1000px; margin:0 auto 18px; padding:0 14px; }
+        .progress-bar { background:#fff; border:2px solid #C7D5EE; border-radius:14px; padding:10px 16px; display:flex; align-items:center; gap:12px; font-weight:700; font-size:.88rem; color:#475569; box-shadow:0 4px 12px rgba(30,64,175,.06); }
+        .progress-track { flex:1; height:10px; background:#E7ECF5; border-radius:6px; overflow:hidden; }
+        .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#2563EB,#0891B2); border-radius:6px; transition:width .4s ease; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
+
+        .instructions-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px 24px;
+            margin-bottom: 25px;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .instructions-card h3 {
+            color: #b45309;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions-card ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .instructions-card li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions-card li span.badge {
+            background: #fef3c7;
+            color: #b45309;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .tabs-nav {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 12px 22px;
+            border: 2px solid #C7D5EE;
+            border-radius: 16px;
+            background: #ffffff;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-btn .chk { display:none; color:#16A34A; }
+        .tab-btn.done .chk { display:inline; }
+
+        .tab-btn:hover {
+            background: #ffffff;
+            transform: translateY(-2px);
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dialogue-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 12px 30px -10px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            border: 2px solid #f1f5f9;
+        }
+
+        .dialogue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #e2e8f0;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .dialogue-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #1E40AF;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dialogue-card.read .dialogue-title::after { content:'✔ Dinlendi'; font-size:.72rem; font-weight:800; color:#16A34A; background:#ECFDF3; border:1px solid #BBF7D0; padding:2px 9px; border-radius:10px; margin-left:4px; }
+
+        .audio-btn-all {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .audio-btn-all:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chat-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            position: relative;
+        }
+
+        .chat-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border: 2px solid #ffffff;
+        }
+
+        .chat-bubble-wrapper {
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .speaker-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+            margin-left: 8px;
+        }
+
+        .chat-row.reverse .speaker-name {
+            margin-left: 0;
+            margin-right: 8px;
+            text-align: right;
+        }
+
+        .chat-bubble {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            border-top-left-radius: 4px;
+            padding: 14px 20px;
+            position: relative;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+
+        .chat-row.reverse .chat-bubble {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            border-radius: 20px;
+            border-top-right-radius: 4px;
+        }
+
+        .chat-bubble:hover {
+            border-color: #a5b4fc;
+            background: #ffffff;
+        }
+
+        .listen-line-btn {
+            background: #e0e7ff;
+            color: #4338ca;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 8px;
+            vertical-align: middle;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .listen-line-btn:hover {
+            background: #c7d2fe;
+            transform: scale(1.1);
+        }
+
+        /* Interactive Word Styling */
+        .word {
+            display: inline-block;
+            padding: 1px 3px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .word:hover {
+            background-color: var(--word-hover);
+            color: #854d0e;
+            transform: translateY(-1px);
+        }
+
+        .word.active-word {
+            background-color: var(--word-active);
+            color: #713f12;
+            font-weight: 700;
+        }
+
+        /* Selection Popup for Sentences */
+        .selection-popup {
+            position: fixed;
+            background: #1e1b4b;
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            display: none;
+            max-width: 320px;
+            text-align: center;
+            pointer-events: none;
+            transform: translate(-50%, -100%);
+            margin-top: -12px;
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #4338ca;
+        }
+
+        .selection-popup::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #1e1b4b transparent;
+            display: block;
+            width: 0;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: translate(-50%, -80%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+        }
+
+        /* Float Word Toast */
+        .word-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0f172a;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border: 2px solid #38bdf8;
+        }
+
+        .word-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .word-toast .en {
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        .word-toast .tr {
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .speech-btn {
+            background: #0284c7;
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .chat-bubble-wrapper { max-width: 90%; }
+            .tab-btn { padding: 10px 16px; font-size: 0.95rem; }
+            .top { padding: 14px 54px; }
+        }
+    </style>
+<script>
+/* KORUMA-KALKANI-v1 — Burhan DENİZ, Ali Kuşçu İlkokulu 3-G (2 ve 5. katman: imza + alan adı uyarısı) */
+(function(){
+  try{ console.log('%c© 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı','color:#2563EB;font-weight:bold;font-size:13px;'); }catch(e){}
+
+  var ALLOWED=["burhandeniz21.github.io"];
+  function toast(msg,ms){
+    try{
+      var t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText='position:fixed;left:10px;right:10px;bottom:14px;z-index:99999;background:#1F2A37;color:#fff;'+
+        'padding:10px 14px;border-radius:10px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;'+
+        'box-shadow:0 8px 20px rgba(0,0,0,.25);text-align:center;pointer-events:none;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, ms||2600);
+    }catch(e){}
+  }
+  document.addEventListener('contextmenu',function(){
+    toast('© Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı için hazırlanmıştır.');
+  });
+
+  function checkDomain(){
+    var h=location.hostname,p=location.protocol;
+    if(p==='file:'||h===''||h==='localhost'||h==='127.0.0.1')return; // USB / yerel kullanım
+    var ok=false;
+    for(var i=0;i<ALLOWED.length;i++){ if(h===ALLOWED[i]||h.slice(-(ALLOWED[i].length+1))==='.'+ALLOWED[i]){ ok=true;break; } }
+    if(ok)return;
+    var note=document.createElement('div');
+    note.textContent='ⓘ Bu içerik Burhan DENİZ tarafından hazırlanmıştır ve aslen '+(ALLOWED[0]||'orijinal site')+' adresinde yayınlanmaktadır.';
+    note.style.cssText='position:static;margin-top:10px;padding:8px 12px;border-top:1px solid #D7DEE8;'+
+      'color:#6B7787;background:transparent;font:12px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;';
+    function place(){
+      var f=document.querySelector('footer');
+      if(f&&f.parentNode) f.parentNode.insertBefore(note,f);
+      else document.body.appendChild(note);
+    }
+    if(document.body)place();else document.addEventListener('DOMContentLoaded',place);
+  }
+  checkDomain();
+})();
+</script>
+</head>
+<body>
+<div class="top">
+    <a class="back" href="ingilizce.html">← İngilizce</a>
+    <h1>📘 Ders Kitabı Okuma Alanı</h1>
+    <p>28, 34 ve 35. Sayfa İnteraktif Çeviri ve Seslendirme</p>
+    <div class="topbtns">
+        <button class="ib" id="stopAllBtn" type="button" title="Tüm sesleri durdur">🔇</button>
+        <button class="ib" id="fsBtn" type="button" title="Tam ekran">⛶</button>
+    </div>
+</div>
+<div class="progress-wrap">
+    <div class="progress-bar">
+        <span id="progressText">0 / 0 cümle dinlendi</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="instructions-card">
+        <h3>💡 Nasıl Kullanılır?</h3>
+        <ul>
+            <li><span class="badge">Kelimeler</span> Bir kelimenin Türkçe anlamını görmek için üzerine tıklayın.</li>
+            <li><span class="badge">Cümleler</span> Bir cümleyi mouse veya parmağınızla seçip tarayınca Türkçe çevirisi üstünde belirir.</li>
+            <li><span class="badge">Seslendirme</span> 🔊 Butonlarına basarak diyalogları İngilizce dinleyin.</li>
+        </ul>
+    </div>
+
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'page28')">Sayfa 28 (Okul ve Zaman)</button>
+        <button class="tab-btn" onclick="openTab(event, 'page34')">Sayfa 34 (Doğum Günü Hediyesi)</button>
+        <button class="tab-btn" onclick="openTab(event, 'page35')">Sayfa 35 (Müzik Odası ve Sürpriz)</button>
+    </div>
+
+    <!-- SAYFA 28 -->
+    <div id="page28" class="tab-content active">
+        <!-- Diolog 1 -->
+        <div class="dialogue-card">
+            <div class="dialogue-header">
+                <div class="dialogue-title">🗓️ Diyalog 1: Ay ve Doğum Günü</div>
+                <button class="audio-btn-all" onclick="playSection('dialogue1')">🔊 Bütün Bölümü Dinle</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-row">
+                    <div class="avatar">👩</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Öğretmen / Öğrenci A</span>
+                        <div class="chat-bubble" data-tr="Şu an hangi aydayız?">
+                            What month is it now?
+                            <button class="listen-line-btn" onclick="speakText('What month is it now?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Öğrenci B</span>
+                        <div class="chat-bubble" data-tr="Eylül ayındayız.">
+                            It's September.
+                            <button class="listen-line-btn" onclick="speakText('It is September.')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👩</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Öğretmen / Öğrenci A</span>
+                        <div class="chat-bubble" data-tr="Doğum günün ne zaman?">
+                            When is your birthday?
+                            <button class="listen-line-btn" onclick="speakText('When is your birthday?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Öğrenci B</span>
+                        <div class="chat-bubble" data-tr="Haziran ayında.">
+                            It's in June.
+                            <button class="listen-line-btn" onclick="speakText('It is in June.')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diolog 2 -->
+        <div class="dialogue-card">
+            <div class="dialogue-header">
+                <div class="dialogue-title">🏥 Diyalog 2: Okul Hemşiresi</div>
+                <button class="audio-btn-all" onclick="playSection('dialogue2')">🔊 Bütün Bölümü Dinle</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-row">
+                    <div class="avatar">👦</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Erkek Öğrenci (Yaralı)</span>
+                        <div class="chat-bubble" data-tr="Okulda hemşire var mı?">
+                            Is there a nurse at school?
+                            <button class="listen-line-btn" onclick="speakText('Is there a nurse at school?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Arkadaşı</span>
+                        <div class="chat-bubble" data-tr="Evet, var. Hadi gidelim!">
+                            Yes, there is. Let's go!
+                            <button class="listen-line-btn" onclick="speakText('Yes, there is. Let us go!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diolog 3 -->
+        <div class="dialogue-card">
+            <div class="dialogue-header">
+                <div class="dialogue-title">📚 Diyalog 3: Yeni Kütüphaneci</div>
+                <button class="audio-btn-all" onclick="playSection('dialogue3')">🔊 Bütün Bölümü Dinle</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-row">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Öğrenci</span>
+                        <div class="chat-bubble" data-tr="O kim?">
+                            Who is she?
+                            <button class="listen-line-btn" onclick="speakText('Who is she?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Arkadaşı</span>
+                        <div class="chat-bubble" data-tr="O yeni kütüphaneci.">
+                            She's the new librarian.
+                            <button class="listen-line-btn" onclick="speakText('She is the new librarian.')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👩‍💼</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Öğretmen</span>
+                        <div class="chat-bubble" data-tr="İyi günler çocuklar!">
+                            Have a nice day, kids!
+                            <button class="listen-line-btn" onclick="speakText('Have a nice day, kids!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diolog 4 -->
+        <div class="dialogue-card">
+            <div class="dialogue-header">
+                <div class="dialogue-title">🧹 Diyalog 4: Okul Görevlileri</div>
+                <button class="audio-btn-all" onclick="playSection('dialogue4')">🔊 Bütün Bölümü Dinle</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-row">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Sarı Saçlı Kız</span>
+                        <div class="chat-bubble" data-tr="Okulda kaç tane görevli var?">
+                            How many caretakers are there at school?
+                            <button class="listen-line-btn" onclick="speakText('How many caretakers are there at school?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👧🏽</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Koyu Saçlı Kız</span>
+                        <div class="chat-bubble" data-tr="Okulda iki görevli var.">
+                            There are two caretakers at school.
+                            <button class="listen-line-btn" onclick="speakText('There are two caretakers at school.')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAYFA 34 -->
+    <div id="page34" class="tab-content">
+        <div class="dialogue-card">
+            <div class="dialogue-header">
+                <div class="dialogue-title">🎁 Sayfa 34 - Resimli Hikaye (Part 1-3)</div>
+                <button class="audio-btn-all" onclick="playSection('page34_all')">🔊 Sayfanın Tamamını Dinle</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-row">
+                    <div class="avatar">👦</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Bora</span>
+                        <div class="chat-bubble" data-tr="Günaydın Henry!">
+                            Good morning, Henry!
+                            <button class="listen-line-btn" onclick="speakText('Good morning, Henry!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦🏼</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Henry</span>
+                        <div class="chat-bubble" data-tr="Günaydın Daisy! Bu nedir?">
+                            Good morning, Daisy! What's this?
+                            <button class="listen-line-btn" onclick="speakText('Good morning, Daisy! What is this?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Daisy</span>
+                        <div class="chat-bubble" data-tr="Bu Eda için bir doğum günü hediyesi.">
+                            This is a birthday gift for Eda.
+                            <button class="listen-line-btn" onclick="speakText('This is a birthday gift for Eda.')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦🏼</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Henry</span>
+                        <div class="chat-bubble" data-tr="Kulağa harika geliyor! Hadi onu bulalım!">
+                            It sounds great! Let's find her!
+                            <button class="listen-line-btn" onclick="speakText('It sounds great! Let us find her!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Daisy</span>
+                        <div class="chat-bubble" data-tr="Merhaba Bora. Eda nerede?">
+                            Hello, Bora. Where's Eda?
+                            <button class="listen-line-btn" onclick="speakText('Hello, Bora. Where is Eda?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Bora</span>
+                        <div class="chat-bubble" data-tr="Bence spor sahasında. Hadi oraya gidelim!">
+                            I think she is in the sports field. Let's go there!
+                            <button class="listen-line-btn" onclick="speakText('I think she is in the sports field. Let us go there!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👨‍🏫</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Bay Bulut (Öğretmen)</span>
+                        <div class="chat-bubble" data-tr="Dikkatli olun çocuklar. Koridorda koşmamalısınız. Kendinize iyi bakın! İyi hafta sonları!">
+                            Be careful, kids. You mustn't run in the corridor. Take care! Have a nice weekend!
+                            <button class="listen-line-btn" onclick="speakText('Be careful, kids. You must not run in the corridor. Take care! Have a nice weekend!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Çocuklar</span>
+                        <div class="chat-bubble" data-tr="Üzgünüz Bay Bulut!">
+                            Sorry, Mr Bulut!
+                            <button class="listen-line-btn" onclick="speakText('Sorry, Mr Bulut!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAYFA 35 -->
+    <div id="page35" class="tab-content">
+        <div class="dialogue-card">
+            <div class="dialogue-header">
+                <div class="dialogue-title">🎉 Sayfa 35 - Resimli Hikaye (Part 4-6)</div>
+                <button class="audio-btn-all" onclick="playSection('page35_all')">🔊 Sayfanın Tamamını Dinle</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-row">
+                    <div class="avatar">👦🏼</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Henry</span>
+                        <div class="chat-bubble" data-tr="Aah hayır! Eda burada değil! Hadi spor salonuna gidelim. Belki oradadır!">
+                            Oh, no! Eda isn't here! Let's go to the gym. Maybe she is there!
+                            <button class="listen-line-btn" onclick="speakText('Oh, no! Eda is not here! Let us go to the gym. Maybe she is there!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Daisy</span>
+                        <div class="chat-bubble" data-tr="Eda burada yok. O kim?">
+                            Eda isn't here. Who is he?
+                            <button class="listen-line-btn" onclick="speakText('Eda is not here. Who is he?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👦</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Bora</span>
+                        <div class="chat-bubble" data-tr="Bu Bay Bozkurt. O yeni öğretmen. Hadi müzik odasına gidelim!">
+                            This is Mr Bozkurt. He is the new teacher. Let's go to the music room!
+                            <button class="listen-line-btn" onclick="speakText('This is Mr Bozkurt. He is the new teacher. Let us go to the music room!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦🏼</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Henry</span>
+                        <div class="chat-bubble" data-tr="Seni görmek harika Eda! Doğum günün kutlu olsun!">
+                            It's great to see you, Eda! Happy birthday!
+                            <button class="listen-line-btn" onclick="speakText('It is great to see you, Eda! Happy birthday!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👧🎂</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Eda</span>
+                        <div class="chat-bubble" data-tr="Çok teşekkür ederim! Ne harika bir sürpriz!">
+                            Thank you so much! What a lovely surprise!
+                            <button class="listen-line-btn" onclick="speakText('Thank you so much! What a lovely surprise!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👧</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Daisy</span>
+                        <div class="chat-bubble" data-tr="Kaç yaşındasın?">
+                            How old are you?
+                            <button class="listen-line-btn" onclick="speakText('How old are you?')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row">
+                    <div class="avatar">👧🎂</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Eda</span>
+                        <div class="chat-bubble" data-tr="8 yaşındayım.">
+                            I'm 8 years old.
+                            <button class="listen-line-btn" onclick="speakText('I am 8 years old.')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-row reverse">
+                    <div class="avatar">👦🏼</div>
+                    <div class="chat-bubble-wrapper">
+                        <span class="speaker-name">Henry</span>
+                        <div class="chat-bubble" data-tr="Harika / Süper!">
+                            Cool!
+                            <button class="listen-line-btn" onclick="speakText('Cool!')">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selection Popup for Sentences -->
+    <div id="selectionPopup" class="selection-popup"></div>
+
+    <!-- Toast Popup for Single Words -->
+    <div id="wordToast" class="word-toast">
+        <div>
+            <span class="en" id="toastEn">Word</span> = <span class="tr" id="toastTr">Kelime</span>
+        </div>
+        <button class="speech-btn" id="toastSpeechBtn">🔊</button>
+    </div>
+
+    <footer>
+        <p>İlkokul 3. Sınıf İngilizce Ders Materyali | İnteraktif Web Kodlaması</p>
+    </footer>
+</div>
+
+<script>
+    // Sözlük / Dictionary for 3rd Grade vocabulary in these pages
+    const dictionary = {
+        "what": "ne / neye",
+        "month": "ay",
+        "is": "dır/dir (-dir)",
+        "it": "o",
+        "now": "şimdi / şu an",
+        "september": "Eylül",
+        "when": "ne zaman",
+        "your": "senin",
+        "birthday": "doğum günü",
+        "in": "içinde / -de",
+        "june": "Haziran",
+        "there": "orada / var",
+        "nurse": "hemşire",
+        "at": "-de / -da",
+        "school": "okul",
+        "yes": "evet",
+        "let's": "hadi",
+        "go": "gitmek / gidelim",
+        "who": "kim",
+        "she": "o (kız/kadın)",
+        "she's": "o",
+        "the": "belirli takı",
+        "new": "yeni",
+        "librarian": "kütüphaneci",
+        "have": "sahip olmak / iyi geçirmek",
+        "a": "bir",
+        "nice": "güzel / iyi",
+        "day": "gün",
+        "kids": "çocuklar",
+        "how": "nasıl / kaç",
+        "many": "tane / çok",
+        "caretakers": "okul görevlileri / bakıcılar",
+        "are": "-dır/dir (çoğul)",
+        "two": "iki",
+        "good": "iyi",
+        "morning": "sabah / günaydın",
+        "henry": "Henry",
+        "daisy": "Daisy",
+        "what's": "ne / nedir",
+        "this": "bu",
+        "gift": "hediye",
+        "for": "için",
+        "eda": "Eda",
+        "sounds": "kulağa geliyor",
+        "great": "harika / harikulade",
+        "find": "bulmak",
+        "her": "onu / ona (kız)",
+        "hello": "merhaba",
+        "bora": "Bora",
+        "where's": "nerede",
+        "i": "ben",
+        "think": "düşünmek / bence",
+        "sports": "spor",
+        "field": "saha / alan",
+        "be": "olmak",
+        "careful": "dikkatli",
+        "you": "sen / siz",
+        "mustn't": "yapmamalısın / yasak",
+        "run": "koşmak",
+        "corridor": "koridor",
+        "sorry": "üzgünüm / özür dilerim",
+        "mr": "Bay",
+        "bulut": "Bulut",
+        "take": "almak",
+        "care": "bakım / kendine bak",
+        "weekend": "hafta sonu",
+        "oh": "oh / tüh",
+        "no": "hayır / olamaz",
+        "isn't": "değil",
+        "here": "burada",
+        "gym": "spor salonu",
+        "maybe": "belki",
+        "he": "o (erkek)",
+        "bozkurt": "Bozkurt",
+        "music": "müzik",
+        "room": "oda",
+        "see": "görmek",
+        "happy": "mutlu / kutlu",
+        "thank": "teşekkür etmek",
+        "so": "çok / öylesine",
+        "much": "çok",
+        "lovely": "sevimli / güzel",
+        "surprise": "sürpriz",
+        "old": "yaşında / eski",
+        "i'm": "ben",
+        "8": "sekiz",
+        "eight": "sekiz",
+        "years": "yaşında / yıllar",
+        "cool": "harika / havalı / süper"
+    };
+
+    // Tab Switching
+    function openTab(evt, tabId) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+        hidePopup();
+    }
+
+    // Process chat bubbles into interactive word spans
+    document.addEventListener("DOMContentLoaded", function() {
+        const bubbles = document.querySelectorAll(".chat-bubble");
+        bubbles.forEach(bubble => {
+            // Find text before the button
+            const childNodes = Array.from(bubble.childNodes);
+            let textNode = childNodes.find(node => node.nodeType === Node.TEXT_NODE);
+            if (textNode) {
+                const text = textNode.textContent.trim();
+                const words = text.split(/(\s+)/);
+                const container = document.createElement("span");
+                container.className = "interactive-sentence";
+
+                words.forEach(w => {
+                    if (w.trim().length > 0) {
+                        const cleanWord = w.replace(/[^a-zA-Z0-9']/g, "").toLowerCase();
+                        const span = document.createElement("span");
+                        span.className = "word";
+                        span.textContent = w;
+                        span.setAttribute("data-clean", cleanWord);
+                        span.onclick = function(e) {
+                            e.stopPropagation();
+                            showWordTranslation(w.replace(/[^a-zA-Z0-9']/g, ""), cleanWord);
+                        };
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(w));
+                    }
+                });
+
+                bubble.replaceChild(container, textNode);
+            }
+        });
+    });
+
+    // Toast Word Translation
+    const toast = document.getElementById("wordToast");
+    const toastEn = document.getElementById("toastEn");
+    const toastTr = document.getElementById("toastTr");
+    const toastSpeechBtn = document.getElementById("toastSpeechBtn");
+    let currentToastWord = "";
+
+    function showWordTranslation(displayWord, cleanWord) {
+        const tr = dictionary[cleanWord] || "Türkçe çevirisi hazırlanıyor...";
+        toastEn.textContent = displayWord;
+        toastTr.textContent = tr;
+        currentToastWord = displayWord;
+        toast.classList.add("show");
+
+        // Auto speak the word when clicked
+        speakText(displayWord);
+
+        setTimeout(() => {
+            // keep toast active until clicked outside or timeout
+        }, 3000);
+    }
+
+    toastSpeechBtn.onclick = function(e) {
+        e.stopPropagation();
+        if (currentToastWord) {
+            speakText(currentToastWord);
+        }
+    };
+
+    // Text Selection for Sentences
+    const selectionPopup = document.getElementById("selectionPopup");
+
+    document.addEventListener("selectionchange", handleSelection);
+
+    function handleSelection() {
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+
+        if (selectedText.length > 3) {
+            // Check if selection is within a chat bubble
+            let node = selection.anchorNode;
+            let bubble = null;
+            while (node && node !== document.body) {
+                if (node.classList && node.classList.contains("chat-bubble")) {
+                    bubble = node;
+                    break;
+                }
+                node = node.parentNode;
+            }
+
+            if (bubble) {
+                const tr = bubble.getAttribute("data-tr");
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+
+                selectionPopup.textContent = "💬 Türkçe: " + tr;
+                selectionPopup.style.left = `${rect.left + (rect.width / 2)}px`;
+                selectionPopup.style.top = `${rect.top + window.scrollY}px`;
+                selectionPopup.style.display = "block";
+                return;
+            }
+        }
+        hidePopup();
+    }
+
+    function hidePopup() {
+        selectionPopup.style.display = "none";
+    }
+
+    document.addEventListener("click", function(e) {
+        if (!toast.contains(e.target)) {
+            toast.classList.remove("show");
+        }
+    });
+
+    // Text to Speech Functionality (Web Speech API)
+    function speakText(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Stop current playing speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.88; // Slightly slower for 3rd grade elementary students
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Tarayıcınız seslendirme özelliğini desteklemiyor.");
+        }
+    }
+
+    // Play All lines in a section sequentially
+    function playSection(sectionId) {
+        let textList = [];
+        if (sectionId === 'dialogue1') {
+            textList = ["What month is it now?", "It is September.", "When is your birthday?", "It is in June."];
+        } else if (sectionId === 'dialogue2') {
+            textList = ["Is there a nurse at school?", "Yes, there is. Let us go!"];
+        } else if (sectionId === 'dialogue3') {
+            textList = ["Who is she?", "She is the new librarian.", "Have a nice day, kids!"];
+        } else if (sectionId === 'dialogue4') {
+            textList = ["How many caretakers are there at school?", "There are two caretakers at school."];
+        } else if (sectionId === 'page34_all') {
+            textList = [
+                "Good morning, Henry!", "Good morning, Daisy! What is this?",
+                "This is a birthday gift for Eda.", "It sounds great! Let us find her!",
+                "Hello, Bora. Where is Eda?", "I think she is in the sports field. Let us go there!",
+                "Be careful, kids. You must not run in the corridor. Take care! Have a nice weekend!",
+                "Sorry, Mr Bulut!"
+            ];
+        } else if (sectionId === 'page35_all') {
+            textList = [
+                "Oh, no! Eda is not here! Let us go to the gym. Maybe she is there!",
+                "Eda is not here. Who is he?", "This is Mr Bozkurt. He is the new teacher. Let us go to the music room!",
+                "It is great to see you, Eda! Happy birthday!", "Thank you so much! What a lovely surprise!",
+                "How old are you?", "I am 8 years old.", "Cool!"
+            ];
+        }
+
+        if (textList.length > 0 && 'speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let index = 0;
+            function speakNext() {
+                if (index < textList.length) {
+                    const utterance = new SpeechSynthesisUtterance(textList[index]);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.88;
+                    utterance.onend = function() {
+                        index++;
+                        setTimeout(speakNext, 400); // 400ms pause between speakers
+                    };
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+            speakNext();
+        }
+    }
+
+    /* ---------- Ek: ilerleme takibi, tüm sesleri durdurma, tam ekran ---------- */
+    (function(){
+        var btns = Array.prototype.slice.call(document.querySelectorAll('.listen-line-btn'));
+        var total = btns.length, doneSet = {};
+        var KEY = 'diyalog_okunan_v1';
+        try { doneSet = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { doneSet = {}; }
+
+        function save() { try { localStorage.setItem(KEY, JSON.stringify(doneSet)); } catch(e) {} }
+        function isDone(i) { return !!doneSet[i]; }
+
+        function updateProgress() {
+            var doneCount = Object.keys(doneSet).filter(function(k){ return doneSet[k]; }).length;
+            var pct = total ? Math.round((doneCount / total) * 100) : 0;
+            var txt = document.getElementById('progressText');
+            var fill = document.getElementById('progressFill');
+            if (txt) txt.textContent = doneCount + ' / ' + total + ' cümle dinlendi';
+            if (fill) fill.style.width = pct + '%';
+
+            document.querySelectorAll('.dialogue-card').forEach(function(card){
+                var lb = Array.prototype.slice.call(card.querySelectorAll('.listen-line-btn'));
+                if (!lb.length) return;
+                var allDone = lb.every(function(b){ return isDone(btns.indexOf(b)); });
+                card.classList.toggle('read', allDone);
+            });
+            document.querySelectorAll('.tab-content').forEach(function(tc){
+                var lb = Array.prototype.slice.call(tc.querySelectorAll('.listen-line-btn'));
+                var btn2 = document.querySelector('.tab-btn[onclick*="' + tc.id + '"]');
+                if (!btn2 || !lb.length) return;
+                var allDone = lb.every(function(b){ return isDone(btns.indexOf(b)); });
+                btn2.classList.toggle('done', allDone);
+                if (allDone && !btn2.querySelector('.chk')) {
+                    var s = document.createElement('span'); s.className = 'chk'; s.textContent = '✔';
+                    btn2.appendChild(s);
+                }
+            });
+        }
+
+        btns.forEach(function(btn, i){
+            btn.addEventListener('click', function(){
+                doneSet[i] = true;
+                save(); updateProgress();
+            });
+        });
+        updateProgress();
+
+        var stopBtn = document.getElementById('stopAllBtn');
+        if (stopBtn) stopBtn.addEventListener('click', function(){
+            try { window.speechSynthesis.cancel(); } catch(e) {}
+        });
+
+        var fsBtn = document.getElementById('fsBtn');
+        var de = document.documentElement;
+        var rf = de.requestFullscreen || de.webkitRequestFullscreen;
+        if (!rf && fsBtn) fsBtn.style.display = 'none';
+        if (fsBtn) fsBtn.addEventListener('click', function(){
+            try {
+                if (document.fullscreenElement || document.webkitFullscreenElement) {
+                    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+                } else { rf.call(de); }
+            } catch(e) {}
+        });
+    })();
+</script>
+
+<div style="text-align:center;padding:14px 10px 26px;font:bold 13px -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#6B7787">Ali Kuşçu İlkokulu • 3-G Sınıfı<br>Hazırlayan: Burhan DENİZ</div>
+</body>
+</html>
