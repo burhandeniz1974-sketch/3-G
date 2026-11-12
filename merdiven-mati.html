@@ -1,0 +1,433 @@
+<!--
+  ============================================================
+  © 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı
+  Bu materyal Burhan DENİZ tarafından 3-G sınıfı öğrencileri için
+  hazırlanmıştır. Yazarın izni olmadan kopyalanamaz, çoğaltılamaz,
+  başka bir adreste yayımlanamaz veya değiştirilerek dağıtılamaz.
+  Dosya: merdiven-mati.html
+  KORUMA-KALKANI-v1
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merdiven Matı Egzersizleri (Serbest Hamleli Satranç Motoru)</title>
+<style>
+  :root {
+    --bg-color: #f4f7f6;
+    --board-light: #f0d9b5;
+    --board-dark: #b58863;
+    --highlight: rgba(255, 255, 0, 0.5);
+    --valid-move: rgba(46, 204, 113, 0.7);
+    --sidebar-bg: #ffffff;
+    --primary: #2c3e50;
+    --accent: #e67e22;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { background-color: var(--bg-color); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+  header { background: var(--primary); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  header h1 { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .badge { background: var(--accent); padding: 4px 10px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+
+  .main-container { display: flex; flex: 1; overflow: hidden; }
+
+  .sidebar { width: 340px; background: var(--sidebar-bg); border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 15px; box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
+  .level-title { font-size: 16px; font-weight: bold; color: #2d3748; margin-bottom: 6px; border-bottom: 2px solid var(--primary); padding-bottom: 4px; }
+  .level-desc { font-size: 13px; color: #4a5568; margin-bottom: 12px; line-height: 1.4; }
+
+  .level-select { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+  .level-btn { padding: 6px 0; border: 1px solid #cbd5e0; background: #edf2f7; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; text-align: center; transition: all 0.2s; }
+  .level-btn:hover { background: #e2e8f0; }
+  .level-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .level-btn.completed { border-color: #38a169; background: #c6f6d5; color: #22543d; }
+
+  .feedback-box { margin-top: auto; padding: 12px; border-radius: 8px; background: #edf2f7; min-height: 85px; font-size: 13px; color: #2d3748; border-left: 4px solid var(--primary); transition: all 0.3s; line-height: 1.4; }
+  .feedback-box.success { background: #e6fffa; border-color: #319795; color: #234e52; }
+  .feedback-box.error { background: #fff5f5; border-color: #e53e3e; color: #742a2a; }
+
+  .controls { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { flex: 1; padding: 8px 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; background: var(--primary); color: white; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .btn:hover { opacity: 0.9; }
+  .btn-undo { background: #ed8936; }
+  .btn-hint { background: #3182ce; }
+  .btn-reset { background: #718096; }
+
+  .board-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 15px; }
+  .board-frame { display: flex; flex-direction: column; align-items: center; background: #4a5568; padding: 10px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+  
+  .rank-labels-top, .rank-labels-bottom { display: flex; width: 100%; padding-left: 24px; padding-right: 4px; justify-content: space-around; }
+  .col-label { width: 60px; text-align: center; color: #e2e8f0; font-weight: bold; font-size: 13px; font-family: monospace; }
+
+  .board-body { display: flex; align-items: center; }
+  .file-labels { display: flex; flex-direction: column; justify-content: space-around; height: 480px; width: 20px; text-align: center; color: #e2e8f0; font-weight: bold; font-size: 13px; font-family: monospace; }
+
+  .chess-board { display: grid; grid-template-columns: repeat(8, 60px); grid-template-rows: repeat(8, 60px); border: 2px solid #2d3748; position: relative; user-select: none; }
+  .square { width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; position: relative; font-size: 40px; cursor: pointer; }
+  .square.light { background-color: var(--board-light); }
+  .square.dark { background-color: var(--board-dark); }
+  .square.selected { background-color: var(--highlight) !important; }
+
+  .move-dot { width: 16px; height: 16px; background-color: var(--valid-move); border-radius: 50%; position: absolute; pointer-events: none; z-index: 5; box-shadow: 0 0 4px rgba(0,0,0,0.3); }
+  .piece { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 2; user-select: none; }
+  .piece.white { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 2px #000; }
+  .piece.black { color: #1a202c; text-shadow: 0 1px 2px rgba(255,255,255,0.5); }
+
+  svg.overlay { position: absolute; top: 0; left: 0; width: 480px; height: 480px; pointer-events: none; z-index: 10; }
+</style>
+<script>
+/* KORUMA-KALKANI-v1 — Burhan DENİZ, Ali Kuşçu İlkokulu 3-G (2 ve 5. katman: imza + alan adı uyarısı) */
+(function(){
+  try{ console.log('%c© 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı','color:#2563EB;font-weight:bold;font-size:13px;'); }catch(e){}
+
+  var ALLOWED=["burhandeniz21.github.io"];
+  function toast(msg,ms){
+    try{
+      var t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText='position:fixed;left:10px;right:10px;bottom:14px;z-index:99999;background:#1F2A37;color:#fff;'+
+        'padding:10px 14px;border-radius:10px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;'+
+        'box-shadow:0 8px 20px rgba(0,0,0,.25);text-align:center;pointer-events:none;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, ms||2600);
+    }catch(e){}
+  }
+  document.addEventListener('contextmenu',function(){
+    toast('© Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı için hazırlanmıştır.');
+  });
+
+  function checkDomain(){
+    var h=location.hostname,p=location.protocol;
+    if(p==='file:'||h===''||h==='localhost'||h==='127.0.0.1')return; // USB / yerel kullanım
+    var ok=false;
+    for(var i=0;i<ALLOWED.length;i++){ if(h===ALLOWED[i]||h.slice(-(ALLOWED[i].length+1))==='.'+ALLOWED[i]){ ok=true;break; } }
+    if(ok)return;
+    var note=document.createElement('div');
+    note.textContent='ⓘ Bu içerik Burhan DENİZ tarafından hazırlanmıştır ve aslen '+(ALLOWED[0]||'orijinal site')+' adresinde yayınlanmaktadır.';
+    note.style.cssText='position:static;margin-top:10px;padding:8px 12px;border-top:1px solid #D7DEE8;'+
+      'color:#6B7787;background:transparent;font:12px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;';
+    function place(){
+      var f=document.querySelector('footer');
+      if(f&&f.parentNode) f.parentNode.insertBefore(note,f);
+      else document.body.appendChild(note);
+    }
+    if(document.body)place();else document.addEventListener('DOMContentLoaded',place);
+  }
+  checkDomain();
+})();
+</script>
+</head>
+<body>
+<a href="satranc.html" style="position:fixed;top:10px;left:10px;z-index:9999;background:#2563EB;color:#fff;font:bold 13px -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-decoration:none;padding:8px 14px;border-radius:20px;box-shadow:0 4px 10px rgba(0,0,0,.2)">← Satranç</a>
+
+
+<header>
+  <h1>♟️ Satranç Eğitimi: Merdiven Matı Ustası</h1>
+  <div class="badge">İlkokul 3. Sınıf</div>
+</header>
+
+<div class="main-container">
+  <div class="sidebar">
+    <div class="level-title" id="levelTitle">Egzersiz 1</div>
+    <div class="level-desc" id="levelDesc">Açıklama...</div>
+
+    <div style="font-weight: bold; margin-bottom: 5px; font-size: 12px; color: #4a5568;">Seviye Seçimi:</div>
+    <div class="level-select" id="levelSelect"></div>
+
+    <div class="feedback-box" id="feedbackBox">
+      Hamleni yapmak için taşı seç ve gitmek istediğin kareye tıkla.
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-undo" onclick="undoMove()">↩️ Hamleyi Geri Al</button>
+      <button class="btn btn-hint" onclick="showHint()">💡 İpucu (Ok Göster)</button>
+      <button class="btn btn-reset" onclick="resetLevel()">🔄 Sıfırla</button>
+    </div>
+  </div>
+
+  <div class="board-container">
+    <div class="board-frame">
+      <div class="rank-labels-top">
+        <div class="col-label">a</div><div class="col-label">b</div><div class="col-label">c</div><div class="col-label">d</div>
+        <div class="col-label">e</div><div class="col-label">f</div><div class="col-label">g</div><div class="col-label">h</div>
+      </div>
+      
+      <div class="board-body">
+        <div class="file-labels">
+          <div>8</div><div>7</div><div>6</div><div>5</div><div>4</div><div>3</div><div>2</div><div>1</div>
+        </div>
+        
+        <div style="position: relative;">
+          <div class="chess-board" id="board"></div>
+          <svg class="overlay" id="svgOverlay"></svg>
+        </div>
+
+        <div class="file-labels">
+          <div>8</div><div>7</div><div>6</div><div>5</div><div>4</div><div>3</div><div>2</div><div>1</div>
+        </div>
+      </div>
+
+      <div class="rank-labels-bottom">
+        <div class="col-label">a</div><div class="col-label">b</div><div class="col-label">c</div><div class="col-label">d</div>
+        <div class="col-label">e</div><div class="col-label">f</div><div class="col-label">g</div><div class="col-label">h</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PIECES = { 'K': '♔', 'Q': '♕', 'R': '♖', 'k': '♚' };
+
+const levels = [
+  { id: 1, title: "1. Tek Hamlede Son Sıra Matı", desc: "Siyah Şah g8'de. Vezirinle g7 veya h8 karesine gelerek MAT yap!", fen: "6k1/8/6K1/8/8/8/7Q/8 w - - 0 1" },
+  { id: 2, title: "2. Çift Kale ile 1 Hamlede Mat", desc: "b7'deki kale 7. sırayı tutuyor. h1'deki kaleyi h8 karesine sürerek mat et!", fen: "6k1/1R6/6K1/8/8/8/8/7R w - - 0 1" },
+  { id: 3, title: "3. Vezir ve Kale ile Merdiven", desc: "Kale 6. sırayı kapattı. Önce Vezirinle 7. sıraya geçip şah çek, ardından Kale ile 8. sırada mat yap!", fen: "8/5k2/2R5/8/8/6K1/7Q/8 w - - 0 1" },
+  { id: 4, title: "4. Çift Kale Adım Adım Merdiven", desc: "c5'teki kale 5. sırayı tutuyor. h2'deki kale ile 6. sıradan şah çekerek merdiveni tırman!", fen: "8/4k3/8/2R5/8/6K1/7R/8 w - - 0 1" },
+  { id: 5, title: "5. Şahı Çizgiye Sıkıştırma", desc: "Kalelerini basamak yapıp siyah şahı 8. sıraya kadar sür ve mat et!", fen: "8/8/4k3/8/3R4/6K1/7R/8 w - - 0 1" },
+  { id: 6, title: "6. Kritik Kural: Uzak Kanada Kaçış!", desc: "Siyah Şah kalene saldırdığında kaleni uzağa kaçırıp merdivene devam et!", fen: "8/3k4/3R4/8/8/6K1/7R/8 w - - 0 1" },
+  { id: 7, title: "7. Dikey (Yan Kanat) Merdiven Matı", desc: "Şahı dikey sütunlar boyunca h-sütununa sıkıştırarak mat et!", fen: "8/8/8/4k3/4R3/6K1/4R3/8 w - - 0 1" },
+  { id: 8, title: "8. Çapraz Başlangıçtan Kurulum", desc: "Kalelerin henüz hizalanmadı. Önce bekçi kalesini uygun sıraya yerleştir!", fen: "8/8/3k4/8/8/6K1/1R5R/8 w - - 0 1" },
+  { id: 9, title: "9. İnatçı Şaha Karşı Vezir-Kale", desc: "Vezir ve Kaleni koruyarak merdiveni adım adım tamamla.", fen: "8/8/8/2k5/8/6K1/1R5Q/8 w - - 0 1" },
+  { id: 10, title: "10. Usta Düzeyi Şampiyonluk", desc: "Sıfırdan mükemmel bir Merdiven Matı sergile!", fen: "8/8/8/3k4/8/6K1/R6R/8 w - - 0 1" }
+];
+
+let currentLevelIdx = 0, boardState = Array(8).fill(null).map(() => Array(8).fill(null)), history = [], selectedSquare = null, validMoves = [], turn = 'w';
+
+function squareToCoord(r, c) { return String.fromCharCode(97 + c) + (8 - r); }
+
+function initUI() {
+  const selectContainer = document.getElementById('levelSelect');
+  selectContainer.innerHTML = '';
+  levels.forEach((lvl, idx) => {
+    const btn = document.createElement('div');
+    btn.className = `level-btn ${idx === currentLevelIdx ? 'active' : ''}`;
+    btn.innerText = lvl.id;
+    btn.onclick = () => loadLevel(idx);
+    selectContainer.appendChild(btn);
+  });
+}
+
+function loadLevel(idx) {
+  currentLevelIdx = idx; initUI();
+  const lvl = levels[idx];
+  document.getElementById('levelTitle').innerText = lvl.title;
+  document.getElementById('levelDesc').innerText = lvl.desc;
+  setFeedback("İstediğin geçerli hamleyi serbestçe yapabilirsin. Başarılar!", "info");
+  parseFEN(lvl.fen);
+  history = []; selectedSquare = null; validMoves = []; turn = 'w';
+  clearArrow(); renderBoard();
+}
+
+function parseFEN(fen) {
+  boardState = Array(8).fill(null).map(() => Array(8).fill(null));
+  const rows = fen.split(' ')[0].split('/');
+  for (let r = 0; r < 8; r++) {
+    let c = 0;
+    for (let char of rows[r]) {
+      if (!isNaN(char)) c += parseInt(char);
+      else { boardState[r][c] = char; c++; }
+    }
+  }
+}
+
+function undoMove() {
+  if (history.length === 0) return setFeedback("Geri alınacak hamle yok.", "error");
+  const last = history.pop();
+  boardState = last.board; turn = last.turn;
+  selectedSquare = null; validMoves = []; clearArrow(); renderBoard();
+  setFeedback("Hamle geri alındı.", "info");
+}
+
+function renderBoard() {
+  const boardEl = document.getElementById('board');
+  boardEl.innerHTML = '';
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const sq = document.createElement('div');
+      sq.className = `square ${(r + c) % 2 === 0 ? 'light' : 'dark'}`;
+      if (selectedSquare && selectedSquare.r === r && selectedSquare.c === c) sq.classList.add('selected');
+      
+      const piece = boardState[r][c];
+      if (piece) {
+        const pieceEl = document.createElement('div');
+        pieceEl.className = `piece ${piece === piece.toUpperCase() ? 'white' : 'black'}`;
+        pieceEl.innerText = PIECES[piece];
+        sq.appendChild(pieceEl);
+      }
+
+      if (validMoves.some(m => m.r === r && m.c === c)) {
+        const dot = document.createElement('div');
+        dot.className = 'move-dot';
+        sq.appendChild(dot);
+      }
+      sq.onclick = () => handleSquareClick(r, c);
+      boardEl.appendChild(sq);
+    }
+  }
+}
+
+function handleSquareClick(r, c) {
+  if (turn !== 'w') return;
+  const piece = boardState[r][c];
+
+  if (selectedSquare) {
+    if (selectedSquare.r === r && selectedSquare.c === c) { selectedSquare = null; validMoves = []; renderBoard(); return; }
+    if (validMoves.some(m => m.r === r && m.c === c)) { makePlayerMove(selectedSquare, { r, c }); return; }
+  }
+
+  if (piece && piece === piece.toUpperCase()) {
+    selectedSquare = { r, c };
+    validMoves = getPseudoMoves(r, c, boardState);
+    renderBoard();
+  } else { selectedSquare = null; validMoves = []; renderBoard(); }
+}
+
+function getPseudoMoves(r, c, board) {
+  const piece = board[r][c]; if (!piece) return [];
+  const type = piece.toLowerCase(), isWhite = piece === piece.toUpperCase();
+  let moves = [];
+  const addLine = (dr, dc) => {
+    let nr = r + dr, nc = c + dc;
+    while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+      if (!board[nr][nc]) moves.push({ r: nr, c: nc });
+      else { if ((board[nr][nc] === board[nr][nc].toUpperCase()) !== isWhite) moves.push({ r: nr, c: nc }); break; }
+      nr += dr; nc += dc;
+    }
+  };
+  if (type === 'r' || type === 'q') { addLine(1,0); addLine(-1,0); addLine(0,1); addLine(0,-1); }
+  if (type === 'q') { addLine(1,1); addLine(1,-1); addLine(-1,1); addLine(-1,-1); }
+  if (type === 'k') {
+    for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++) {
+      if(dr===0&&dc===0) continue;
+      let nr=r+dr, nc=c+dc;
+      if(nr>=0&&nr<8&&nc>=0&&nc<8) {
+        if(!board[nr][nc] || (board[nr][nc] === board[nr][nc].toUpperCase()) !== isWhite) moves.push({r: nr, c: nc});
+      }
+    }
+  }
+  return moves;
+}
+
+function isSquareAttacked(r, c, attackerColor, board) {
+  for (let br = 0; br < 8; br++) {
+    for (let bc = 0; bc < 8; bc++) {
+      const p = board[br][bc];
+      if (!p) continue;
+      const isAttackerWhite = (p === p.toUpperCase());
+      if ((attackerColor === 'w' && isAttackerWhite) || (attackerColor === 'b' && !isAttackerWhite)) {
+        const moves = getPseudoMoves(br, bc, board);
+        if (moves.some(m => m.r === r && m.c === c)) return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getKingLegalMoves(board) {
+  let kPos = null;
+  for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (board[r][c] === 'k') kPos = { r, c };
+  if (!kPos) return [];
+
+  let pMoves = getPseudoMoves(kPos.r, kPos.c, board);
+  let legal = [];
+  for (let m of pMoves) {
+    let tmp = JSON.parse(JSON.stringify(board));
+    tmp[m.r][m.c] = 'k'; tmp[kPos.r][kPos.c] = null;
+    if (!isSquareAttacked(m.r, m.c, 'w', tmp)) {
+      legal.push(m);
+    }
+  }
+  return legal;
+}
+
+function makePlayerMove(from, to) {
+  let backup = JSON.parse(JSON.stringify(boardState));
+  history.push({ board: backup, turn });
+
+  boardState[to.r][to.c] = boardState[from.r][from.c]; 
+  boardState[from.r][from.c] = null;
+  selectedSquare = null; validMoves = []; clearArrow(); renderBoard();
+
+  let kingMoves = getKingLegalMoves(boardState);
+  let kPos = null;
+  for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (boardState[r][c] === 'k') kPos = { r, c };
+  let isCheck = isSquareAttacked(kPos.r, kPos.c, 'w', boardState);
+
+  // 1. TAM MAT KONTROLÜ
+  if (isCheck && kingMoves.length === 0) {
+    setFeedback("🏆 TEBRİKLER! MÜKEMMEL BİR MERDİVEN MATI! Rakip şah tamamen çaresiz kaldı.", "success");
+    document.querySelectorAll('.level-btn')[currentLevelIdx].classList.add('completed');
+    turn = 'done';
+    return;
+  }
+
+  // 2. PAT KONTROLÜ
+  if (!isCheck && kingMoves.length === 0) {
+    history.pop(); boardState = backup; renderBoard();
+    setFeedback("⚠️ Pat Oldu! Siyah şahın hamlesi kalmadı ama şah altında değil. Taşın geri dönüyor.", "error");
+    return;
+  }
+
+  // 3. NORMAL HAMLE / ŞAH ÇEKME (Serbest Akış - Taş geri dönmez!)
+  if (isCheck) {
+    let escapeCoord = squareToCoord(kingMoves[0].r, kingMoves[0].c);
+    setFeedback(`⚔️ Şah Çektin! Siyah şah ${escapeCoord.toUpperCase()} karesine kaçıyor... Merdiven matını tamamla!`, "success");
+  } else {
+    setFeedback(`👏 Güzel hamle (${squareToCoord(to.r, to.c).toUpperCase()})! Bilgisayar hamlesini yapıyor...`, "success");
+  }
+
+  turn = 'b';
+  setTimeout(makeComputerMove, 600);
+}
+
+function makeComputerMove() {
+  let kPos = null;
+  for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (boardState[r][c] === 'k') kPos = { r, c };
+  let moves = getKingLegalMoves(boardState);
+
+  if (moves.length > 0) {
+    let best = moves[Math.floor(Math.random() * moves.length)];
+    boardState[best.r][best.c] = 'k'; boardState[kPos.r][kPos.c] = null;
+  }
+  turn = 'w'; renderBoard();
+}
+
+function showHint() {
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      if (boardState[r][c] && boardState[r][c] === boardState[r][c].toUpperCase()) {
+        let pm = getPseudoMoves(r, c, boardState);
+        for (let m of pm) {
+          let tmp = JSON.parse(JSON.stringify(boardState));
+          tmp[m.r][m.c] = tmp[r][c]; tmp[r][c] = null;
+          let kMoves = getKingLegalMoves(tmp);
+          let kPos = null;
+          for (let kr = 0; kr < 8; kr++) for (let kc = 0; kc < 8; kc++) if (tmp[kr][kc] === 'k') kPos = { kr, kc };
+          
+          if (isSquareAttacked(kPos.kr, kPos.kc, 'w', tmp) && kMoves.length === 0) {
+            drawArrow(r, c, m.r, m.c);
+            setFeedback(`💡 İpucu: Taşını ${squareToCoord(r,c).toUpperCase()} -> ${squareToCoord(m.r, m.c).toUpperCase()} karesine sürersen TEK HAMLEDE MAT olur!`, "info");
+            return;
+          }
+        }
+      }
+    }
+  }
+  setFeedback("💡 Şahın kaçış yolunu kapatacak basamak kalesini doğru sıraya sür!", "info");
+}
+
+function drawArrow(fR, fC, tR, tC) {
+  const svg = document.getElementById('svgOverlay');
+  svg.innerHTML = `<line x1="${fC*60+30}" y1="${fR*60+30}" x2="${tC*60+30}" y2="${tR*60+30}" stroke="#e67e22" stroke-width="6" opacity="0.8"/>`;
+}
+function clearArrow() { document.getElementById('svgOverlay').innerHTML = ''; }
+function setFeedback(msg, type) { const box = document.getElementById('feedbackBox'); box.innerText = msg; box.className = `feedback-box ${type}`; }
+function resetLevel() { loadLevel(currentLevelIdx); }
+window.onload = () => loadLevel(0);
+</script>
+<div style="text-align:center;padding:14px 10px 26px;font:bold 13px -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#6B7787">Ali Kuşçu İlkokulu • 3-G Sınıfı<br>Hazırlayan: Burhan DENİZ</div>
+</body>
+</html>

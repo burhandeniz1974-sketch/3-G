@@ -1,0 +1,941 @@
+<!--
+  ============================================================
+  © 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı
+  Bu materyal Burhan DENİZ tarafından 3-G sınıfı öğrencileri için
+  hazırlanmıştır. Yazarın izni olmadan kopyalanamaz, çoğaltılamaz,
+  başka bir adreste yayımlanamaz veya değiştirilerek dağıtılamaz.
+  Dosya: sevgili-orgum-melodika.html
+  KORUMA-KALKANI-v1
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ali Kuşçu İlkokulu 3/G - Sevgili Orgum Melodika Eğitimi</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --primary: #2563eb;
+            --text: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+            width: 100%;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin: 0 0 4px 0;
+            font-weight: 600;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            margin: 0 0 4px 0;
+            font-weight: 700;
+        }
+
+        .header .composer {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .controls-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 24px;
+            width: 100%;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-speed {
+            background-color: #0284c7;
+        }
+
+        .btn-toggle {
+            background-color: #475569;
+        }
+
+        .tempo-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .feedback-badge {
+            font-weight: 700;
+            font-size: 14px;
+            padding: 6px 14px;
+            border-radius: 16px;
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+        .feedback-badge.correct {
+            display: block;
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+        .feedback-badge.wrong {
+            display: block;
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+        /* %100 Çalışan SVG Porte Kapsayıcısı */
+        .sheet-container {
+            width: 100%;
+            max-width: 100vw;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px 10px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #sheet-svg {
+            min-width: 750px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .note-element {
+            cursor: pointer;
+            transition: transform 0.15s ease, filter 0.15s ease;
+            transform-origin: center;
+        }
+
+        .note-element.active-note {
+            filter: drop-shadow(0px 0px 8px rgba(37, 99, 235, 0.9));
+        }
+
+        .note-element.active-note ellipse {
+            stroke: #2563eb !important;
+            stroke-width: 3px !important;
+        }
+
+        /* Melodika Wrapper */
+        .melodica-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .side-play-btn {
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+            flex-shrink: 0;
+        }
+
+        .melodica-outer {
+            background: #2563eb;
+            padding: 12px;
+            padding-left: 35px;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+        }
+
+        .melodica-brand {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 2px;
+            z-index: 5;
+        }
+
+        .keyboard-scroll-wrapper {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            width: 100%;
+            border-radius: 8px;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .keyboard {
+            display: flex;
+            position: relative;
+            background: #000;
+            padding: 3px;
+            border-radius: 6px;
+            min-width: 650px;
+            width: max-content;
+        }
+
+        .white-key {
+            width: 32px;
+            height: 120px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 0 0 4px 4px;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 8px;
+            font-weight: bold;
+            font-size: 11px;
+            color: #475569;
+            user-select: none;
+            touch-action: manipulation;
+            flex-shrink: 0;
+        }
+
+        .white-key.active {
+            background: #fde047 !important;
+        }
+
+        .white-key.correct-key {
+            background: #4ade80 !important;
+        }
+
+        .white-key.wrong-key {
+            background: #f87171 !important;
+        }
+
+        .black-key {
+            width: 18px;
+            height: 75px;
+            background: #1e293b;
+            position: absolute;
+            border-radius: 0 0 3px 3px;
+            z-index: 2;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            touch-action: manipulation;
+        }
+
+        .black-key.active {
+            background: #eab308 !important;
+        }
+
+        @media (min-width: 640px) {
+            body { padding: 20px; }
+            .container { padding: 25px; }
+            .header h1 { font-size: 24px; }
+            .header h2 { font-size: 28px; }
+            .header .composer { position: absolute; right: 10px; bottom: 0; margin-top: 0; }
+            .controls-panel { padding: 14px 24px; border-radius: 50px; gap: 12px; }
+            button { padding: 10px 18px; font-size: 14px; }
+            .side-play-btn { width: 60px; height: 60px; font-size: 24px; }
+            .melodica-outer { padding: 20px; padding-left: 40px; border-radius: 35px; }
+            .melodica-brand { left: 15px; font-size: 16px; }
+            .white-key { width: 36px; height: 150px; font-size: 13px; }
+            .black-key { width: 22px; height: 95px; }
+            .keyboard { min-width: 750px; }
+        }
+    </style>
+<script>
+/* KORUMA-KALKANI-v1 — Burhan DENİZ, Ali Kuşçu İlkokulu 3-G (2 ve 5. katman: imza + alan adı uyarısı) */
+(function(){
+  try{ console.log('%c© 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı','color:#2563EB;font-weight:bold;font-size:13px;'); }catch(e){}
+
+  var ALLOWED=["burhandeniz21.github.io"];
+  function toast(msg,ms){
+    try{
+      var t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText='position:fixed;left:10px;right:10px;bottom:14px;z-index:99999;background:#1F2A37;color:#fff;'+
+        'padding:10px 14px;border-radius:10px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;'+
+        'box-shadow:0 8px 20px rgba(0,0,0,.25);text-align:center;pointer-events:none;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, ms||2600);
+    }catch(e){}
+  }
+  document.addEventListener('contextmenu',function(){
+    toast('© Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı için hazırlanmıştır.');
+  });
+
+  function checkDomain(){
+    var h=location.hostname,p=location.protocol;
+    if(p==='file:'||h===''||h==='localhost'||h==='127.0.0.1')return; // USB / yerel kullanım
+    var ok=false;
+    for(var i=0;i<ALLOWED.length;i++){ if(h===ALLOWED[i]||h.slice(-(ALLOWED[i].length+1))==='.'+ALLOWED[i]){ ok=true;break; } }
+    if(ok)return;
+    var note=document.createElement('div');
+    note.textContent='ⓘ Bu içerik Burhan DENİZ tarafından hazırlanmıştır ve aslen '+(ALLOWED[0]||'orijinal site')+' adresinde yayınlanmaktadır.';
+    note.style.cssText='position:static;margin-top:10px;padding:8px 12px;border-top:1px solid #D7DEE8;'+
+      'color:#6B7787;background:transparent;font:12px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;';
+    function place(){
+      var f=document.querySelector('footer');
+      if(f&&f.parentNode) f.parentNode.insertBefore(note,f);
+      else document.body.appendChild(note);
+    }
+    if(document.body)place();else document.addEventListener('DOMContentLoaded',place);
+  }
+  checkDomain();
+})();
+</script>
+</head>
+<body>
+<a href="muzik.html" style="position:fixed;top:10px;left:10px;z-index:9999;background:#2563EB;color:#fff;font:bold 13px -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-decoration:none;padding:8px 14px;border-radius:20px;box-shadow:0 4px 10px rgba(0,0,0,.2)">← Müzik</a>
+
+
+<div class="container">
+    <div class="header">
+        <h1>Ali Kuşçu İlkokulu - 3/G</h1>
+        <h2>Sevgili Orgum</h2>
+        <div class="composer">Söz-Müzik: Aydın İlik</div>
+    </div>
+
+    <!-- Kontrol Paneli -->
+    <div class="controls-panel">
+        <div class="btn-group">
+            <button id="playBtn">▶ Oynat</button>
+            <button id="stopBtn">⏹ Durdur / Başa Al</button>
+        </div>
+
+        <div class="btn-group">
+            <button id="slowBtn" class="btn-speed">🐢 Yavaş (60 BPM)</button>
+            <button id="normalBtn" class="btn-speed">🐇 Normal (85 BPM)</button>
+        </div>
+
+        <div class="tempo-control">
+            <label for="bpm">Hız:</label>
+            <input type="range" id="bpm" min="40" max="130" value="85">
+            <span id="bpmVal">85 BPM</span>
+        </div>
+
+        <div class="btn-group">
+            <button id="toggleNamesBtn" class="btn-toggle">🏷️ Notalar: Açık</button>
+        </div>
+
+        <div id="feedbackBadge" class="feedback-badge">Harika! Doğru Nota</div>
+    </div>
+
+    <!-- %100 YERLİ SVG PORTE -->
+    <div class="sheet-container">
+        <svg id="sheet-svg" viewBox="0 0 850 320" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <!-- Melodika Kısmı -->
+    <div class="melodica-section">
+        <button id="sidePlayBtn" class="side-play-btn" title="Melodika Yanı Oynat/Durdur">▶</button>
+        <div class="melodica-outer">
+            <div class="melodica-brand">lino</div>
+            <div class="keyboard-scroll-wrapper" id="scrollWrapper">
+                <div class="keyboard" id="keyboard"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==============================================================================
+    // SEVGİLİ ORGUM - 4/4 ÖLÇÜ DİZİLİMİ
+    // Toplam 8 Ölçü. (1 ölçü = 4 Vuruş)
+    // Şablona sadık kalınarak sadece yeni notalar aktarıldı.
+    // (w: Birlik nota/4 vuruş, q: Dörtlük nota/1 vuruş)
+    // ==============================================================================
+    
+    const notesData = [
+        // --- DİZEK 1 ---
+        // Ölçü 1
+        { name: "DO", noteName: "C4", color: "#ef4444", dur: "q", line: 0, beam: "none", m: 1, beatPos: 0 },
+        { name: "RE", noteName: "D4", color: "#22c55e", dur: "q", line: 1, beam: "none", m: 1, beatPos: 1.0 },
+        { name: "DO", noteName: "C4", color: "#ef4444", dur: "q", line: 0, beam: "none", m: 1, beatPos: 2.0 },
+        { name: "RE", noteName: "D4", color: "#22c55e", dur: "q", line: 1, beam: "none", m: 1, beatPos: 3.0 },
+
+        // Ölçü 2
+        { name: "Mİ", noteName: "E4", color: "#a855f7", dur: "w", line: 2, beam: "none", m: 2, beatPos: 0 },
+
+        // Ölçü 3
+        { name: "Mİ", noteName: "E4", color: "#a855f7", dur: "q", line: 2, beam: "none", m: 3, beatPos: 0 },
+        { name: "FA", noteName: "F4", color: "#eab308", dur: "q", line: 3, beam: "none", m: 3, beatPos: 1.0 },
+        { name: "Mİ", noteName: "E4", color: "#a855f7", dur: "q", line: 2, beam: "none", m: 3, beatPos: 2.0 },
+        { name: "FA", noteName: "F4", color: "#eab308", dur: "q", line: 3, beam: "none", m: 3, beatPos: 3.0 },
+
+        // Ölçü 4
+        { name: "SOL", noteName: "G4", color: "#0ea5e9", dur: "w", line: 4, beam: "none", m: 4, beatPos: 0 },
+
+        // --- DİZEK 2 ---
+        // Ölçü 5
+        { name: "SOL", noteName: "G4", color: "#0ea5e9", dur: "q", line: 4, beam: "none", m: 5, beatPos: 0 },
+        { name: "FA", noteName: "F4", color: "#eab308", dur: "q", line: 3, beam: "none", m: 5, beatPos: 1.0 },
+        { name: "SOL", noteName: "G4", color: "#0ea5e9", dur: "q", line: 4, beam: "none", m: 5, beatPos: 2.0 },
+        { name: "FA", noteName: "F4", color: "#eab308", dur: "q", line: 3, beam: "none", m: 5, beatPos: 3.0 },
+
+        // Ölçü 6
+        { name: "Mİ", noteName: "E4", color: "#a855f7", dur: "w", line: 2, beam: "none", m: 6, beatPos: 0 },
+
+        // Ölçü 7
+        { name: "Mİ", noteName: "E4", color: "#a855f7", dur: "q", line: 2, beam: "none", m: 7, beatPos: 0 },
+        { name: "RE", noteName: "D4", color: "#22c55e", dur: "q", line: 1, beam: "none", m: 7, beatPos: 1.0 },
+        { name: "Mİ", noteName: "E4", color: "#a855f7", dur: "q", line: 2, beam: "none", m: 7, beatPos: 2.0 },
+        { name: "RE", noteName: "D4", color: "#22c55e", dur: "q", line: 1, beam: "none", m: 7, beatPos: 3.0 },
+
+        // Ölçü 8
+        { name: "DO", noteName: "C4", color: "#ef4444", dur: "w", line: 0, beam: "none", m: 8, beatPos: 0 }
+    ];
+
+    let showNoteNames = true;
+
+    // YERLİ SVG PORTE ÇİZİCİ
+    function renderCustomSVGScore() {
+        const svg = document.getElementById('sheet-svg');
+        svg.innerHTML = '';
+
+        const stavesY = [60, 200];
+        const lineSpacing = 12;
+        const measureWidth = 172.5;
+
+        stavesY.forEach((startY, staveIdx) => {
+            // 5 Dizek Çizgisi
+            for (let i = 0; i < 5; i++) {
+                const y = startY + (i * lineSpacing);
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", "50");
+                line.setAttribute("y1", y);
+                line.setAttribute("x2", "810");
+                line.setAttribute("y2", y);
+                line.setAttribute("stroke", "#000");
+                line.setAttribute("stroke-width", "1.5");
+                svg.appendChild(line);
+            }
+
+            // Sol Anahtarı
+            const clef = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            clef.setAttribute("x", "55");
+            clef.setAttribute("y", startY + 42);
+            clef.setAttribute("font-family", "Segoe UI Symbol, sans-serif");
+            clef.setAttribute("font-size", "46");
+            clef.textContent = "🎼";
+            svg.appendChild(clef);
+
+            // Sadece İlk Dizeğe 4/4
+            if (staveIdx === 0) {
+                const timeSig = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                timeSig.setAttribute("x", "95");
+                timeSig.setAttribute("y", startY + 24);
+                timeSig.setAttribute("font-family", "Arial, sans-serif");
+                timeSig.setAttribute("font-size", "20");
+                timeSig.setAttribute("font-weight", "bold");
+                timeSig.innerHTML = '<tspan x="95" dy="0">4</tspan><tspan x="95" dy="18">4</tspan>';
+                svg.appendChild(timeSig);
+            }
+
+            // Ölçü Çizgileri
+            for (let m = 0; m <= 4; m++) {
+                const x = 120 + (m * measureWidth);
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x);
+                line.setAttribute("y1", startY);
+                line.setAttribute("x2", x);
+                line.setAttribute("y2", startY + 48);
+                line.setAttribute("stroke", "#000");
+                line.setAttribute("stroke-width", m === 4 && staveIdx === 1 ? "4" : "1.5");
+                svg.appendChild(line);
+            }
+        });
+
+        // NOTALARIN MATEMATİKSEL YERLEŞTİRİLMESİ
+        notesData.forEach((note, idx) => {
+            const staveIdx = note.m <= 4 ? 0 : 1;
+            const staveY = stavesY[staveIdx];
+            const mInStave = ((note.m - 1) % 4);
+            const measureX = 120 + (mInStave * measureWidth);
+
+            // Vuruş değerine göre (0 - 3.5) konumlandırma
+            // Eğer birlik (w) nota ise tam ortaya hizala
+            const posX = note.dur === 'w' 
+                ? measureX + (measureWidth / 2)
+                : measureX + 22 + (note.beatPos * 35);
+
+            let noteY = staveY + 48; // varsayılan
+            if (note.line === 0) noteY = staveY + 60; // Do (C4)
+            if (note.line === 1) noteY = staveY + 54; // Re (D4)
+            if (note.line === 2) noteY = staveY + 48; // Mi (E4)
+            if (note.line === 3) noteY = staveY + 42; // Fa (F4)
+            if (note.line === 4) noteY = staveY + 36; // Sol (G4)
+
+            const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            g.setAttribute("id", `svg-note-${idx}`);
+            g.setAttribute("class", "note-element");
+            if (!note.isRest) {
+                g.onclick = () => playSingleNote(note.noteName, idx);
+            }
+
+            // DO İçin Ek Çizgi
+            if (note.line === 0) {
+                const ledger = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                ledger.setAttribute("x1", posX - 10);
+                ledger.setAttribute("y1", noteY);
+                ledger.setAttribute("x2", posX + 10);
+                ledger.setAttribute("y2", noteY);
+                ledger.setAttribute("stroke", "#333");
+                ledger.setAttribute("stroke-width", "1.5");
+                g.appendChild(ledger);
+            }
+
+            // Nota Başı
+            const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+            ellipse.setAttribute("cx", posX);
+            ellipse.setAttribute("cy", noteY);
+            ellipse.setAttribute("rx", "6.5");
+            ellipse.setAttribute("ry", "5");
+            ellipse.setAttribute("transform", `rotate(-20 ${posX} ${noteY})`);
+            
+            // Birlik (w) nota için içi boş çizim (Sadece Sevgili Orgum'da)
+            if (note.dur === "w") {
+                ellipse.setAttribute("fill", "transparent");
+                ellipse.setAttribute("stroke", note.color);
+                ellipse.setAttribute("stroke-width", "3");
+            } else {
+                ellipse.setAttribute("fill", note.color);
+                // Dörtlük nota ise sap çiz
+                const stem = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                stem.setAttribute("x1", posX + 6);
+                stem.setAttribute("y1", noteY);
+                stem.setAttribute("x2", posX + 6);
+                stem.setAttribute("y2", noteY - 28);
+                stem.setAttribute("stroke", note.color);
+                stem.setAttribute("stroke-width", "2");
+                g.appendChild(stem);
+            }
+            g.appendChild(ellipse);
+
+            // Nota İsmi
+            if (showNoteNames) {
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", posX);
+                text.setAttribute("y", noteY + 18);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("font-size", "10");
+                text.setAttribute("font-weight", "bold");
+                text.setAttribute("fill", note.color);
+                text.textContent = note.name;
+                g.appendChild(text);
+            }
+
+            svg.appendChild(g);
+        });
+    }
+
+    // PİYANO KLAVYESİ
+    const fullWhiteKeys = [
+        "F3", "G3", "A3", "B3", 
+        "C4", "D4", "E4", "F4", "G4", "A4", "B4", 
+        "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6"
+    ];
+
+    const fullBlackKeys = [
+        { note: "F#3", pos: 0 }, { note: "G#3", pos: 1 }, { note: "A#3", pos: 2 },
+        { note: "C#4", pos: 4 }, { note: "D#4", pos: 5 }, { note: "F#4", pos: 7 }, { note: "G#4", pos: 8 }, { note: "A#4", pos: 9 },
+        { note: "C#5", pos: 11 }, { note: "D#5", pos: 12 }, { note: "F#5", pos: 14 }, { note: "G#5", pos: 15 }, { note: "A#5", pos: 16 }
+    ];
+
+    function buildKeyboard() {
+        const keyboard = document.getElementById('keyboard');
+        keyboard.innerHTML = '';
+        const isMobile = window.innerWidth < 640;
+        const keyW = isMobile ? 32 : 36;
+        const keyOffset = isMobile ? 22 : 26;
+
+        fullWhiteKeys.forEach(k => {
+            const displayName = k.replace(/[0-9]/g, '');
+            const div = document.createElement('div');
+            div.className = 'white-key';
+            div.id = `key-${k}`;
+            div.innerHTML = `<span style="margin-bottom: 18px; font-weight:bold; font-size:10px;">${k}</span><span>${displayName}</span>`;
+            
+            div.onmousedown = () => handleKeyDown(k);
+            div.onmouseup = () => handleKeyUp(k);
+            div.onmouseleave = () => handleKeyUp(k);
+            div.ontouchstart = (e) => { e.preventDefault(); handleKeyDown(k); };
+            div.ontouchend = (e) => { e.preventDefault(); handleKeyUp(k); };
+            keyboard.appendChild(div);
+        });
+
+        fullBlackKeys.forEach(bk => {
+            const el = document.createElement('div');
+            el.className = 'black-key';
+            el.id = `key-${bk.note}`;
+            const leftPos = bk.pos * keyW + keyOffset;
+            el.style.left = `${leftPos}px`;
+            
+            el.onmousedown = () => handleKeyDown(bk.note);
+            el.onmouseup = () => handleKeyUp(bk.note);
+            el.onmouseleave = () => handleKeyUp(bk.note);
+            el.ontouchstart = (e) => { e.preventDefault(); handleKeyDown(bk.note); };
+            el.ontouchend = (e) => { e.preventDefault(); handleKeyUp(bk.note); };
+            keyboard.appendChild(el);
+        });
+    }
+
+    function autoScrollToKey(noteName) {
+        if (!noteName) return;
+        const keyEl = document.getElementById(`key-${noteName}`);
+        const wrapper = document.getElementById('scrollWrapper');
+        if (keyEl && wrapper) {
+            const keyLeft = keyEl.offsetLeft;
+            const wrapperWidth = wrapper.clientWidth;
+            wrapper.scrollTo({
+                left: keyLeft - (wrapperWidth / 2) + 15,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // SES MOTORU
+    const freqMap = {};
+    fullWhiteKeys.forEach(k => {
+        let octave = parseInt(k.slice(-1));
+        let base = k.slice(0,1);
+        let offsets = {"C":-9, "D":-7, "E":-5, "F":-4, "G":-2, "A":0, "B":2};
+        freqMap[k] = 440 * Math.pow(2, (octave-4) + offsets[base]/12);
+    });
+    fullBlackKeys.forEach(bk => {
+        let base = bk.note.slice(0,2);
+        let octave = parseInt(bk.note.slice(-1));
+        let offsets = {"C#":-8, "D#":-6, "F#":-3, "G#":-1, "A#":1};
+        freqMap[bk.note] = 440 * Math.pow(2, (octave-4) + offsets[base]/12);
+    });
+
+    let audioCtx = null;
+    let activeNodes = {};
+
+    function getAudioContext() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        return audioCtx;
+    }
+
+    window.addEventListener('pointerdown', () => getAudioContext(), { once: true });
+
+    function startNoteAudio(noteName) {
+        if (!noteName) return;
+        stopNoteAudio(noteName);
+
+        const ctx = getAudioContext();
+        const freq = freqMap[noteName];
+        if (!freq) return;
+
+        autoScrollToKey(noteName);
+
+        const startTime = ctx.currentTime;
+        const masterGain = ctx.createGain();
+
+        const harmonics = [{ f: 1.0, amp: 0.8 }, { f: 2.0, amp: 0.45 }, { f: 3.0, amp: 0.3 }];
+        const oscillators = [];
+
+        harmonics.forEach(h => {
+            const osc = ctx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(freq * h.f, startTime);
+
+            const hGain = ctx.createGain();
+            hGain.gain.setValueAtTime(h.amp, startTime);
+
+            osc.connect(hGain);
+            hGain.connect(masterGain);
+
+            osc.start(startTime);
+            oscillators.push(osc);
+        });
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1400, startTime);
+
+        masterGain.gain.setValueAtTime(0.001, startTime);
+        masterGain.gain.linearRampToValueAtTime(0.3, startTime + 0.015);
+
+        masterGain.connect(filter);
+        filter.connect(ctx.destination);
+
+        activeNodes[noteName] = { oscillators, masterGain, ctx };
+    }
+
+    function stopNoteAudio(noteName) {
+        if (!noteName) return;
+        if (activeNodes[noteName]) {
+            const { oscillators, masterGain, ctx } = activeNodes[noteName];
+            const stopTime = ctx.currentTime + 0.05;
+
+            masterGain.gain.setValueAtTime(masterGain.gain.value, ctx.currentTime);
+            masterGain.gain.exponentialRampToValueAtTime(0.0001, stopTime);
+
+            oscillators.forEach(osc => osc.stop(stopTime));
+            delete activeNodes[noteName];
+        }
+    }
+
+    function playNoteAudioFixed(noteName, durationSec) {
+        if (!noteName) return;
+        startNoteAudio(noteName);
+        highlightKeyInstant(noteName, durationSec * 1000);
+        setTimeout(() => stopNoteAudio(noteName), durationSec * 1000);
+    }
+
+    let activeKeyTimers = {};
+    function highlightKeyInstant(noteName, durationMs, customClass = 'active') {
+        if (!noteName) return;
+        const keyEl = document.getElementById(`key-${noteName}`);
+        if (keyEl) {
+            keyEl.classList.add(customClass);
+            if (activeKeyTimers[noteName]) clearTimeout(activeKeyTimers[noteName]);
+            activeKeyTimers[noteName] = setTimeout(() => keyEl.classList.remove(customClass), durationMs);
+        }
+    }
+
+    function highlightScoreNote(index) {
+        notesData.forEach((item, i) => {
+            const elem = document.getElementById(`svg-note-${i}`);
+            if (elem) elem.classList.remove('active-note');
+        });
+
+        if (index >= 0 && index < notesData.length) {
+            const elem = document.getElementById(`svg-note-${index}`);
+            if (elem && !notesData[index].isRest) {
+                elem.classList.add('active-note');
+            }
+        }
+    }
+
+    let isPlaying = false;
+    let currentStep = 0;
+    let timerId = null;
+
+    function handleKeyDown(pressedNote) {
+        startNoteAudio(pressedNote);
+        const keyEl = document.getElementById(`key-${pressedNote}`);
+
+        while (currentStep < notesData.length && notesData[currentStep].isRest) {
+            currentStep++;
+        }
+
+        if (!isPlaying && currentStep < notesData.length) {
+            const expectedNote = notesData[currentStep].noteName;
+            const badge = document.getElementById('feedbackBadge');
+
+            if (pressedNote === expectedNote) {
+                if (keyEl) keyEl.classList.add('correct-key');
+                badge.textContent = `👏 Harika! Doğru Nota: ${notesData[currentStep].name}`;
+                badge.className = 'feedback-badge correct';
+                
+                highlightScoreNote(currentStep);
+                currentStep++;
+
+                while (currentStep < notesData.length && notesData[currentStep].isRest) {
+                    currentStep++;
+                }
+
+                if (currentStep < notesData.length) {
+                    setTimeout(() => highlightScoreNote(currentStep), 350);
+                } else {
+                    badge.textContent = `🎉 Tebrikler! Şarkıyı Başarıyla Tamamladın!`;
+                }
+            } else {
+                if (keyEl) keyEl.classList.add('wrong-key');
+                badge.textContent = `❌ Tekrar Dene! Bastığın: ${pressedNote.replace(/[0-9]/g,'')} - Beklenen: ${notesData[currentStep].name}`;
+                badge.className = 'feedback-badge wrong';
+            }
+        } else if (keyEl) {
+            keyEl.classList.add('active');
+        }
+    }
+
+    function handleKeyUp(pressedNote) {
+        stopNoteAudio(pressedNote);
+        const keyEl = document.getElementById(`key-${pressedNote}`);
+        if (keyEl) keyEl.classList.remove('active', 'correct-key', 'wrong-key');
+    }
+
+    function updatePlayButtonsUI(playing) {
+        document.getElementById('playBtn').textContent = playing ? '⏸ Duraklat' : '▶ Oynat';
+        document.getElementById('sidePlayBtn').textContent = playing ? '⏸' : '▶';
+    }
+
+    function playStep() {
+        if (!isPlaying || currentStep >= notesData.length) {
+            stopPlayback();
+            return;
+        }
+
+        const noteInfo = notesData[currentStep];
+        const bpm = parseInt(document.getElementById('bpm').value);
+        const beatDuration = 60 / bpm; // 1 vuruşun saniye cinsinden süresi
+        
+        let beatMultiplier = 1; // Default
+        
+        if (currentStep + 1 < notesData.length) {
+            const nextNote = notesData[currentStep + 1];
+            if (nextNote.m === noteInfo.m) {
+                // Aynı ölçüdeki bir sonraki notaya kadar olan vuruş farkı
+                beatMultiplier = nextNote.beatPos - noteInfo.beatPos;
+            } else {
+                // Ölçünün son notasıysa 4. vuruşa kadar olan fark
+                beatMultiplier = 4.0 - noteInfo.beatPos;
+            }
+        } else {
+            beatMultiplier = 4.0 - noteInfo.beatPos;
+        }
+
+        const stepDurationSec = beatDuration * beatMultiplier;
+
+        highlightScoreNote(currentStep);
+
+        if (!noteInfo.isRest) {
+            playNoteAudioFixed(noteInfo.noteName, stepDurationSec * 0.9);
+        }
+
+        currentStep++;
+        timerId = setTimeout(playStep, stepDurationSec * 1000);
+    }
+
+    function togglePlayback() {
+        if (isPlaying) {
+            isPlaying = false;
+            clearTimeout(timerId);
+            updatePlayButtonsUI(false);
+        } else {
+            isPlaying = true;
+            updatePlayButtonsUI(true);
+            document.getElementById('feedbackBadge').className = 'feedback-badge';
+            playStep();
+        }
+    }
+
+    function stopPlayback() {
+        isPlaying = false;
+        clearTimeout(timerId);
+        currentStep = 0;
+        highlightScoreNote(-1);
+        updatePlayButtonsUI(false);
+        document.getElementById('feedbackBadge').className = 'feedback-badge';
+        autoScrollToKey("C4");
+    }
+
+    function playSingleNote(noteName, index) {
+        if (!noteName) return;
+        highlightScoreNote(index);
+        playNoteAudioFixed(noteName, 0.6);
+        setTimeout(() => highlightScoreNote(-1), 600);
+    }
+
+    document.getElementById('playBtn').onclick = togglePlayback;
+    document.getElementById('sidePlayBtn').onclick = togglePlayback;
+    document.getElementById('stopBtn').onclick = stopPlayback;
+    document.getElementById('slowBtn').onclick = () => { document.getElementById('bpm').value = 60; document.getElementById('bpmVal').textContent = "60 BPM"; };
+    document.getElementById('normalBtn').onclick = () => { document.getElementById('bpm').value = 85; document.getElementById('bpmVal').textContent = "85 BPM"; };
+    document.getElementById('bpm').oninput = (e) => { document.getElementById('bpmVal').textContent = e.target.value + " BPM"; };
+
+    document.getElementById('toggleNamesBtn').onclick = () => {
+        showNoteNames = !showNoteNames;
+        document.getElementById('toggleNamesBtn').textContent = showNoteNames ? "🏷️ Notalar: Açık" : "🙈 Notalar: Gizli";
+        renderCustomSVGScore();
+    };
+
+    window.onload = () => {
+        renderCustomSVGScore();
+        buildKeyboard();
+        setTimeout(() => autoScrollToKey("C4"), 200);
+    };
+    window.onresize = () => {
+        renderCustomSVGScore();
+        buildKeyboard();
+    };
+</script>
+<div style="text-align:center;padding:14px 10px 26px;font:bold 13px -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#6B7787">Ali Kuşçu İlkokulu • 3-G Sınıfı<br>Hazırlayan: Burhan DENİZ</div>
+</body>
+</html>
