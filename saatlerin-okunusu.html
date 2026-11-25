@@ -1,0 +1,1157 @@
+<!--
+  ============================================================
+  © 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı
+  Bu materyal Burhan DENİZ tarafından 3-G sınıfı öğrencileri için
+  hazırlanmıştır. Yazarın izni olmadan kopyalanamaz, çoğaltılamaz,
+  başka bir adreste yayımlanamaz veya değiştirilerek dağıtılamaz.
+  Dosya: saatlerin-okunusu.html
+  KORUMA-KALKANI-v1
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. Sınıf Matematik - Saatlerin Okunuşu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Orbitron:wght@700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+            --card-bg: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #f59e0b;
+            --success: #16a34a;
+            --error: #dc2626;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 820px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.12);
+            overflow: hidden;
+            border: 3px solid #bfdbfe;
+        }
+
+        header {
+            background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+            color: white;
+            padding: 22px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.92;
+            margin-top: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f1f5f9;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #dc2626;
+            border-bottom: 4px solid #dc2626;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 28px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .clock-stage {
+            background: #f3f8f2;
+            border: 2px solid #cbd5e1;
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        /* Analog Clock SVG Styling */
+        #analogSvg {
+            width: 280px;
+            height: 280px;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12));
+        }
+
+        /* Digital Clock Frame matching reference image */
+        .digital-clock-wrapper {
+            position: relative;
+            width: 340px;
+            height: 155px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .digital-buttons {
+            width: 260px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 22px;
+            margin-bottom: -4px;
+            z-index: 1;
+        }
+
+        .digital-btn-left {
+            width: 28px;
+            height: 12px;
+            background: #ef4444;
+            border: 3px solid #1e293b;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .digital-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .digital-btn-right {
+            width: 24px;
+            height: 12px;
+            background: #ef4444;
+            border: 3px solid #1e293b;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .digital-outer-body {
+            width: 330px;
+            height: 135px;
+            background: #ea580c;
+            border: 4px solid #1e293b;
+            border-radius: 36px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+            z-index: 2;
+        }
+
+        .digital-inner-bezel {
+            width: 100%;
+            height: 100%;
+            background: #eab308;
+            border-radius: 26px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .digital-screen {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border: 3px solid #1e293b;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 3.3rem;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: 4px;
+            user-select: none;
+        }
+
+        .period-badge {
+            margin-top: 12px;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #b45309;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        /* Reference-inspired Reading Table */
+        .reading-box {
+            border: 2px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+
+        .reading-header {
+            background: #f8fafc;
+            padding: 10px 16px;
+            border-bottom: 2px solid #334155;
+            color: #16a34a;
+            font-size: 1.25rem;
+            font-weight: 900;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .attempt-badge {
+            font-size: 0.9rem;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-weight: 800;
+        }
+
+        .reading-row {
+            padding: 16px;
+            border-bottom: 1.5px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .reading-row:last-child {
+            border-bottom: none;
+        }
+
+        .row-label {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #334155;
+        }
+
+        .row-label.am { color: #d97706; }
+        .row-label.pm { color: #2563eb; }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 240px;
+            padding: 12px 16px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border: 2.5px solid #94a3b8;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #0f172a;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        }
+
+        input[type="text"]:disabled {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.12s ease, background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-check {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-check:hover {
+            background: #15803d;
+        }
+
+        .btn-check:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: var(--primary-hover);
+        }
+
+        .feedback-box {
+            padding: 16px 20px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .feedback-box.success {
+            display: block;
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            color: #14532d;
+        }
+
+        .feedback-box.warning {
+            display: block;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #78350f;
+        }
+
+        .feedback-box.error {
+            display: block;
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #7f1d1d;
+        }
+
+        .correct-reveal {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border-left: 5px solid #dc2626;
+            color: #0f172a;
+            font-size: 1.1rem;
+        }
+
+        .hint-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .score-pill {
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            color: #334155;
+            border: 2px solid #cbd5e1;
+        }
+
+        footer {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 700;
+        }
+    
+        .top {
+            background: linear-gradient(135deg,#2563EB,#1E40AF);
+            color: #fff;
+            text-align: center;
+            padding: 14px 90px;
+            padding-top: max(14px, env(safe-area-inset-top));
+            position: relative;
+            width: 100%;
+            max-width: 880px;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            box-sizing: border-box;
+        }
+        .top h1 { font-size: clamp(1.1rem,3.4vw,1.6rem); margin:0; }
+        .top p { font-size: .85rem; opacity: .92; margin-top:4px; }
+        .top a.back { position:absolute; left:14px; top:50%; margin-top:-14px; color:#fff; font-weight:bold; text-decoration:none; font-size:.85rem; background:rgba(255,255,255,.18); padding:7px 12px; border-radius:16px; }
+        .top button.ibfs { position:absolute; right:14px; top:50%; margin-top:-18px; border:none; background:rgba(255,255,255,.22); color:#fff; border-radius:10px; width:36px; height:36px; font-size:1.05rem; cursor:pointer; }
+        @media (max-width:640px){ .top{ padding:14px 56px; } }
+    </style>
+<script>
+/* KORUMA-KALKANI-v1 — Burhan DENİZ, Ali Kuşçu İlkokulu 3-G (2 ve 5. katman: imza + alan adı uyarısı) */
+(function(){
+  try{ console.log('%c© 2026 Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı','color:#2563EB;font-weight:bold;font-size:13px;'); }catch(e){}
+
+  var ALLOWED=["burhandeniz21.github.io"];
+  function toast(msg,ms){
+    try{
+      var t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText='position:fixed;left:10px;right:10px;bottom:14px;z-index:99999;background:#1F2A37;color:#fff;'+
+        'padding:10px 14px;border-radius:10px;font:13px/1.4 -apple-system,Segoe UI,Roboto,Arial,sans-serif;'+
+        'box-shadow:0 8px 20px rgba(0,0,0,.25);text-align:center;pointer-events:none;';
+      document.body.appendChild(t);
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, ms||2600);
+    }catch(e){}
+  }
+  document.addEventListener('contextmenu',function(){
+    toast('© Burhan DENİZ — Ali Kuşçu İlkokulu 3-G Sınıfı için hazırlanmıştır.');
+  });
+
+  function checkDomain(){
+    var h=location.hostname,p=location.protocol;
+    if(p==='file:'||h===''||h==='localhost'||h==='127.0.0.1')return; // USB / yerel kullanım
+    var ok=false;
+    for(var i=0;i<ALLOWED.length;i++){ if(h===ALLOWED[i]||h.slice(-(ALLOWED[i].length+1))==='.'+ALLOWED[i]){ ok=true;break; } }
+    if(ok)return;
+    var note=document.createElement('div');
+    note.textContent='ⓘ Bu içerik Burhan DENİZ tarafından hazırlanmıştır ve aslen '+(ALLOWED[0]||'orijinal site')+' adresinde yayınlanmaktadır.';
+    note.style.cssText='position:static;margin-top:10px;padding:8px 12px;border-top:1px solid #D7DEE8;'+
+      'color:#6B7787;background:transparent;font:12px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;text-align:center;';
+    function place(){
+      var f=document.querySelector('footer');
+      if(f&&f.parentNode) f.parentNode.insertBefore(note,f);
+      else document.body.appendChild(note);
+    }
+    if(document.body)place();else document.addEventListener('DOMContentLoaded',place);
+  }
+  checkDomain();
+})();
+</script>
+</head>
+<body>
+
+<div class="container">
+    <div class="top">
+        <a class="back" href="matematik.html">← Matematik</a>
+        <h1>🕒 Saatlerin Okunuşu Etkinliği</h1>
+        <p>Saate bak ve okunuşunu yaz!</p>
+        <button class="ibfs" id="fsBtnShell" type="button" title="Tam ekran">⛶</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('analog')" id="tabBtnAnalog">
+            🕰️ Analog Saat
+        </button>
+        <button class="tab-btn" onclick="switchTab('digital')" id="tabBtnDigital">
+            📟 Dijital Saat
+        </button>
+    </div>
+
+    <!-- ANALOG SAAT SEKMESİ -->
+    <div id="analogTab" class="tab-content active">
+        <div class="clock-stage">
+            <svg id="analogSvg" viewBox="0 0 300 300">
+                <defs>
+                    <linearGradient id="bezelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#e2e8f0" />
+                        <stop offset="50%" stop-color="#94a3b8" />
+                        <stop offset="100%" stop-color="#64748b" />
+                    </linearGradient>
+                    <linearGradient id="innerBezelGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#cbd5e1" />
+                        <stop offset="100%" stop-color="#f8fafc" />
+                    </linearGradient>
+                </defs>
+                <!-- Dış Çerçeve -->
+                <circle cx="150" cy="150" r="142" fill="url(#bezelGrad)" stroke="#475569" stroke-width="2"/>
+                <circle cx="150" cy="150" r="124" fill="url(#innerBezelGrad)" />
+                <circle cx="150" cy="150" r="118" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                
+                <!-- Kadran Çizgileri ve Rakamlar JS ile eklenecek -->
+                <g id="clockTicks"></g>
+                <g id="clockNumbers"></g>
+
+                <!-- Akrep (Saat) -->
+                <line id="hourHand" x1="150" y1="150" x2="150" y2="85" stroke="#0f172a" stroke-width="7.5" stroke-linecap="round" />
+                <!-- Yelkovan (Dakika) -->
+                <line id="minuteHand" x1="150" y1="150" x2="150" y2="48" stroke="#1e293b" stroke-width="4.5" stroke-linecap="round" />
+                <!-- Merkez Nokta -->
+                <circle cx="150" cy="150" r="7" fill="#0f172a" />
+                <circle cx="150" cy="150" r="2.5" fill="#94a3b8" />
+            </svg>
+        </div>
+
+        <div class="reading-box">
+            <div class="reading-header">
+                <span>Okunuşu</span>
+                <span class="attempt-badge" id="analogAttemptBadge">Hak: 1 / 2</span>
+            </div>
+            <div class="reading-row">
+                <label class="row-label" for="analogInput">Saatin okunuşunu yazınız:</label>
+                <div class="input-group">
+                    <input type="text" id="analogInput" placeholder="Örn: Saat sekiz / Saat üç buçuk / Saat beşi çeyrek geçiyor" autocomplete="off">
+                    <button class="btn btn-check" id="analogCheckBtn" onclick="checkAnalogAnswer()">Kontrol Et</button>
+                </div>
+                <div class="hint-text">İpucu: "Saat sekiz", "Saat dört buçuk", "Saat ikiyi çeyrek geçiyor" veya "Saat yediyi on geçiyor" gibi yazabilirsin.</div>
+            </div>
+        </div>
+
+        <div id="analogFeedback" class="feedback-box"></div>
+
+        <div class="action-bar">
+            <div class="score-pill" id="analogScore">⭐ Doğru Sayısı: 0</div>
+            <button class="btn btn-next" onclick="generateAnalogQuestion()">🔄 Yeni Saat Sor</button>
+        </div>
+    </div>
+
+    <!-- DİJİTAL SAAT SEKMESİ -->
+    <div id="digitalTab" class="tab-content">
+        <div class="clock-stage">
+            <div class="digital-clock-wrapper">
+                <div class="digital-buttons">
+                    <div class="digital-btn-left"></div>
+                    <div class="digital-btn-group">
+                        <div class="digital-btn-right"></div>
+                        <div class="digital-btn-right"></div>
+                        <div class="digital-btn-right"></div>
+                    </div>
+                </div>
+                <div class="digital-outer-body">
+                    <div class="digital-inner-bezel">
+                        <div class="digital-screen" id="digitalScreen">11:00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="period-badge" id="digitalPeriodHint">Günün Zaman Dilimi: Öğleden Önce (00:00 - 11:59)</div>
+        </div>
+
+        <div class="reading-box">
+            <div class="reading-header">
+                <span>Okunuşu</span>
+                <span class="attempt-badge" id="digitalAttemptBadge">Hak: 1 / 2</span>
+            </div>
+            <div class="reading-row" id="digitalRowAM">
+                <label class="row-label am" for="digitalInputAM">Öğleden Önce :</label>
+                <div class="input-group">
+                    <input type="text" id="digitalInputAM" placeholder="Örn: Saat on bir / Saat dokuz buçuk" autocomplete="off">
+                </div>
+            </div>
+            <div class="reading-row" id="digitalRowPM" style="display:none;">
+                <label class="row-label pm" for="digitalInputPM">Öğleden Sonra :</label>
+                <div class="input-group">
+                    <input type="text" id="digitalInputPM" placeholder="Örn: Saat on dört / Saat üç buçuk" autocomplete="off">
+                </div>
+            </div>
+            <div class="reading-row" style="background:#f8fafc;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <span class="hint-text" style="margin:0;">İpucu: Öğleden sonraki saatlerde hem 24 saatlik (örn: <b>Saat on üçü yirmi sekiz geçiyor</b>) hem de zaman dilimi belirterek (örn: <b>Saat öğleden sonra biri yirmi sekiz geçiyor</b>) yazabilirsin; 15-45 için <b>çeyrek</b>, 30 için <b>buçuk/yarım</b> ifadeleri kabul edilir.</span>
+                    <button class="btn btn-check" id="digitalCheckBtn" onclick="checkDigitalAnswer()">Kontrol Et</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="digitalFeedback" class="feedback-box"></div>
+
+        <div class="action-bar">
+            <div class="score-pill" id="digitalScore">⭐ Doğru Sayısı: 0</div>
+            <button class="btn btn-next" onclick="generateDigitalQuestion()">🔄 Yeni Saat Sor</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    3. Sınıf Matematik Etkileşimli Öğrenme Uygulaması • Saatleri Okuma
+</footer>
+
+<script>
+    // Türkçe Sayı Kelimeleri
+    const ones = ["", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"];
+    const tens = ["", "on", "yirmi", "otuz", "kırk", "elli"];
+
+    const motivationalSuccess = [
+        "Harikasın! Saatleri okumada gerçek bir ustasın! 🌟",
+        "Mükemmel! Zamanı çok doğru okuyorsun, böyle devam et! 👏",
+        "Süpersin! Tam isabet, harika bir iş çıkardın! 🎉",
+        "Çok başarılısın! Dikkatli bakışlarınla doğru cevabı hemen buldun! 🚀"
+    ];
+
+    const motivationalRetry = [
+        "Çok yaklaştın! Akrep ve yelkovanın gösterdiği sayılara tekrar dikkatlice bakıp bir kez daha dene. 💪",
+        "Henüz olmadı ama pes etmek yok! İkinci şansını kullanarak doğru cevabı bulabilirsin. ✨",
+        "Küçük bir dikkat hatası olmuş olabilir. Saate tekrar bak ve bir kez daha dene! 🔍"
+    ];
+
+    const motivationalReveal = [
+        "Üzülme, öğrenirken hata yapmak çok normaldir! Doğru okunuşu incele, bir sonraki soruda kesinlikle yapacaksın! 🌈",
+        "Güzel bir denemeydi! Doğru cevabı yukarıda görebilirsin. Yeni soruda senin başaracağına inanıyorum! ⭐",
+        "Harika çaba gösterdin! Doğru okunuşa göz at ve yeni saatle pratik yapmaya devam et! 🌻"
+    ];
+
+    function numberToTurkish(n) {
+        if (n === 0) return "sıfır";
+        let t = Math.floor(n / 10);
+        let o = n % 10;
+        return (tens[t] + (t > 0 && o > 0 ? " " : "") + ones[o]).trim();
+    }
+
+    // Hal ekleri (geçe / geçiyor / kala / var için)
+    function getAccusative(hourWord) {
+        const map = {
+            "bir": "biri",
+            "iki": "ikiyi",
+            "üç": "üçü",
+            "dört": "dördü",
+            "beş": "beşi",
+            "altı": "altıyı",
+            "yedi": "yediyi",
+            "sekiz": "sekizi",
+            "dokuz": "dokuzu",
+            "on": "onu",
+            "on bir": "on biri",
+            "on iki": "on ikiyi",
+            "on üç": "on üçü",
+            "on dört": "on dördü",
+            "on beş": "on beşi",
+            "on altı": "on altıyı",
+            "on yedi": "on yediyi",
+            "on sekiz": "on sekizi",
+            "on dokuz": "on dokuzu",
+            "yirmi": "yirmiyi",
+            "yirmi bir": "yirmi biri",
+            "yirmi iki": "yirmi ikiyi",
+            "yirmi üç": "yirmi üçü",
+            "sıfır": "sıfırı"
+        };
+        return map[hourWord] || hourWord;
+    }
+
+    function getDative(hourWord) {
+        const map = {
+            "bir": "bire",
+            "iki": "ikiye",
+            "üç": "üçe",
+            "dört": "dörde",
+            "beş": "beşe",
+            "altı": "altıya",
+            "yedi": "yediye",
+            "sekiz": "sekize",
+            "dokuz": "dokuza",
+            "on": "ona",
+            "on bir": "on bire",
+            "on iki": "on ikiye",
+            "on üç": "on üçe",
+            "on dört": "on dörde",
+            "on beş": "on beşe",
+            "on altı": "on altıya",
+            "on yedi": "on yediye",
+            "on sekiz": "on sekize",
+            "on dokuz": "on dokuza",
+            "yirmi": "yirmiye",
+            "yirmi bir": "yirmi bire",
+            "yirmi iki": "yirmi ikiye",
+            "yirmi üç": "yirmi üçe",
+            "sıfır": "sıfıra"
+        };
+        return map[hourWord] || hourWord;
+    }
+
+    // Bir saat (h: 0-23, m: 0-59) için kabul edilebilir tüm doğru okunuşları üretir
+    function getValidReadings(h24, m, is24HourMode) {
+        let readings = [];
+        let h12 = h24 % 12;
+        if (h12 === 0) h12 = 12;
+
+        let nextH12 = (h12 % 12) + 1;
+        let nextH24 = (h24 + 1) % 24;
+
+        let h12Word = numberToTurkish(h12);
+        let nextH12Word = numberToTurkish(nextH12);
+
+        let h24NumWord = (h24 === 0) ? "on iki" : numberToTurkish(h24);
+        let nextH24NumWord = (nextH24 === 0) ? "on iki" : numberToTurkish(nextH24);
+
+        function buildForHour(currWord, nextWord) {
+            let list = [];
+            if (m === 0) {
+                list.push(`saat ${currWord}`);
+                list.push(`${currWord}`);
+            } else if (m === 30) {
+                list.push(`saat ${currWord} buçuk`);
+                list.push(`${currWord} buçuk`);
+                list.push(`saat ${currWord} yarım`);
+                list.push(`${currWord} yarım`);
+                list.push(`saat ${currWord} otuz`);
+                list.push(`${currWord} otuz`);
+            } else if (m === 15) {
+                list.push(`saat ${getAccusative(currWord)} çeyrek geçiyor`);
+                list.push(`${getAccusative(currWord)} çeyrek geçiyor`);
+                list.push(`saat ${getAccusative(currWord)} çeyrek geçe`);
+                list.push(`${getAccusative(currWord)} çeyrek geçe`);
+                list.push(`saat ${getAccusative(currWord)} on beş geçiyor`);
+                list.push(`${getAccusative(currWord)} on beş geçiyor`);
+                list.push(`saat ${currWord} on beş`);
+                list.push(`${currWord} on beş`);
+            } else if (m === 45) {
+                list.push(`saat ${getDative(nextWord)} çeyrek var`);
+                list.push(`${getDative(nextWord)} çeyrek var`);
+                list.push(`saat ${getDative(nextWord)} çeyrek kala`);
+                list.push(`${getDative(nextWord)} çeyrek kala`);
+                list.push(`saat ${getDative(nextWord)} on beş var`);
+                list.push(`${getDative(nextWord)} on beş var`);
+                list.push(`saat ${currWord} kırk beş`);
+                list.push(`${currWord} kırk beş`);
+            } else if (m < 30) {
+                let mWord = numberToTurkish(m);
+                list.push(`saat ${getAccusative(currWord)} ${mWord} geçiyor`);
+                list.push(`${getAccusative(currWord)} ${mWord} geçiyor`);
+                list.push(`saat ${getAccusative(currWord)} ${mWord} geçe`);
+                list.push(`saat ${currWord} ${mWord}`);
+                list.push(`${currWord} ${mWord}`);
+            } else {
+                let rem = 60 - m;
+                let remWord = numberToTurkish(rem);
+                let mWord = numberToTurkish(m);
+                list.push(`saat ${getDative(nextWord)} ${remWord} var`);
+                list.push(`${getDative(nextWord)} ${remWord} var`);
+                list.push(`saat ${getDative(nextWord)} ${remWord} kala`);
+                list.push(`saat ${currWord} ${mWord}`);
+                list.push(`${currWord} ${mWord}`);
+            }
+            return list;
+        }
+
+        // 12 saatlik temel okunuşlar
+        let base12Readings = buildForHour(h12Word, nextH12Word);
+        readings.push(...base12Readings);
+
+        // Dijital saat modunda günün zaman dilimi ifadeleri ("öğleden önce", "öğleden sonra", "akşam", "gece", "sabah")
+        if (is24HourMode) {
+            let periodPrefixes = [];
+            if (h24 >= 12) {
+                periodPrefixes = ["öğleden sonra", "akşam", "gece"];
+            } else {
+                periodPrefixes = ["öğleden önce", "sabah", "gece"];
+            }
+
+            base12Readings.forEach(r => {
+                let withoutSaat = r.replace(/^saat\s+/, "");
+                periodPrefixes.forEach(p => {
+                    readings.push(`saat ${p} ${withoutSaat}`);
+                    readings.push(`${p} saat ${withoutSaat}`);
+                    readings.push(`${p} ${withoutSaat}`);
+                });
+            });
+
+            // 24 saatlik (13-23 veya gece 00) okunuşlar
+            if (h24 >= 13 || h24 === 0) {
+                readings.push(...buildForHour(h24NumWord, nextH24NumWord));
+                if (h24 === 0 && m === 0) {
+                    readings.push("gece yarısı", "saat gece yarısı", "saat sıfır sıfır");
+                }
+            }
+        }
+
+        // Tekrarları temizle
+        return [...new Set(readings)];
+    }
+
+    // Metin normalizasyonu (küçük harf, fazla boşluk temizleme, rakam yazıldıysa kelimeye çevirme)
+    function normalizeText(str) {
+        let s = str.toLocaleLowerCase('tr-TR').trim();
+        s = s.replace(/[.,!?;:'"()\-]/g, ' ');
+        s = s.replace(/\s+/g, ' ').trim();
+        // Öğrenci rakam yazarsa (örn "saat 8" veya "saat 14") kelimeye dönüştür
+        s = s.replace(/(\d{1,2})/g, (match, numStr) => {
+            let n = parseInt(numStr, 10);
+            if (n >= 0 && n <= 59) return numberToTurkish(n);
+            return match;
+        });
+        return s.replace(/\s+/g, ' ').trim();
+    }
+
+    // Analog Saat Kadranını Çiz
+    function initAnalogDial() {
+        const ticksGroup = document.getElementById('clockTicks');
+        const numbersGroup = document.getElementById('clockNumbers');
+
+        for (let i = 0; i < 60; i++) {
+            const angle = (i * 6) * Math.PI / 180;
+            const isHour = i % 5 === 0;
+            const rOuter = 112;
+            const rInner = isHour ? 102 : 106;
+
+            const x1 = 150 + rInner * Math.sin(angle);
+            const y1 = 150 - rInner * Math.cos(angle);
+            const x2 = 150 + rOuter * Math.sin(angle);
+            const y2 = 150 - rOuter * Math.cos(angle);
+
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", x1);
+            line.setAttribute("y1", y1);
+            line.setAttribute("x2", x2);
+            line.setAttribute("y2", y2);
+            line.setAttribute("stroke", "#0f172a");
+            line.setAttribute("stroke-width", isHour ? "3" : "1.5");
+            line.setAttribute("stroke-linecap", "round");
+            ticksGroup.appendChild(line);
+        }
+
+        for (let h = 1; h <= 12; h++) {
+            const angle = (h * 30) * Math.PI / 180;
+            const rNum = 86;
+            const x = 150 + rNum * Math.sin(angle);
+            const y = 150 - rNum * Math.cos(angle);
+
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", x);
+            text.setAttribute("y", y);
+            text.setAttribute("text-anchor", "middle");
+            text.setAttribute("dominant-baseline", "central");
+            text.setAttribute("font-size", "22");
+            text.setAttribute("font-weight", "800");
+            text.setAttribute("fill", "#0f172a");
+            text.textContent = h;
+            numbersGroup.appendChild(text);
+        }
+    }
+
+    function setAnalogHands(hour, minute) {
+        const minuteAngle = minute * 6;
+        const hourAngle = ((hour % 12) + minute / 60) * 30;
+
+        document.getElementById('minuteHand').setAttribute('transform', `rotate(${minuteAngle} 150 150)`);
+        document.getElementById('hourHand').setAttribute('transform', `rotate(${hourAngle} 150 150)`);
+    }
+
+    // Sekme Değiştirme
+    function switchTab(tab) {
+        document.getElementById('tabBtnAnalog').classList.toggle('active', tab === 'analog');
+        document.getElementById('tabBtnDigital').classList.toggle('active', tab === 'digital');
+        document.getElementById('analogTab').classList.toggle('active', tab === 'analog');
+        document.getElementById('digitalTab').classList.toggle('active', tab === 'digital');
+    }
+
+    // --- ANALOG UYGULAMA DURUMU ---
+    let analogState = {
+        hour: 8,
+        minute: 0,
+        attempts: 0,
+        maxAttempts: 2,
+        solved: false,
+        score: 0
+    };
+
+    // 3. Sınıf müfredatına uygun (tam, yarım, çeyrek ve 5'in katları + ara dakikalar) rastgele zaman üretici
+    function getRandomTime(is24h) {
+        const hour = is24h ? Math.floor(Math.random() * 24) : (Math.floor(Math.random() * 12) + 1);
+        const commonMinutes = [0, 15, 30, 45, 5, 10, 20, 25, 35, 40, 50, 55];
+        // %75 oranında 5'in katları (tam, çeyrek, buçuk dahil), %25 oranında ara dakikalar
+        let minute;
+        if (Math.random() < 0.75) {
+            minute = commonMinutes[Math.floor(Math.random() * commonMinutes.length)];
+        } else {
+            minute = Math.floor(Math.random() * 60);
+        }
+        return { hour, minute };
+    }
+
+    function generateAnalogQuestion() {
+        const t = getRandomTime(false);
+        analogState.hour = t.hour;
+        analogState.minute = t.minute;
+        analogState.attempts = 0;
+        analogState.solved = false;
+
+        setAnalogHands(t.hour, t.minute);
+
+        const input = document.getElementById('analogInput');
+        input.value = '';
+        input.disabled = false;
+        input.focus();
+
+        document.getElementById('analogCheckBtn').disabled = false;
+        document.getElementById('analogAttemptBadge').textContent = 'Hak: 1 / 2';
+        const fb = document.getElementById('analogFeedback');
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+    }
+
+    function checkAnalogAnswer() {
+        if (analogState.solved) return;
+        const input = document.getElementById('analogInput');
+        const userRaw = input.value.trim();
+        const fb = document.getElementById('analogFeedback');
+
+        if (!userRaw) {
+            fb.className = 'feedback-box warning';
+            fb.innerHTML = '✏️ Lütfen önce boş alana saatin okunuşunu yaz!';
+            input.focus();
+            return;
+        }
+
+        const userNorm = normalizeText(userRaw);
+        const validList = getValidReadings(analogState.hour, analogState.minute, false);
+        const primaryCorrect = validList[0].charAt(0).toUpperCase() + validList[0].slice(1);
+
+        const isCorrect = validList.some(v => normalizeText(v) === userNorm);
+
+        if (isCorrect) {
+            analogState.solved = true;
+            analogState.score++;
+            document.getElementById('analogScore').textContent = `⭐ Doğru Sayısı: ${analogState.score}`;
+            input.disabled = true;
+            document.getElementById('analogCheckBtn').disabled = true;
+
+            const msg = motivationalSuccess[Math.floor(Math.random() * motivationalSuccess.length)];
+            fb.className = 'feedback-box success';
+            fb.innerHTML = `✅ <strong>Doğru Cevap!</strong> ${msg}`;
+        } else {
+            analogState.attempts++;
+            if (analogState.attempts < analogState.maxAttempts) {
+                document.getElementById('analogAttemptBadge').textContent = 'Hak: 2 / 2';
+                const msg = motivationalRetry[Math.floor(Math.random() * motivationalRetry.length)];
+                fb.className = 'feedback-box warning';
+                fb.innerHTML = `⚠️ <strong>1. Deneme Yanlış:</strong> ${msg}`;
+                input.select();
+                input.focus();
+            } else {
+                analogState.solved = true;
+                input.disabled = true;
+                document.getElementById('analogCheckBtn').disabled = true;
+                const msg = motivationalReveal[Math.floor(Math.random() * motivationalReveal.length)];
+                fb.className = 'feedback-box error';
+                fb.innerHTML = `
+                    ❌ <strong>İkinci deneme de doğru değil.</strong> ${msg}
+                    <div class="correct-reveal">📌 <strong>Doğru Okunuş:</strong> ${primaryCorrect}</div>
+                `;
+            }
+        }
+    }
+
+    // --- DİJİTAL UYGULAMA DURUMU ---
+    let digitalState = {
+        hour: 11,
+        minute: 0,
+        attempts: 0,
+        maxAttempts: 2,
+        solved: false,
+        score: 0
+    };
+
+    function formatTwoDigits(n) {
+        return n < 10 ? '0' + n : '' + n;
+    }
+
+    function generateDigitalQuestion() {
+        const t = getRandomTime(true);
+        digitalState.hour = t.hour;
+        digitalState.minute = t.minute;
+        digitalState.attempts = 0;
+        digitalState.solved = false;
+
+        document.getElementById('digitalScreen').textContent = `${formatTwoDigits(t.hour)}:${formatTwoDigits(t.minute)}`;
+
+        const isPM = t.hour >= 12;
+        const rowAM = document.getElementById('digitalRowAM');
+        const rowPM = document.getElementById('digitalRowPM');
+        const inputAM = document.getElementById('digitalInputAM');
+        const inputPM = document.getElementById('digitalInputPM');
+        const periodHint = document.getElementById('digitalPeriodHint');
+
+        inputAM.value = '';
+        inputPM.value = '';
+        inputAM.disabled = false;
+        inputPM.disabled = false;
+
+        if (!isPM) {
+            rowAM.style.display = 'flex';
+            rowPM.style.display = 'none';
+            periodHint.textContent = 'Günün Zaman Dilimi: Öğleden Önce (00:00 - 11:59)';
+            periodHint.style.background = '#fef3c7';
+            periodHint.style.borderColor = '#f59e0b';
+            periodHint.style.color = '#b45309';
+            inputAM.focus();
+        } else {
+            rowAM.style.display = 'none';
+            rowPM.style.display = 'flex';
+            periodHint.textContent = 'Günün Zaman Dilimi: Öğleden Sonra (12:00 - 23:59)';
+            periodHint.style.background = '#dbeafe';
+            periodHint.style.borderColor = '#3b82f6';
+            periodHint.style.color = '#1e40af';
+            inputPM.focus();
+        }
+
+        document.getElementById('digitalCheckBtn').disabled = false;
+        document.getElementById('digitalAttemptBadge').textContent = 'Hak: 1 / 2';
+        const fb = document.getElementById('digitalFeedback');
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+    }
+
+    function checkDigitalAnswer() {
+        if (digitalState.solved) return;
+        const isPM = digitalState.hour >= 12;
+        const activeInput = isPM ? document.getElementById('digitalInputPM') : document.getElementById('digitalInputAM');
+        const userRaw = activeInput.value.trim();
+        const fb = document.getElementById('digitalFeedback');
+
+        if (!userRaw) {
+            fb.className = 'feedback-box warning';
+            fb.innerHTML = '✏️ Lütfen önce saatin okunuşunu ilgili kutucuğa yaz!';
+            activeInput.focus();
+            return;
+        }
+
+        const userNorm = normalizeText(userRaw);
+        const validList = getValidReadings(digitalState.hour, digitalState.minute, true);
+
+        // Doğru cevabı gösterirken hem 12 saatlik hem 24 saatlik karşılığı anlaşılır göster
+        const primary12 = validList[0].charAt(0).toUpperCase() + validList[0].slice(1);
+        let revealText = primary12;
+        if (digitalState.hour >= 13) {
+            const h24Readings = getValidReadings(digitalState.hour, digitalState.minute, true);
+            const primary24 = h24Readings[h24Readings.length - 1];
+            const cap24 = primary24.charAt(0).toUpperCase() + primary24.slice(1);
+            if (normalizeText(primary12) !== normalizeText(cap24)) {
+                revealText = `${primary12} (veya ${cap24})`;
+            }
+        }
+
+        const isCorrect = validList.some(v => normalizeText(v) === userNorm);
+
+        if (isCorrect) {
+            digitalState.solved = true;
+            digitalState.score++;
+            document.getElementById('digitalScore').textContent = `⭐ Doğru Sayısı: ${digitalState.score}`;
+            activeInput.disabled = true;
+            document.getElementById('digitalCheckBtn').disabled = true;
+
+            const msg = motivationalSuccess[Math.floor(Math.random() * motivationalSuccess.length)];
+            fb.className = 'feedback-box success';
+            fb.innerHTML = `✅ <strong>Doğru Cevap!</strong> ${msg}`;
+        } else {
+            digitalState.attempts++;
+            if (digitalState.attempts < digitalState.maxAttempts) {
+                document.getElementById('digitalAttemptBadge').textContent = 'Hak: 2 / 2';
+                const msg = motivationalRetry[Math.floor(Math.random() * motivationalRetry.length)];
+                fb.className = 'feedback-box warning';
+                fb.innerHTML = `⚠️ <strong>1. Deneme Yanlış:</strong> ${msg}`;
+                activeInput.select();
+                activeInput.focus();
+            } else {
+                digitalState.solved = true;
+                activeInput.disabled = true;
+                document.getElementById('digitalCheckBtn').disabled = true;
+                const msg = motivationalReveal[Math.floor(Math.random() * motivationalReveal.length)];
+                fb.className = 'feedback-box error';
+                fb.innerHTML = `
+                    ❌ <strong>İkinci deneme de doğru değil.</strong> ${msg}
+                    <div class="correct-reveal">📌 <strong>Doğru Okunuş:</strong> ${revealText}</div>
+                `;
+            }
+        }
+    }
+
+    // Enter tuşu desteği
+    document.getElementById('analogInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkAnalogAnswer();
+    });
+    document.getElementById('digitalInputAM').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkDigitalAnswer();
+    });
+    document.getElementById('digitalInputPM').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkDigitalAnswer();
+    });
+
+    // Başlat
+    initAnalogDial();
+    generateAnalogQuestion();
+    generateDigitalQuestion();
+</script>
+<div style="text-align:center;padding:14px 10px 26px;font:bold 13px -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#6B7787">Ali Kuşçu İlkokulu • 3-G Sınıfı<br>Hazırlayan: Burhan DENİZ</div>
+
+<script>
+(function(){
+    var b = document.getElementById('fsBtnShell');
+    if(!b) return;
+    var de = document.documentElement;
+    var rf = de.requestFullscreen || de.webkitRequestFullscreen;
+    if(!rf){ b.style.display='none'; return; }
+    b.addEventListener('click', function(){
+        try{
+            if(document.fullscreenElement || document.webkitFullscreenElement){
+                (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            } else { rf.call(de); }
+        }catch(e){}
+    });
+})();
+</script>
+</body>
+</html>
